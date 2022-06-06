@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Angelo Ceccato</title>
+    <link>/</link>
+    <description>Recent content on Angelo Ceccato</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 25 Jan 2022 14:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About Me</title>
+      <link>/docs/about/</link>
+      <pubDate>Tue, 25 Jan 2022 14:00:00 +0000</pubDate>
+      
+      <guid>/docs/about/</guid>
+      <description>Our website builds with Hugo static site generator and Mainroad theme. This demo allows you to see what Mainroad based website looks like before deciding to go with it. Just keep in mind that the current demo shows the basics, a small part of what the combination of Hugo and Mainroad can do.
+About Mainroad Mainroad is a responsive, simple, clean and content-focused Hugo theme based on the MH Magazine lite WordPress theme.</description>
+    </item>
+    
+    <item>
+      <title>Stuff I do</title>
+      <link>/stuff/</link>
+      <pubDate>Tue, 25 Jan 2022 14:00:00 +0000</pubDate>
+      
+      <guid>/stuff/</guid>
+      <description>Our website builds with Hugo static site generator and Mainroad theme. This demo allows you to see what Mainroad based website looks like before deciding to go with it. Just keep in mind that the current demo shows the basics, a small part of what the combination of Hugo and Mainroad can do.
+About Mainroad Mainroad is a responsive, simple, clean and content-focused Hugo theme based on the MH Magazine lite WordPress theme.</description>
+    </item>
+    
+    <item>
+      <title>Contact Me</title>
+      <link>/contact/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/contact/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

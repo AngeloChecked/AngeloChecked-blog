@@ -1,0 +1,105 @@
+baseurl = "/"
+title = "Angelo Ceccato"
+languageCode = "en-us"
+paginate = "4" # Number of posts per page
+theme = "mainroad"
+disqusShortname = "" # Enable comments by entering your Disqus shortname
+googleAnalytics = "" # Enable Google Analytics by entering your tracking id
+
+  bio = "Angelo Ceccato's also known as AngeloChecked is a developer like make random stuff" 
+  avatar = "img/real-avatar.png"
+
+[Params]
+  description = "Angelo Ceccato Personal blog" # Description of your site
+  opengraph = true
+  twitter_cards = false
+  readmore = false # Show "Read more" button in list if true
+  authorbox = true
+  pager = true
+  post_meta = ["date", "categories"] # Order of post meta information
+  mainSections = ["post", "docs"]
+
+[Params.logo]
+  image = "img/avatar.png"
+  subtitle = "also called AngeloChecked" # Logo subtitle
+
+[Params.thumbnail]
+  # Show thumbnail only for list items
+  # visibility = []
+
+[Params.sidebar]
+  home = "right"   # Configure layout for home page
+  list = "right"   # Configure layout for list pages
+  single = "right" # Configure layout for single pages
+  # Enable widgets in given order
+  widgets = ["social", "search", "recent", "categories", "taglist"]
+
+[Params.widgets]
+  recent_num = 8 # Set the number of articles in the "Recent articles" widget
+  tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
+
+[Params.widgets.social]
+  twitter = "AngeloChecked"
+  linkedin = "AngeloChecked"
+  github = "AngeloChecked"
+  email = "AngeloChecked@gmail.com"
+
+# [[Params.widgets.social.custom]]
+#   title = "Youtube"
+#   url = "https://youtube.com/user/"
+#   icon = "youtube.svg"
+
+[[Params.widgets.social.custom]]
+  title = "Twitch"
+  url = "https://www.twitch.tv/angelochecked"
+  icon = "twitch.svg"
+
+
+
+
+
+
+[deployment]
+
+[[deployment.targets]]
+name = "my-website"
+URL = "s3://angeloceccato-website-content?region=eu-west-1"
+cloudFrontDistributionID = "E134JZE6VZJIZM"
+
+# If non-empty, the pattern is matched against the local path.
+# All paths are matched against in their filepath.ToSlash form.
+# If exclude is non-empty, and a local or remote file's path matches it, that file is not synced.
+# If include is non-empty, and a local or remote file's path does not match it, that file is not synced.
+# As a result, local files that don't pass the include/exclude filters are not uploaded to remote,
+# and remote files that don't pass the include/exclude filters are not deleted.
+# include = "**.html" # would only include files with ".html" suffix
+# exclude = "**.{jpg, png}" # would exclude files with ".jpg" or ".png" suffix
+
+
+# [[deployment.matchers]] configure behavior for files that match the Pattern.
+# See https://golang.org/pkg/regexp/syntax/ for pattern syntax.
+# Pattern searching is stopped on first match.
+
+# Samples:
+
+[[deployment.matchers]]
+# Cache static assets for 1 year.
+pattern = "^.+\\.(js|css|svg|ttf)$"
+cacheControl = "max-age=31536000, no-transform, public"
+gzip = true
+
+[[deployment.matchers]]
+pattern = "^.+\\.(png|jpg)$"
+cacheControl = "max-age=31536000, no-transform, public"
+gzip = false
+
+[[deployment.matchers]]
+# Set custom content type for /sitemap.xml
+pattern = "^sitemap\\.xml$"
+contentType = "application/xml"
+gzip = true
+
+[[deployment.matchers]]
+pattern = "^.+\\.(html|xml|json)$"
+gzip = true
+
