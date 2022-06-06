@@ -1,4 +1,3 @@
-# .deploy/terraform/static-site/iam.tf
 data "aws_iam_policy_document" "website_policy" {
   statement {
     actions = [
@@ -9,7 +8,8 @@ data "aws_iam_policy_document" "website_policy" {
       type = "AWS"
     }
     resources = [
-      "arn:aws:s3:::${var.domain_name}/*"
+      "arn:aws:s3:::${var.website_bucket_name}/*"
     ]
   }
 }
+
