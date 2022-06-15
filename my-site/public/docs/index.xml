@@ -5,16 +5,17 @@
     <link>/docs/</link>
     <description>Recent content in Documentation on Angelo Ceccato</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 25 Jan 2022 14:00:00 +0000</lastBuildDate><atom:link href="/docs/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="/docs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About Me</title>
       <link>/docs/about/</link>
-      <pubDate>Tue, 25 Jan 2022 14:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/docs/about/</guid>
-      <description>Our website builds with Hugo static site generator and Mainroad theme. This demo allows you to see what Mainroad based website looks like before deciding to go with it. Just keep in mind that the current demo shows the basics, a small part of what the combination of Hugo and Mainroad can do.
-About Mainroad Mainroad is a responsive, simple, clean and content-focused Hugo theme based on the MH Magazine lite WordPress theme.</description>
+      <description>Hi! I’m Angelo Ceccato, are you welcome!
+My nickname is AngeloChecked✔️
+I’m a developer that daily try to:
+ Fight my own Cognitive Bias; Follow the Agile Manifesto; Apply the XP rules;  </description>
     </item>
     
   </channel>

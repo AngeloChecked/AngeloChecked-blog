@@ -6,6 +6,10 @@ variable "domain_name_two" {
   type = string
 }
 
+variable "subject_alternative_names" {
+  type = list(string)
+}
+
 variable "website_bucket_name" {
   type = string
 }

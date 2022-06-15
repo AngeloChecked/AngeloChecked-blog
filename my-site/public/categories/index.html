@@ -24,6 +24,17 @@
 
 	<link rel="shortcut icon" href="/favicon.ico">
 		
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LE27PDG685"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-LE27PDG685', { 'anonymize_ip': false });
+}
+</script>
+
 </head>
 <body class="body">
 	<div class="container container--outer">
@@ -53,20 +64,6 @@
 				
 			</a>
 		</li>
-		<li class="menu__item">
-			<a class="menu__link" href="/stuff/">
-				
-				<span class="menu__text">Stuff I do</span>
-				
-			</a>
-		</li>
-		<li class="menu__item">
-			<a class="menu__link" href="/contact/">
-				
-				<span class="menu__text">Contact Me</span>
-				
-			</a>
-		</li>
 	</ul>
 </nav>
 
@@ -78,7 +75,22 @@
 <main class="main list" role="main">
 	<header class="main__header">
 		<h1 class="main__title">Categories</h1>
+	</header><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/categories/learning/" rel="bookmark">
+			Learning
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-06-13T16:00:00Z">June 13, 2022</time></div></div>
 	</header>
+	<div class="content list__excerpt post__content clearfix">
+		
+	</div>
+</article>
 </main>
 
 
@@ -114,56 +126,36 @@
 		</div>
 
 		
-		<div class="widget-social__item widget__item">
-			<a class="widget-social__link widget__link btn" title="Twitch" rel="noopener noreferrer" href="https://www.twitch.tv/angelochecked" target="_blank">
-					<svg
-   class="widget-social__link-icon  icon" 
-   width="24" height="24"
-   viewBox="0 0 24 24"
-   version="1.1"
-   id="svg5"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs2" />
-  <g
-     id="layer1">
-    <path
-       id="path80"
-       style="fill:#ffffff;stroke:#000000;stroke-width:0.0306101px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 2.2471653,0.14078508 0.72682153,4.2633529 V 20.870366 H 6.3696705 v 3.040686 h 3.1576866 l 3.1138059,-3.113805 h 4.634212 l 6.205663,-6.205724 V 0.14078508 Z M 4.3522701,2.1581826 21.434406,2.2166747 V 13.539022 l -3.691274,3.691267 H 12.085638 L 8.9425949,20.373336 V 17.244879 H 4.3522701 Z" />
-    <path
-       style="fill:#ffffff;stroke:#000000;stroke-width:0.0306101px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 10.024407,6.3684415 h 2.046639 v 6.1691515 h -2.046639 z"
-       id="path82" />
-    <path
-       style="fill:#ffffff;stroke:#000000;stroke-width:0.0306101px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 15.696517,6.3684415 h 2.105117 v 6.1691515 h -2.105117 z"
-       id="path84" />
-  </g>
-</svg>
-
-				<span>Twitch</span>
-			</a>
-		</div>
-		
 	</div>
-</div>
-<div class="widget-search widget">
-	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
-		<label>
-			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
-		</label>
-		<input class="widget-search__submit" type="submit" value="Search">
-		<input type="hidden" name="sitesearch" value="/" />
-	</form>
 </div>
 <div class="widget-recent widget">
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item"><a class="widget__link" href="/docs/about/">About Me</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/my-personal-tech-limbo-elixir-vs-rust/">My Personal Tech Limbo (and Elixir vs Rust)</a></li>
 		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/learning/">Learning</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/cognitive-bias/" title="Cognitive Bias">Cognitive Bias</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/elixir/" title="Elixir">Elixir</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fomo/" title="FOMO">FOMO</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/hype-cycle/" title="Hype Cycle">Hype Cycle</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/information-overload/" title="Information Overload">Information Overload</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/programming-languages/" title="Programming languages">Programming languages</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rust/" title="Rust">Rust</a>
 	</div>
 </div>
 </aside>

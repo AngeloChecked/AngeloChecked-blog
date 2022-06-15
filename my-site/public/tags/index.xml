@@ -5,6 +5,70 @@
     <link>/tags/</link>
     <description>Recent content in Tags on Angelo Ceccato</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Mon, 13 Jun 2022 16:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cognitive Bias</title>
+      <link>/tags/cognitive-bias/</link>
+      <pubDate>Mon, 13 Jun 2022 16:00:00 +0000</pubDate>
+      
+      <guid>/tags/cognitive-bias/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Elixir</title>
+      <link>/tags/elixir/</link>
+      <pubDate>Mon, 13 Jun 2022 16:00:00 +0000</pubDate>
+      
+      <guid>/tags/elixir/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FOMO</title>
+      <link>/tags/fomo/</link>
+      <pubDate>Mon, 13 Jun 2022 16:00:00 +0000</pubDate>
+      
+      <guid>/tags/fomo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hype Cycle</title>
+      <link>/tags/hype-cycle/</link>
+      <pubDate>Mon, 13 Jun 2022 16:00:00 +0000</pubDate>
+      
+      <guid>/tags/hype-cycle/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Information Overload</title>
+      <link>/tags/information-overload/</link>
+      <pubDate>Mon, 13 Jun 2022 16:00:00 +0000</pubDate>
+      
+      <guid>/tags/information-overload/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Programming languages</title>
+      <link>/tags/programming-languages/</link>
+      <pubDate>Mon, 13 Jun 2022 16:00:00 +0000</pubDate>
+      
+      <guid>/tags/programming-languages/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rust</title>
+      <link>/tags/rust/</link>
+      <pubDate>Mon, 13 Jun 2022 16:00:00 +0000</pubDate>
+      
+      <guid>/tags/rust/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
