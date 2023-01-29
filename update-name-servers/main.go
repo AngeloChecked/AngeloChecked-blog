@@ -63,6 +63,33 @@ func main() {
 		fmt.Printf("%s\n", domains)
 	}
 
+	if argsWithoutProg == "renew-domains" {
+		RenewDomains()
+	}
+
+}
+
+func RenewDomains() {
+	domainsCfg, err := config.LoadDefaultConfig(context.TODO(), config.WithSharedConfigProfile("route53profile"), config.WithRegion("us-east-1"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	domainsClient := route53domains.NewFromConfig(domainsCfg)
+	domainsResp, err := domainsClient.ListDomains(context.TODO(), &route53domains.ListDomainsInput{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, domain := range domainsResp.Domains {
+		renewResp, err := domainsClient.RenewDomain(context.TODO(), &route53domains.RenewDomainInput{
+			DomainName:        domain.DomainName,
+			CurrentExpiryYear: int32(domain.Expiry.Year()),
+		})
+		if err != nil {
+			log.Fatal(err)
+		}
+		PrintJSON(renewResp)
+	}
 }
 
 func DeleteCertificates() {
