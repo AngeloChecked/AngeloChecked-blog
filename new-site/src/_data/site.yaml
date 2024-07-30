@@ -1,0 +1,27 @@
+title: Angelo Ceccato Blog
+homepageName: ANGELO CECCATO
+logo: /img/avatar_logo.webp
+description: or AngeloChecked
+domain: angeloceccato.it
+
+social: 
+  - name: twitter
+    link: https://twitter.com/angelochecked
+    class: fab fa-twitter
+  - name: mastodon
+    link: https://mastodon.social/@angelochecked
+    class: fab fa-mastodon
+  - name: linkedin
+    link: https://www.linkedin.com/in/angeloceccato/
+    class: fab fa-linkedin
+  - name: github
+    link: https://github.com/AngeloChecked
+    class: fab fa-github
+  - name: mail
+    link: mailto:angelochecked@gmail.com
+    class: fa-solid fa-envelope
+            
+            
+            
+            
+            

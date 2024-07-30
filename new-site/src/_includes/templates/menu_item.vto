@@ -1,0 +1,15 @@
+{{ if item.data }}
+  <a href="{{ item.data.url }}">
+    {{ item.data.title }}
+  </a>
+{{ else }}
+  <span>{{ item.slug }}</span>
+{{ /if }}
+
+<ul>
+  {{ for subitem of item.children }}
+  <li>
+   {{ include "templates/menu_item.vto" {item:subitem} }}
+  </li>
+  {{ /for }}
+</ul>
