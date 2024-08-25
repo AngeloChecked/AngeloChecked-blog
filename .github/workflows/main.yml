@@ -27,6 +27,6 @@ jobs:
     - name: lume build
       run: cd new-site && deno task build
     - name: sync bucket and refresh cache
-      run: ./sync.sh && ./invalidate-cloudfront.sh
+      run: .scripts/sync.sh && .scrips/invalidate-cloudfront.sh
     
       
