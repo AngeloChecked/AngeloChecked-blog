@@ -44,7 +44,7 @@ provider "aws" {
 
 module "website" {
   providers = {
-    aws.acm_account = "aws.certificates"
+    aws.acm_account = aws.certificates
   }
 
   source = "./.deploy/terraform/static-site"

@@ -1,53 +1,37 @@
-#resource "aws_s3_bucket" "website_bucket" {
-#  bucket = var.domain_name
-#  acl = "public-read"
-#  policy = data.aws_iam_policy_document.website_policy.json
-#  website {
-#    index_document = "index.html"
-#    error_document = "index.html"
-#  }
-#}
-
-# potentially `policy = file("s3-policy.json")`
 resource "aws_s3_bucket" "website_bucket" {
   bucket = var.website_bucket_name
-  acl    = "private"
-  policy = data.aws_iam_policy_document.website_policy.json
-
-  versioning {
-    enabled = false
-  }
-
-  website {
-    index_document = "index.html"
-    error_document = "404.html"
-  }
-
-#  routing_rules = <<EOF
-#                    [{
-#                        "Condition": {
-#                            "KeyPrefixEquals": "docs/"
-#                        },
-#                        "Redirect": {
-#                            "ReplaceKeyPrefixWith": "documents/"
-#                        }
-#                    }]
-#                    EOF
-#
   force_destroy = true
 }
 
-# resource "aws_s3_bucket_policy" "mybucket" {
-#  bucket = aws_s3_bucket.website_bucket.id
-#  policy = data.aws_iam_policy_document.website_policy.json
-#}
+resource "aws_s3_bucket_policy" "account_policy" {
+  bucket = aws_s3_bucket.website_bucket.id
+  policy = data.aws_iam_policy_document.website_policy.json
+}
 
-#resource "aws_s3_bucket_public_access_block" "mybucket" {
-#  bucket = aws_s3_bucket.website_bucket.id
-#
-#  block_public_acls       = true
-#  block_public_policy     = true
-#}
+resource "aws_s3_bucket_acl" "bucket_visibility" {
+  bucket = aws_s3_bucket.website_bucket.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_versioning" "no_versioning" {
+  bucket = aws_s3_bucket.website_bucket.id
+  versioning_configuration {
+    status = "Disabled"
+  }
+}
+
+resource "aws_s3_bucket_website_configuration" "bucket_configuration" {
+  bucket = aws_s3_bucket.website_bucket.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "404.html"
+  }
+
+}
 
 resource "aws_s3_bucket_object" "files" {
   for_each = fileset("./my-site/dist", "**/*") 
