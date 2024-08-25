@@ -33,20 +33,6 @@ resource "aws_s3_bucket_website_configuration" "bucket_configuration" {
 
 }
 
-resource "aws_s3_object" "files" {
-  for_each = fileset("./my-site/dist", "**/*") 
-
-  bucket = aws_s3_bucket.website_bucket.bucket
-  key    = each.value
-  source = "./my-site/dist/${each.value}"
-  etag   = filemd5("./my-site/dist/${each.value}") # usefull to update cdn when change
-  content_type = "text/html"
-}
-
-output "fileset-results" {
-  value = fileset("./my-site/dist", "**/*")
-}
-
 locals {
   s3_origin_id = var.website_bucket_name
 }
