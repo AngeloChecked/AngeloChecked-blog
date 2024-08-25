@@ -1,3 +1,14 @@
+terraform {
+  required_version = ">= 0.15"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 3.0.0"
+      configuration_aliases = [ aws.acm_account ]
+    }
+  }
+}
+
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
   comment = var.website_bucket_name
 }  
@@ -52,14 +63,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       origin_protocol_policy = "http-only"
       origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
     }
-
-#   domain_name = aws_s3_bucket.website_bucket.bucket_regional_domain_name
-#   origin_id   = local.s3_origin_id
-#   custom_origin_config = aws_s3_bucket.website_bucket.website_endpoint
-
-#    s3_origin_config {
-#      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
-#    }
   }
 
   enabled             = true
@@ -67,7 +70,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   comment             = "my-website-cloudfront"
   default_root_object = "index.html"
 
-  # If you have domain configured use it here 
   aliases = [var.domain_name, var.domain_name_two, "*.${var.domain_name}", "*.${var.domain_name_two}"]
 
   default_cache_behavior {
