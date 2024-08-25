@@ -47,7 +47,7 @@ module "website" {
     aws.acm_account = aws.certificates
   }
 
-  source = "./.deploy/terraform/static-site"
+  source = "./static-site"
   domain_name = var.domain_name
   domain_name_two = var.domain_name_two
   website_bucket_name = var.website_bucket_name
