@@ -41,10 +41,9 @@ resource "aws_acm_certificate_validation" "default" {
   certificate_arn         = aws_acm_certificate.default.arn
   validation_record_fqdns = [for record in aws_route53_record.cert_all : record.fqdn]
 }
-    
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
-    domain_name = aws_s3_bucket.website_bucket.website_endpoint
+    domain_name = aws_s3_bucket_website_configuration.bucket_configuration.website_endpoint
     origin_id   = local.s3_origin_id
 
     custom_origin_config {
