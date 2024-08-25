@@ -1,3 +1,11 @@
+import icons from "../icons.tsx"
+
+function socialIconFromName(name?: string){
+  if (!name) return undefined
+  const Social = (icons as Record<string, any>)?.[name]
+  return <Social height={"20px"} color="rgb(187, 0, 0)"/>
+}
+
 export default function foother(data: Lume.Data) {
   return (
     <footer>
@@ -6,7 +14,7 @@ export default function foother(data: Lume.Data) {
           return (
             <li >
               <a href={social.link}>
-                <i className={social.class}>{social.name}</i>
+                 {socialIconFromName(social.name)}
               </a>
             </li>
           );

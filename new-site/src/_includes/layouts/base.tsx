@@ -1,4 +1,5 @@
 import header, { menu } from "../templates/header.tsx";
+import icons from "../icons.tsx"
 
 export const layout = "layouts/base.vto";
 
@@ -27,9 +28,12 @@ function footer(data: Lume.Data) {
         <ul>
           {data.site.social?.map((social: any) => {
             return (
-              <li>
-                <a href={social.link}>
-                  <i className={social.class}>{social.name}</i>
+              <li style={{display:"flex", justifyContent:"center", flexFlow:"row"}}>
+                <div style={{flex:"fit-content"}}>
+                {socialIconFromName(social.name)}                 
+                </div>
+                <a href={social.link} style={{ display: "inline-block", }}>
+                    &nbsp;{social.name}
                 </a>
               </li>
             );
@@ -38,6 +42,12 @@ function footer(data: Lume.Data) {
       </div>
     </footer>
   );
+}
+
+function socialIconFromName(name?: string){
+  if (!name) return undefined
+  const Social = (icons as Record<string, any>)?.[name]
+  return <Social  style={{ verticalAlign: "middle" }} height={"25px"} color="rgb(187, 0, 0)"/>
 }
 
 export default (data: Lume.Data, _helpers: Lume.Helpers) => (

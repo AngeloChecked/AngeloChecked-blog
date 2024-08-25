@@ -1,3 +1,4 @@
+import icons from "./_includes/icons.tsx";
 import posts from "./post/index.tsx";
 export const title = "Home";
 export const description = "the home page of my blog";
@@ -8,6 +9,12 @@ export const menu = {
   visible: true,
   order: 0,
 };
+
+function socialIconFromName(name?: string) {
+  if (!name) return undefined;
+  const Social = (icons as Record<string, any>)?.[name];
+  return <Social height={"20px"} color="rgb(187, 0, 0)" />;
+}
 
 export default (data: Lume.Data, helpers: Lume.Helpers) => (
   <>
@@ -23,7 +30,9 @@ export default (data: Lume.Data, helpers: Lume.Helpers) => (
         {data.site.social?.map((social: any) => {
           return (
             <a href={social.link}>
-              <i className={social.class}></i>
+              <i>
+                {socialIconFromName(social.name)}
+              </i>
             </a>
           );
         })}
@@ -34,10 +43,20 @@ export default (data: Lume.Data, helpers: Lume.Helpers) => (
       <h2>Latest posts:</h2>
       {posts(data, helpers, 2)}
     </span>
-    <h2>The Garden Graph:</h2>
-    <div id="graph-container"></div>
-    <div style={{ textAlign: "center" }}>
-      <div style={{ width: 200 , margin: "0 auto"}} id="graph-minimap-container" />
-    </div>
   </>
 );
+
+function Garden() {
+  return (
+    <div>
+      <h2>The Garden Graph:</h2>
+      <div id="graph-container"></div>
+      <div style={{ textAlign: "center" }}>
+        <div
+          style={{ width: 200, margin: "0 auto" }}
+          id="graph-minimap-container"
+        />
+      </div>
+    </div>
+  );
+}
