@@ -16,7 +16,7 @@ resource "aws_s3_bucket_acl" "bucket_visibility" {
 resource "aws_s3_bucket_versioning" "no_versioning" {
   bucket = aws_s3_bucket.website_bucket.id
   versioning_configuration {
-    status = "Disabled"
+    status = "Suspended"
   }
 }
 
@@ -33,7 +33,7 @@ resource "aws_s3_bucket_website_configuration" "bucket_configuration" {
 
 }
 
-resource "aws_s3_bucket_object" "files" {
+resource "aws_s3_object" "files" {
   for_each = fileset("./my-site/dist", "**/*") 
 
   bucket = aws_s3_bucket.website_bucket.bucket
