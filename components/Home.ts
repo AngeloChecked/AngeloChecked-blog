@@ -36,7 +36,7 @@ const socialList = cssClass({
   },
 });
 
-export function Home() {
+export function Home(props: { posts: string }) {
 
   return html`
     <div style="${homeIntroductionClass.inlineStyle}">
@@ -66,6 +66,7 @@ export function Home() {
     <br></br>
     <span>
       <h2>Posts:</h2>
+      ${props.posts}
     </span>
   `;
 }

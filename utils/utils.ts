@@ -48,3 +48,6 @@ export function fromStringToDomToString(body: string) {
   return html;
 }
 
+export function sameAsVar(obj: object){
+  return Object.keys(obj)[0]
+}

@@ -4,7 +4,12 @@ import { styleCssFile } from "./style/mainCss.ts";
 import { serveFile } from "jsr:@std/http@1.0.5/file-server";
 import { Menu } from "./components/Menu.ts";
 import { Footer } from "./components/Footer.ts";
-import { getPageFromRoute, Page, pagesFromFolder, router } from "./routes.ts";
+import {
+  getPageFromRoute,
+  pagesFromFolder,
+  ProcessedPage,
+  router,
+} from "./routes.ts";
 import { fromStringToDomToString, traverseFiles } from "./utils/utils.ts";
 import { Home } from "./components/Home.ts";
 
@@ -27,8 +32,8 @@ websocket()
 </script>
 `;
 
-export type Route = {
-  [path: string]: Partial<Page>[] | undefined;
+export type Router = {
+  [path: string]: ProcessedPage[] | undefined;
 };
 
 let denoRestarted = true;
@@ -55,13 +60,13 @@ Deno.serve(async (req) => {
     return serveFile(req, "./" + filePath);
   }
 
-  const page: Page | undefined = getPageFromRoute(
+  const page: ProcessedPage | undefined = getPageFromRoute(
     router,
     filePath,
     folderStructure,
   );
 
-  const menuPageIds = ["Home", "Graph", "About"];
+  const { allMenus } = getMenuStatus(router);
 
   const body = Base({
     title: page?.title ?? "",
@@ -69,8 +74,8 @@ Deno.serve(async (req) => {
     content: page?.content ?? "404",
     scripts: websocketScript,
     style: styleCssFile.style,
-    menu: Menu({ currentPage: "Home", pages: menuPageIds }),
-    footer: Footer({ currentPage: "Home", pages: menuPageIds }),
+    menu: Menu({ currentPageMenu: page?.menu?.menuName, menus: allMenus }),
+    footer: Footer({ currentPageMenu: page?.menu?.menuName, menus: allMenus }),
   });
 
   const html = fromStringToDomToString(body);
@@ -79,3 +84,25 @@ Deno.serve(async (req) => {
     headers: { "content-type": "text/html; charset=utf-8" },
   });
 });
+
+export type MenuInfo = {
+  menuName: string;
+  url: string;
+};
+function getMenuStatus(router: Router) {
+  const routes = Object.entries(router);
+  const menus = [];
+  for (const [route, pages] of routes) {
+    for (const page of pages ?? []) {
+      if (page.menu) {
+        menus.push({
+          order: page.menu.order ?? 99,
+          menuName: page.menu.menuName,
+          url: "/" + route + (page.relativeFilePath ?? ""),
+        });
+      }
+    }
+  }
+  menus.sort((a,b) => a.order < b.order ? -1 : 1)
+  return { allMenus: menus };
+}

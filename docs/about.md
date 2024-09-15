@@ -1,25 +1,3 @@
----
-title: About Me
-description: About Me
-layout: layouts/docs.tsx
-menu:
-  visible: true
-  title: About Me 
-  order: 2
-
-authorbox: false
-sidebar: true
-comments: false
-thumbnail:
-  src: "img/angelo_smile_resized.webp"
-  visibility:
-    - "list"
-widgets: 
- - social
-
----
-
-
 Hi! I’m **Angelo Ceccato**, are you welcome!
 
 ![Angelo Ceccato](/img/angelo_smile.webp)

@@ -1,24 +1,29 @@
 import { Article } from "./components/Article.ts";
 import { FileIndex } from "./components/FileIndex.ts";
 import { Home } from "./components/Home.ts";
-import { Route } from "./main.ts";
+import { Posts } from "./components/Posts.ts";
+import { Router } from "./main.ts";
 import { markdown } from "./utils/markdown.ts";
-import { FileOrDir, traverseFilesFlat } from "./utils/utils.ts";
+import { FileOrDir, sameAsVar, traverseFilesFlat } from "./utils/utils.ts";
 import { exists } from "jsr:@std/fs";
 
 export async function pagesFromFolder(folderPath: string) {
   const relativeFilePaths = await traverseFilesFlat(folderPath);
-  const pages: Page[] = [];
+  const pages: ProcessedPage[] = [];
   for (const relativeFilePath of relativeFilePaths) {
-    const page: Page = {};
-    if (relativeFilePath.endsWith("md")){
-      const pathSplit = (folderPath + relativeFilePath).split(".")
-      const dataFilePath = pathSplit.slice(undefined, -1).join(".") + ".data.ts"
-      if (await exists(dataFilePath)){
-        const pageData = (Object.entries(await import(dataFilePath))[0][1]) as unknown as { data: PageData }
-        for (const key in pageData.data){
+    const page: ProcessedPage = {};
+    if (relativeFilePath.endsWith("md")) {
+      const pathSplit = (folderPath + relativeFilePath).split(".");
+      const dataFilePath = pathSplit.slice(undefined, -1).join(".") +
+        ".data.ts";
+      if (await exists(dataFilePath)) {
+        const pageModule = await import(dataFilePath);
+        const pageData = (Object.entries(pageModule)[0][1]) as unknown as {
+          data: PageData;
+        };
+        for (const key in pageData.data) {
           // deno-lint-ignore no-explicit-any
-          (page as any)[key] = (pageData.data as any)[key]
+          (page as any)[key] = (pageData.data as any)[key];
         }
       }
       const fileContent = await Deno.readTextFile(
@@ -29,14 +34,14 @@ export async function pagesFromFolder(folderPath: string) {
         content: markdown(fileContent),
       });
       page.relativeFilePath = relativeFilePath;
-      pages.push(page)
-    }     
+      pages.push(page);
+    }
   }
   return pages;
 }
 
 export type PageData = {
-  menu?: { menuName: "" };
+  menu?: { menuName: string, order?: number };
   title: string;
   description: string;
   seo: string[];
@@ -44,28 +49,42 @@ export type PageData = {
   thumbnail: { src: string };
 };
 
-export type Page = Partial<PageData & {
-  content: string;
-  customCss?: string;
-  relativeFilePath?: string;
-}>;
+export type ProcessedPage = Partial<
+  PageData & {
+    id: string;
+    content: string;
+    customCss?: string;
+    relativeFilePath?: string;
+  }
+>;
 
-const postPages = await pagesFromFolder("./post");
+export const postPages = await pagesFromFolder("./post");
 const docsPages = await pagesFromFolder("./docs");
-export const router: Route = {
-  "post": postPages,
+
+export const postRoute = { "post": postPages };
+export const homeRoute = {
+  "": [{
+    menu: { menuName: "Home", order: 1 },
+    id: sameAsVar({ Home }),
+    content: Home({ posts: Posts({ postRoute }) }),
+    relativeFilePath: undefined,
+  }],
+};
+
+export const router: Router = {
+  ...postRoute,
   "docs": docsPages,
   "graph": undefined,
   "404": undefined,
-  "": [{ content: Home(), relativeFilePath: undefined }],
+  ...homeRoute,
 };
 
 export function getPageFromRoute(
-  routes: Route,
+  routes: Router,
   filePath: string,
   folderStructure: FileOrDir,
 ) {
-  const page: Page = { content: "" };
+  const page: ProcessedPage = { content: "" };
 
   const routeFound = Object.entries(routes).find(([route]) => {
     return filePath.startsWith(route);
@@ -80,7 +99,7 @@ export function getPageFromRoute(
   if (filePath.startsWith(routeFound[0])) {
     const pages = routeFound[1];
     for (const page of pages ?? []) {
-      console.log(page.relativeFilePath)
+      console.log(page.relativeFilePath);
       if (
         page.relativeFilePath === undefined ||
         filePath.endsWith(page.relativeFilePath)
