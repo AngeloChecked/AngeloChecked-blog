@@ -19,7 +19,7 @@ export const myPersonalTechLimboElixirVsRustPost: Graph = {
     dontLearnASyntaxLearnToChangeTheWayYouThinkLink.id,
   ],
   data: {
-    name: "My Personal Tech Limbo (and Elixir vs Rust)",
+    title: "My Personal Tech Limbo (and Elixir vs Rust)",
     description:
       "My corrupted state of mind by hype cycle, fomo, overchoice and information overload",
     searchTags: [
@@ -35,5 +35,3 @@ export const myPersonalTechLimboElixirVsRustPost: Graph = {
     thumbnail: { src: "/img/elixir_vs_rust_resized.webp" },
   },
 };
-
-export default myPersonalTechLimboElixirVsRustPost

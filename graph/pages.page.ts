@@ -533,7 +533,7 @@ export type Graph = {
   type: string;
   id: string;
   data: {
-    name: string;
+    title: string;
     description: string;
     [key: string]: unknown;
   };

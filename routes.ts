@@ -4,34 +4,48 @@ import { Home } from "./components/Home.ts";
 import { Route } from "./main.ts";
 import { markdown } from "./utils/markdown.ts";
 import { FileOrDir, traverseFilesFlat } from "./utils/utils.ts";
+import { exists } from "jsr:@std/fs";
 
 export async function pagesFromFolder(folderPath: string) {
   const relativeFilePaths = await traverseFilesFlat(folderPath);
   const pages: Page[] = [];
   for (const relativeFilePath of relativeFilePaths) {
-    const markdownContnet = await Deno.readTextFile(
-      folderPath + "/" + relativeFilePath,
-    );
     const page: Page = {};
-    page.content = Article({
-      title:
-        "My useless philosophical ramblings about the ecology of programming languages (and OOP is not Java)",
-      content: markdown(markdownContnet),
-    });
-    page.relativeFilePath = relativeFilePath;
-    pages.push(page)
+    if (relativeFilePath.endsWith("md")){
+      const pathSplit = (folderPath + relativeFilePath).split(".")
+      const dataFilePath = pathSplit.slice(undefined, -1).join(".") + ".data.ts"
+      if (await exists(dataFilePath)){
+        const pageData = (Object.entries(await import(dataFilePath))[0][1]) as unknown as { data: PageData }
+        for (const key in pageData.data){
+          // deno-lint-ignore no-explicit-any
+          (page as any)[key] = (pageData.data as any)[key]
+        }
+      }
+      const fileContent = await Deno.readTextFile(
+        folderPath + "/" + relativeFilePath,
+      );
+      page.content = Article({
+        title: page.title ?? "",
+        content: markdown(fileContent),
+      });
+      page.relativeFilePath = relativeFilePath;
+      pages.push(page)
+    }     
   }
   return pages;
 }
 
-export type Page = Partial<{
+export type PageData = {
   menu?: { menuName: "" };
   title: string;
   description: string;
-  content: string;
   seo: string[];
   date: string;
   thumbnail: { src: string };
+};
+
+export type Page = Partial<PageData & {
+  content: string;
   customCss?: string;
   relativeFilePath?: string;
 }>;
@@ -56,16 +70,6 @@ export function getPageFromRoute(
   const routeFound = Object.entries(routes).find(([route]) => {
     return filePath.startsWith(route);
   });
-
-  console.log(
-    "",
-    filePath,
-    "findRoute",
-    routeFound?.[0],
-    Object.keys(routes),
-    "fpath",
-    filePath === "",
-  );
 
   if (!routeFound) {
     const fileIndex = FileIndex({ folderStructure, page: "./" + filePath });

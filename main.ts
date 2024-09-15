@@ -64,7 +64,7 @@ Deno.serve(async (req) => {
   const menuPageIds = ["Home", "Graph", "About"];
 
   const body = Base({
-    title: "Angelo Ceccato Blog",
+    title: page?.title ?? "",
     description: "Angelo Ceccato Blog",
     content: page?.content ?? "404",
     scripts: websocketScript,

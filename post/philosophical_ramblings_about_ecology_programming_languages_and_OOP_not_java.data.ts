@@ -21,7 +21,7 @@ export const philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava
     objectOrientedProgrammingisBadLink.id
   ],
   data: {
-    name: "My useless philosophical ramblings about the ecology of programming languages (and OOP is not Java)",
+    title: "My useless philosophical ramblings about the ecology of programming languages (and OOP is not Java)",
     description:
       "Futile theories of programming languages and paradigms",
     searchTags: [
@@ -34,5 +34,3 @@ export const philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava
     thumbnail: { src: "/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/toomanyspiderman.small.png" },
   },
 };
-
-export default philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava

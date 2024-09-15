@@ -47,3 +47,4 @@ export function fromStringToDomToString(body: string) {
   const html = `<!DOCTYPE html>\n${documentElement?.outerHTML || ""}`;
   return html;
 }
+
