@@ -66,9 +66,10 @@ Deno.serve(async (req) => {
 
   const { allMenus } = getMenuStatus(router);
 
+  const titleCompanionAndFallback = "Angelo Ceccato Blog";
   const body = Base({
-    title: page?.data?.title ?? "",
-    description: "Angelo Ceccato Blog",
+    title: (page?.data?.title ? page.data.title + " - " : "") + titleCompanionAndFallback ,
+    description: page?.data?.description ?? titleCompanionAndFallback,
     content: page?.content ?? "404",
     scripts: websocketScript,
     style: styleCssFile.style,

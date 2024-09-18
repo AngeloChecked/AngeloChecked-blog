@@ -1,7 +1,7 @@
 import { NotFound } from "./components/404.ts";
 import { Article } from "./components/Article.ts";
 import { FileIndex } from "./components/FileIndex.ts";
-import { Home } from "./components/Home.ts";
+import { Home, title } from "./components/Home.ts";
 import { Posts } from "./components/Posts.ts";
 import { Router } from "./main.ts";
 import { markdown } from "./utils/markdown.ts";
@@ -81,7 +81,8 @@ export const postRoute = { "post": postPages };
 export const homeRoute = {
   "": [{
     data: {
-      menu: { menuName: "Home", order: 1 },
+      menu: { menuName: sameAsVar({ Home }), order: 1 },
+      title: sameAsVar({ Home }),
     },
     id: sameAsVar({ Home }),
     content: Home({ posts: Posts({ postRoute }) }),
