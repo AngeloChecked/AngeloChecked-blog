@@ -18,19 +18,19 @@ export async function pagesFromFolder(folderPath: string) {
         ".data.ts";
       if (await exists(dataFilePath)) {
         const pageModule = await import(dataFilePath);
-        const pageData = (Object.entries(pageModule)[0][1]) as unknown as {
-          data: PageData;
-        };
-        for (const key in pageData.data) {
+        // deno-lint-ignore no-explicit-any
+        const pageData = (Object.entries(pageModule)[0][1]) as any
+        for (const key in pageData) {
           // deno-lint-ignore no-explicit-any
-          (page as any)[key] = (pageData.data as any)[key];
+          (page as any)[key] = (pageData as any)[key];
         }
+        console.log(page)
       }
       const fileContent = await Deno.readTextFile(
         folderPath + "/" + relativeFilePath,
       );
       page.content = Article({
-        title: page.title ?? "",
+        title: page.data?.title ?? "",
         content: markdown(fileContent),
       });
       page.relativeFilePath = relativeFilePath;
@@ -40,8 +40,16 @@ export async function pagesFromFolder(folderPath: string) {
   return pages;
 }
 
-export type PageData = {
-  menu?: { menuName: string, order?: number };
+export type MetaData = {
+  type: string;
+  id: string;
+  tagId: string[];
+  authorId: string;
+  linkId: string[];
+};
+
+export type PageData =  {
+  menu?: { menuName: string; order?: number };
   title: string;
   description: string;
   seo: string[];
@@ -49,14 +57,13 @@ export type PageData = {
   thumbnail: { src: string };
 };
 
-export type ProcessedPage = Partial<
-  PageData & {
-    id: string;
-    content: string;
-    customCss?: string;
-    relativeFilePath?: string;
-  }
->;
+export type ProcessedPage = Partial<MetaData & {
+  data: Partial<PageData>;
+  id: string;
+  content: string;
+  customCss?: string;
+  relativeFilePath?: string;
+}>;
 
 export const postPages = await pagesFromFolder("./post");
 const docsPages = await pagesFromFolder("./docs");
@@ -64,7 +71,9 @@ const docsPages = await pagesFromFolder("./docs");
 export const postRoute = { "post": postPages };
 export const homeRoute = {
   "": [{
-    menu: { menuName: "Home", order: 1 },
+    data: {
+      menu: { menuName: "Home", order: 1 },
+    },
     id: sameAsVar({ Home }),
     content: Home({ posts: Posts({ postRoute }) }),
     relativeFilePath: undefined,
@@ -99,7 +108,6 @@ export function getPageFromRoute(
   if (filePath.startsWith(routeFound[0])) {
     const pages = routeFound[1];
     for (const page of pages ?? []) {
-      console.log(page.relativeFilePath);
       if (
         page.relativeFilePath === undefined ||
         filePath.endsWith(page.relativeFilePath)

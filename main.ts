@@ -6,12 +6,10 @@ import { Menu } from "./components/Menu.ts";
 import { Footer } from "./components/Footer.ts";
 import {
   getPageFromRoute,
-  pagesFromFolder,
   ProcessedPage,
   router,
 } from "./routes.ts";
 import { fromStringToDomToString, traverseFiles } from "./utils/utils.ts";
-import { Home } from "./components/Home.ts";
 
 const websocketScript = html`
 <script>
@@ -69,13 +67,13 @@ Deno.serve(async (req) => {
   const { allMenus } = getMenuStatus(router);
 
   const body = Base({
-    title: page?.title ?? "",
+    title: page?.data?.title ?? "",
     description: "Angelo Ceccato Blog",
     content: page?.content ?? "404",
     scripts: websocketScript,
     style: styleCssFile.style,
-    menu: Menu({ currentPageMenu: page?.menu?.menuName, menus: allMenus }),
-    footer: Footer({ currentPageMenu: page?.menu?.menuName, menus: allMenus }),
+    menu: Menu({ currentPageMenu: page?.data?.menu?.menuName, menus: allMenus }),
+    footer: Footer({ currentPageMenu: page?.data?.menu?.menuName, menus: allMenus }),
   });
 
   const html = fromStringToDomToString(body);
@@ -94,10 +92,10 @@ function getMenuStatus(router: Router) {
   const menus = [];
   for (const [route, pages] of routes) {
     for (const page of pages ?? []) {
-      if (page.menu) {
+      if (page.data?.menu) {
         menus.push({
-          order: page.menu.order ?? 99,
-          menuName: page.menu.menuName,
+          order: page.data?.menu.order ?? 99,
+          menuName: page.data?.menu.menuName,
           url: "/" + route + (page.relativeFilePath ?? ""),
         });
       }

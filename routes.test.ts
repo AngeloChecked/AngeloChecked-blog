@@ -1,6 +1,6 @@
 import { assertEquals } from "jsr:@std/assert";
 import { expect } from "jsr:@std/expect";
-import { pagesFromFolder } from "./routes.ts";
+import { pagesFromFolder } from "./pagesFromFolder.ts";
 import { helloWorldTestData } from "./tests/folderFromCreatePages/hello.data.ts";
 
 Deno.test("create pages with metadata from folder", async () => {
@@ -12,7 +12,7 @@ Deno.test("create pages with metadata from folder", async () => {
     {
       content: expect.any(String),
       relativeFilePath: "/hello.md",
-      ...helloWorldTestData.data
+      ...helloWorldTestData
     },
   ]);
   expect(pages[0].content?.includes(helloWorldTestData.data.title))

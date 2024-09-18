@@ -63,10 +63,9 @@ export function Home(props: { posts: string }) {
       </span>
     </div>
 
-    <br></br>
-    <span>
-      <h2>Posts:</h2>
-      ${props.posts}
-    </span>
+    <br><br>
+    <div align="center"><h2>Posts</h2></div>
+    ${props.posts}
+    <br><br>
   `;
 }
