@@ -20,12 +20,11 @@ export async function pagesFromFolder(folderPath: string) {
       if (await exists(dataFilePath)) {
         const pageModule = await import(dataFilePath);
         // deno-lint-ignore no-explicit-any
-        const pageData = (Object.entries(pageModule)[0][1]) as any
+        const pageData = (Object.entries(pageModule)[0][1]) as any;
         for (const key in pageData) {
           // deno-lint-ignore no-explicit-any
           (page as any)[key] = (pageData as any)[key];
         }
-        console.log(page)
       }
       const fileContent = await Deno.readTextFile(
         folderPath + "/" + relativeFilePath,
@@ -34,11 +33,18 @@ export async function pagesFromFolder(folderPath: string) {
         title: page.data?.title ?? "",
         content: markdown(fileContent),
       });
-      page.relativeFilePath = relativeFilePath;
+      page.relativeFilePath = removeExtensionIfPresent(relativeFilePath) + "/";
       pages.push(page);
     }
   }
   return pages;
+}
+
+function removeExtensionIfPresent(fileName: string) {
+  if (fileName.includes(".")) {
+    return fileName.split(".").slice(0, -1).join("")
+  }
+  return fileName;
 }
 
 export type MetaData = {
@@ -49,7 +55,7 @@ export type MetaData = {
   linkId: string[];
 };
 
-export type PageData =  {
+export type PageData = {
   menu?: { menuName: string; order?: number };
   title: string;
   description: string;
@@ -58,13 +64,15 @@ export type PageData =  {
   thumbnail: { src: string };
 };
 
-export type ProcessedPage = Partial<MetaData & {
-  data: Partial<PageData>;
-  id: string;
-  content: string;
-  customCss?: string;
-  relativeFilePath?: string;
-}>;
+export type ProcessedPage = Partial<
+  MetaData & {
+    data: Partial<PageData>;
+    id: string;
+    content: string;
+    customCss?: string;
+    relativeFilePath?: string;
+  }
+>;
 
 export const postPages = await pagesFromFolder("./post");
 const docsPages = await pagesFromFolder("./docs");
@@ -84,7 +92,7 @@ export const notFoundRoute = {
   "404": [{
     id: sameAsVar({ NotFound }),
     content: NotFound(),
-  }]
+  }],
 };
 
 export const router: Router = {

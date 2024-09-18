@@ -11,7 +11,7 @@ Deno.test("create pages with metadata from folder", async () => {
   expect(pages).toEqual([
     {
       content: expect.any(String),
-      relativeFilePath: "/hello.md",
+      relativeFilePath: "/hello/",
       ...helloWorldTestData
     },
   ]);
