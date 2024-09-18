@@ -1,3 +1,4 @@
+import { NotFound } from "./components/404.ts";
 import { Article } from "./components/Article.ts";
 import { FileIndex } from "./components/FileIndex.ts";
 import { Home } from "./components/Home.ts";
@@ -76,15 +77,21 @@ export const homeRoute = {
     },
     id: sameAsVar({ Home }),
     content: Home({ posts: Posts({ postRoute }) }),
-    relativeFilePath: undefined,
   }],
+};
+
+export const notFoundRoute = {
+  "404": [{
+    id: sameAsVar({ NotFound }),
+    content: NotFound(),
+  }]
 };
 
 export const router: Router = {
   ...postRoute,
   "docs": docsPages,
   "graph": undefined,
-  "404": undefined,
+  ...notFoundRoute,
   ...homeRoute,
 };
 
