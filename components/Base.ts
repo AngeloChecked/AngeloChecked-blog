@@ -23,7 +23,7 @@ export const Base = (props: BaseProps) =>
     <head>
      <meta property="og:type" content="website">
      ${
-    !props.page.relativeFilePath ? "" : `
+    !props.page?.relativeFilePath ? "" : `
         <meta property="og:url" content="https://${props.site.domain}${props.page.relativeFilePath}">
         <meta property="twitter:url" content="https://${props.site.domain}${props.page.relativeFilePath}">
       `
@@ -35,7 +35,7 @@ export const Base = (props: BaseProps) =>
       <meta name="twitter:description" content="${props.description}">
       <meta name="twitter:card" content="${props.description}">
      ${
-    !props.page.data?.thumbnail?.src ? "" : `
+    !props.page?.data?.thumbnail?.src ? "" : `
       <meta property="og:image" content="https://${props.site.domain}${props.page?.data?.thumbnail?.src}">
       <meta name="twitter:image" content="https://${props.site.domain}${props.page?.data?.thumbnail?.src}">
       `
