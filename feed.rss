@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/" version="2.0">
+  <channel>
+    <title>My RSS Feed</title>
+    <link>http://localhost/</link>
+    <atom:link href="http://localhost/feed.rss" rel="self" type="application/rss+xml"/>
+    <description></description>
+    <lastBuildDate>Sun, 14 Apr 2024 10:14:50 GMT</lastBuildDate>
+    <language>en</language>
+    <generator>Lume v2.0.2</generator>
+    <item>
+      <title>my posts</title>
+      <link>http://localhost/post/</link>
+      <guid isPermaLink="false">http://localhost/post/</guid>
+      <description>prova</description>
+      <content:encoded>
+        <![CDATA[<span class="post-list"><span class="post-card"><span><img style="max-width:235px" src="http://localhost/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/toomanyspiderman.small.png"/></span><span class="post-item"><a href="http://localhost/post/philosophical-ramblings-about-ecology-programming-languages-and-OOP-not-java/"><h1>My useless philosophical ramblings about the ecology of programming languages (and OOP is not Java)</h1></a><h5>April, 13 2024</h5><span class="post-tags"><span class="post-tag">Cognitive Bias</span><span class="post-tag">Functional Programming</span><span class="post-tag">Learning</span><span class="post-tag">Object Oriented Programming</span><span class="post-tag">Programming Languages</span></span><p class="post-description"><i>
+        Premise
+        I wanted to write this post to share, formalize, and expel my hopeless brain reveries about programming languages. Sometimes, as a hobby, I explore programming languages of different natures, and by doing this, I started to have an ethereal vision of what programming languages are.
+        Keep in mind that I&#x27;m not an academic. My approach is pretty raw. I like to back up my points with sources,…</i></p><a href="http://localhost/post/philosophical-ramblings-about-ecology-programming-languages-and-OOP-not-java/">KEEP READING &gt;&gt;</a></span></span><span class="post-card"><span><img style="max-width:235px" src="http://localhost/img/elixir_vs_rust_resized.webp"/></span><span class="post-item"><a href="http://localhost/post/my-personal-tech-limbo-elixir-vs-rust/"><h1>My Personal Tech Limbo (and Elixir vs Rust)</h1></a><h5>June, 13 2022</h5><span class="post-tags"><span class="post-tag">Cognitive Bias</span><span class="post-tag">Learning</span><span class="post-tag">Programming Languages</span><span class="post-tag">The Rust Programming Language</span></span><p class="post-description"><i>Another programming language battle?
+        Elixir vs Rust
+        who will be the winner?
+        
+        Why
+        I wanted to write this article because I need a place to release all my suppressed emotions. My brain is obsessed with programming languages.
+        I&#x27;m in the Tech Hype Cycle and instead of deep learning real stuff I&#x27;m procrastinating in a paradox of choice, information overload and FOMO hell.
+        I want to pick a programming …</i></p><a href="http://localhost/post/my-personal-tech-limbo-elixir-vs-rust/">KEEP READING &gt;&gt;</a></span></span></span>]]>
+      </content:encoded>
+      <pubDate>Sat, 13 Apr 2024 18:46:40 GMT</pubDate>
+    </item>
+    <item>
+      <title>Home</title>
+      <link>http://localhost/</link>
+      <guid isPermaLink="false">http://localhost/</guid>
+      <description>the home page of my blog</description>
+      <content:encoded>
+        <![CDATA[<div class="home-introduction"><img style="max-width:150px" src="http://localhost/img/avatar_logo.webp"/><p><strong>The AngeloChecked Garden</strong></p><p><i>This is just the place where I put my thoughts.</i></p><span class="social-list"><a href="https://twitter.com/angelochecked"><i class="fab fa-twitter"></i></a><a href="https://mastodon.social/@angelochecked"><i class="fab fa-mastodon"></i></a><a href="https://www.linkedin.com/in/angeloceccato/"><i class="fab fa-linkedin"></i></a><a href="https://github.com/AngeloChecked"><i class="fab fa-github"></i></a><a href="mailto:angelochecked@gmail.com"><i class="fa-solid fa-envelope"></i></a></span></div><br/><span><h2>Latest posts:</h2><span class="post-list"><span class="post-card"><span><img style="max-width:235px" src="http://localhost/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/toomanyspiderman.small.png"/></span><span class="post-item"><a href="http://localhost/post/philosophical-ramblings-about-ecology-programming-languages-and-OOP-not-java/"><h1>My useless philosophical ramblings about the ecology of programming languages (and OOP is not Java)</h1></a><h5>April, 13 2024</h5><span class="post-tags"><span class="post-tag">Cognitive Bias</span><span class="post-tag">Functional Programming</span><span class="post-tag">Learning</span><span class="post-tag">Object Oriented Programming</span><span class="post-tag">Programming Languages</span></span><p class="post-description"><i>
+        Premise
+        I wanted to write this post to share, formalize, and expel my hopeless brain reveries about programming languages. Sometimes, as a hobby, I explore programming languages of different natures, and by doing this, I started to have an ethereal vision of what programming languages are.
+        Keep in mind that I&#x27;m not an academic. My approach is pretty raw. I like to back up my points with sources,…</i></p><a href="http://localhost/post/philosophical-ramblings-about-ecology-programming-languages-and-OOP-not-java/">KEEP READING &gt;&gt;</a></span></span><span class="post-card"><span><img style="max-width:235px" src="http://localhost/img/elixir_vs_rust_resized.webp"/></span><span class="post-item"><a href="http://localhost/post/my-personal-tech-limbo-elixir-vs-rust/"><h1>My Personal Tech Limbo (and Elixir vs Rust)</h1></a><h5>June, 13 2022</h5><span class="post-tags"><span class="post-tag">Cognitive Bias</span><span class="post-tag">Learning</span><span class="post-tag">Programming Languages</span><span class="post-tag">The Rust Programming Language</span></span><p class="post-description"><i>Another programming language battle?
+        Elixir vs Rust
+        who will be the winner?
+        
+        Why
+        I wanted to write this article because I need a place to release all my suppressed emotions. My brain is obsessed with programming languages.
+        I&#x27;m in the Tech Hype Cycle and instead of deep learning real stuff I&#x27;m procrastinating in a paradox of choice, information overload and FOMO hell.
+        I want to pick a programming …</i></p><a href="http://localhost/post/my-personal-tech-limbo-elixir-vs-rust/">KEEP READING &gt;&gt;</a></span></span></span></span><h2>The Garden Graph:</h2><div id="graph-container"></div><div style="text-align:center"><div style="width:200px;margin:0 auto" id="graph-minimap-container"></div></div>]]>
+      </content:encoded>
+      <pubDate>Sat, 13 Apr 2024 18:46:40 GMT</pubDate>
+    </item>
+    <item>
+      <title>Yan Cui</title>
+      <link>http://localhost/graph/author/yan-cui/</link>
+      <guid isPermaLink="false">http://localhost/graph/author/yan-cui/</guid>
+      <description>An estimator of programming languages such as Erlang and F#. Serverless Hero now. I thoroughly enjoyed many of their insightful blog posts and resources.</description>
+      <content:encoded><![CDATA[]]></content:encoded>
+      <pubDate>Sat, 13 Apr 2024 18:46:40 GMT</pubDate>
+    </item>
+    <item>
+      <title>Angelo Ceccato (AngeloChecked)</title>
+      <link>http://localhost/graph/author/angelo-ceccato/</link>
+      <guid isPermaLink="false">http://localhost/graph/author/angelo-ceccato/</guid>
+      <description>Angelo Ceccato’s also known as AngeloChecked is a developer like make random stuff.</description>
+      <content:encoded><![CDATA[]]></content:encoded>
+      <pubDate>Sat, 13 Apr 2024 18:46:40 GMT</pubDate>
+    </item>
+    <item>
+      <title>Alexandru Nedelcu</title>
+      <link>http://localhost/graph/author/alexandru-nedelcu/</link>
+      <guid isPermaLink="false">http://localhost/graph/author/alexandru-nedelcu/</guid>
+      <description>I became acquainted with him through his remarkable blog, which covers topics ranging from Scala, Kotlin, and JVM to various tech stacks and more. Absolutely impressive!</description>
+      <content:encoded><![CDATA[]]></content:encoded>
+      <pubDate>Sat, 13 Apr 2024 18:46:40 GMT</pubDate>
+    </item>
+    <item>
+      <title>Alex Kladov</title>
+      <link>http://localhost/graph/author/alex-kladov/</link>
+      <guid isPermaLink="false">http://localhost/graph/author/alex-kladov/</guid>
+      <description>Alex inspired me with his blog, where he shares insightful ideas about Rust, Zig, and a data-driven blog approach.</description>
+      <content:encoded><![CDATA[]]></content:encoded>
+      <pubDate>Sat, 13 Apr 2024 18:46:40 GMT</pubDate>
+    </item>
+    <item>
+      <title>Noel Llopis</title>
+      <link>http://localhost/graph/author/noel-llopis/</link>
+      <guid isPermaLink="false">http://localhost/graph/author/noel-llopis/</guid>
+      <description>A game developer who began discussing about Data-Oriented Design, I appreciate him for his intriguing perspectives on pair programming and other programming practices.</description>
+      <content:encoded><![CDATA[]]></content:encoded>
+      <pubDate>Sat, 13 Apr 2024 18:46:40 GMT</pubDate>
+    </item>
+    <item>
+      <title>Yehonathan Sharvit</title>
+      <link>http://localhost/graph/author/yehonathan-sharvit/</link>
+      <guid isPermaLink="false">http://localhost/graph/author/yehonathan-sharvit/</guid>
+      <description>Intriguing individual writing about Data-Oriented Programming.</description>
+      <content:encoded><![CDATA[]]></content:encoded>
+      <pubDate>Sat, 13 Apr 2024 18:46:40 GMT</pubDate>
+    </item>
+    <item>
+      <title>Richard Feldman</title>
+      <link>http://localhost/graph/author/richard-feldman/</link>
+      <guid isPermaLink="false">http://localhost/graph/author/richard-feldman/</guid>
+      <description>I&apos;m acquainted with Richard through his presentations on functional programming and his insightful reflections on the evolution of programming languages and paradigms. He is an advocate of Elm, Rust, and Zig, have created Roc a programming language with the aim of replicating the ergonomic features of Elm while extending its capabilities to problem domains beyond web development, drawing inspiration from various programming ecosystems..</description>
+      <content:encoded><![CDATA[]]></content:encoded>
+      <pubDate>Sat, 13 Apr 2024 18:46:40 GMT</pubDate>
+    </item>
+    <item>
+      <title>Patrick McKenzie</title>
+      <link>http://localhost/graph/author/patrick-mckenzie/</link>
+      <guid isPermaLink="false">http://localhost/graph/author/patrick-mckenzie/</guid>
+      <description>An intriguing developer who possesses a visionary perspective on business software, offering exceptionally insightful and valuable advice.</description>
+      <content:encoded><![CDATA[]]></content:encoded>
+      <pubDate>Sat, 13 Apr 2024 18:46:40 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

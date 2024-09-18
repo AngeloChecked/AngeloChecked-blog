@@ -18,9 +18,11 @@ export const Base = (props: BaseProps) =>
   <!doctype html>
   <html lang="en">
     <head>
+      <!-- TODO: meta for fb, twitter, linkedin  -->
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+      <link rel="icon" type="image/x-icon" href="favicon.ico">
       <meta charset="UTF-8" />
       <meta name="description" content="${props.description}" />
       ${
