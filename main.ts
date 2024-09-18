@@ -34,6 +34,7 @@ export type Router = {
   [path: string]: ProcessedPage[] | undefined;
 };
 
+const developmentMode = true;
 let denoRestarted = true;
 Deno.serve(async (req) => {
   if (req.headers.get("upgrade") === "websocket") {
@@ -75,6 +76,10 @@ Deno.serve(async (req) => {
     style: styleCssFile.style,
     menu: Menu({ currentPageMenu: page?.data?.menu?.menuName, menus: allMenus }),
     footer: Footer({ currentPageMenu: page?.data?.menu?.menuName, menus: allMenus }),
+    page: page!,
+    site: {
+      domain: developmentMode ? "localhost:8000" : "angeloceccato.it"
+    }
   });
 
   const html = fromStringToDomToString(body);

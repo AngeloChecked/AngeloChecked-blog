@@ -1,4 +1,5 @@
 import { html } from "../deps/html.ts";
+import { ProcessedPage } from "../routes.ts";
 import { mainClass } from "../style/mainCss.ts";
 
 type BaseProps = {
@@ -9,8 +10,10 @@ type BaseProps = {
   content: string;
   scripts?: string;
   style?: string;
-  menu:string;
+  menu: string;
   footer: string;
+  page: ProcessedPage;
+  site: { domain: string }
 };
 
 export const Base = (props: BaseProps) =>
@@ -18,7 +21,26 @@ export const Base = (props: BaseProps) =>
   <!doctype html>
   <html lang="en">
     <head>
-      <!-- TODO: meta for fb, twitter, linkedin  -->
+     <meta property="og:type" content="website">
+     ${
+    !props.page.relativeFilePath ? "" : `
+        <meta property="og:url" content="https://${props.site.domain}${props.page.relativeFilePath}">
+        <meta property="twitter:url" content="https://${props.site.domain}${props.page.relativeFilePath}">
+      `
+  }
+      <meta property="og:title" content="${props.title}">
+      <meta name="twitter:title" content="${props.title}">
+
+      <meta property="og:description" content="${props.description}">
+      <meta name="twitter:description" content="${props.description}">
+      <meta name="twitter:card" content="${props.description}">
+     ${
+    !props.page.data?.thumbnail?.src ? "" : `
+      <meta property="og:image" content="https://${props.site.domain}${props.page?.data?.thumbnail?.src}">
+      <meta name="twitter:image" content="https://${props.site.domain}${props.page?.data?.thumbnail?.src}">
+      `
+  }
+  
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -47,7 +69,7 @@ export const Base = (props: BaseProps) =>
   </html>
 `;
 
-function googleTagManagerScript(){
+function googleTagManagerScript() {
   return html`
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -56,5 +78,5 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','G-LE27PDG685');</script>
 <!-- End Google Tag Manager -->
-`
+`;
 }
