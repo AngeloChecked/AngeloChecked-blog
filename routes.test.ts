@@ -1,7 +1,7 @@
 import { assertEquals } from "jsr:@std/assert";
 import { expect } from "jsr:@std/expect";
-import { pagesFromFolder } from "./pagesFromFolder.ts";
 import { helloWorldTestData } from "./tests/folderFromCreatePages/hello.data.ts";
+import { pagesFromFolder } from "./routes.ts";
 
 Deno.test("create pages with metadata from folder", async () => {
   const pages = await pagesFromFolder("./tests/folderFromCreatePages");
