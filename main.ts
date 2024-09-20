@@ -6,14 +6,13 @@ import { Menu } from "./components/Menu.ts";
 import { Footer } from "./components/Footer.ts";
 import {
   getPageFromRoute,
-  postPages,
   postRoute,
-  ProcessedPage,
   RoutedPage,
   router,
 } from "./routes.ts";
 import { fromStringToDomToString, traverseFiles } from "./utils/utils.ts";
 import { FeedRss } from "./components/FeedRss.ts";
+import { SiteMap } from "./components/SiteMap.ts";
 
 const websocketScript = html`
 <script>
@@ -34,14 +33,14 @@ websocket()
 </script>
 `;
 
-
 export type Router = {
-  [path: string]: RoutedPage[] | undefined;
+  [path: string]: RoutedPage[];
 };
 
 const developmentMode = true;
 let denoRestarted = true;
 const domain = developmentMode ? "localhost:8000" : "angeloceccato.it";
+const buildDate = (new Date()).toISOString();
 Deno.serve(async (req) => {
   if (req.headers.get("upgrade") === "websocket") {
     const { socket, response } = Deno.upgradeWebSocket(req);
@@ -71,13 +70,22 @@ Deno.serve(async (req) => {
     folderStructure,
   );
 
-  if (
-    new RegExp(/\.rss$/).test(pathFileOrFolderName)
-  ) {
+  if (new RegExp(/feed\.rss$/).test(pathFileOrFolderName)) {
     const rssFeedFile = FeedRss({
       feedItems: postRoute["post"]!,
       domain: domain,
-      latestBuildDate: (new Date()).toISOString(),
+      latestBuildDate: buildDate,
+    });
+    return new Response(rssFeedFile, {
+      headers: { "content-type": "application/rss+xml" },
+    });
+  }
+
+  if (new RegExp(/sitemap\.xml$/).test(pathFileOrFolderName)) {
+    const rssFeedFile = SiteMap({
+      router: router,
+      latestBuildDate: buildDate,
+      domain: domain
     });
     return new Response(rssFeedFile, {
       headers: { "content-type": "application/rss+xml" },

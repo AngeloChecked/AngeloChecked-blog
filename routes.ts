@@ -94,7 +94,7 @@ const docsPages = await pagesFromFolder("./docs");
 
 export const postRoute = buildRoute({ "post": postPages });
 const docsRoute = buildRoute({ "docs": docsPages });
-const graphRoute = buildRoute({ "graph": undefined });
+const graphRoute = buildRoute({ "graph": [] });
 export const notFoundRoute = buildRoute({
   "404": [{
     id: sameAsVar({ NotFound }),
@@ -151,7 +151,7 @@ export function getPageFromRoute(
 }
 
 function buildRoute(rawRouter: {
-  [path: string]: ProcessedPage[] | undefined;
+  [path: string]: ProcessedPage[];
 }): Router {
   return Object.entries(rawRouter).reduce<Router>(
     (newRouter, [route, pages]) => {
