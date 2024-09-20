@@ -89,6 +89,14 @@ export const postPages = await pagesFromFolder("./post");
 const docsPages = await pagesFromFolder("./docs");
 
 export const postRoute = { "post": postPages };
+
+export const notFoundRoute = {
+  "404": [{
+    id: sameAsVar({ NotFound }),
+    content: NotFound(),
+  }],
+};
+
 export const homeRoute = {
   "": [{
     data: {
@@ -97,13 +105,6 @@ export const homeRoute = {
     },
     id: sameAsVar({ Home }),
     content: Home({ posts: Posts({ postRoute }) }),
-  }],
-};
-
-export const notFoundRoute = {
-  "404": [{
-    id: sameAsVar({ NotFound }),
-    content: NotFound(),
   }],
 };
 

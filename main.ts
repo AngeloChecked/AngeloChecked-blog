@@ -6,10 +6,12 @@ import { Menu } from "./components/Menu.ts";
 import { Footer } from "./components/Footer.ts";
 import {
   getPageFromRoute,
+  postPages,
   ProcessedPage,
   router,
 } from "./routes.ts";
 import { fromStringToDomToString, traverseFiles } from "./utils/utils.ts";
+import { FeedRss } from "./components/FeedRss.ts";
 
 const websocketScript = html`
 <script>
@@ -36,6 +38,7 @@ export type Router = {
 
 const developmentMode = true;
 let denoRestarted = true;
+const domain = developmentMode ? "localhost:8000" : "angeloceccato.it";
 Deno.serve(async (req) => {
   if (req.headers.get("upgrade") === "websocket") {
     const { socket, response } = Deno.upgradeWebSocket(req);
@@ -65,21 +68,38 @@ Deno.serve(async (req) => {
     folderStructure,
   );
 
-  const { allMenus } = getMenuStatus(router);
+  if (
+    new RegExp(/\.rss$/).test(pathFileOrFolderName)
+  ) {
+    const rssFeedFile = FeedRss({
+      feedItems: postPages,
+      domain: domain,
+      latestBuildDate: (new Date()).toISOString(),
+    });
+    return new Response(rssFeedFile, {
+      headers: { "content-type": "application/rss+xml" },
+    });
+  }
 
+  const { allMenus } = getMenuStatus(router);
   const titleCompanionAndFallback = "Angelo Ceccato Blog";
   const body = Base({
-    title: (page?.data?.title ? page.data.title + " - " : "") + titleCompanionAndFallback ,
+    title: (page?.data?.title ? page.data.title + " - " : "") +
+      titleCompanionAndFallback,
     description: page?.data?.description ?? titleCompanionAndFallback,
     content: page?.content ?? "404",
     scripts: websocketScript,
     style: styleCssFile.style,
-    menu: Menu({ currentPageMenu: page?.data?.menu?.menuName, menus: allMenus }),
-    footer: Footer({ currentPageMenu: page?.data?.menu?.menuName, menus: allMenus }),
+    menu: Menu({
+      currentPageMenu: page?.data?.menu?.menuName,
+      menus: allMenus,
+    }),
+    footer: Footer({
+      currentPageMenu: page?.data?.menu?.menuName,
+      menus: allMenus,
+    }),
     page: page!,
-    site: {
-      domain: developmentMode ? "localhost:8000" : "angeloceccato.it"
-    }
+    site: { domain: domain },
   });
 
   const html = fromStringToDomToString(body);
@@ -93,6 +113,7 @@ export type MenuInfo = {
   menuName: string;
   url: string;
 };
+
 function getMenuStatus(router: Router) {
   const routes = Object.entries(router);
   const menus = [];
@@ -107,6 +128,6 @@ function getMenuStatus(router: Router) {
       }
     }
   }
-  menus.sort((a,b) => a.order < b.order ? -1 : 1)
+  menus.sort((a, b) => a.order < b.order ? -1 : 1);
   return { allMenus: menus };
 }
