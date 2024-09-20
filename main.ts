@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
   if (
     new RegExp(/\.webp$|\.png$|\.jpg$|\.svg$|\.css$/).test(pathFileOrFolderName)
   ) {
-    return serveFile(req, "./" + filePath);
+    return serveFile(req, "./static/" + filePath);
   }
 
   const page: RoutedPage | undefined = getPageFromRoute(
