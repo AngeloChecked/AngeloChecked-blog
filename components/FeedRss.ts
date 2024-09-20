@@ -12,8 +12,8 @@ export function FeedRss(
 <rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/" version="2.0">
   <channel>
     <title>My RSS Feed</title>
-    <link>${props.domain}</link>
-    <atom:link href="${props.domain}/feed.rss" rel="self" type="application/rss+xml"/>
+    <link>https://${props.domain}</link>
+    <atom:link href="https://${props.domain}/feed.rss" rel="self" type="application/rss+xml"/>
     <description>AngeloChecked Blog</description>
     <lastBuildDate>${buildRFC822Date(props.latestBuildDate)}</lastBuildDate>
     <language>en</language>
@@ -21,8 +21,8 @@ export function FeedRss(
     props.feedItems.map((page) =>
       feedItem({
         title: page.data?.title!,
-        link: props.domain + page.relativeFilePath,
-        parmaLink: props.domain + page.relativeFilePath,
+        link: "https://" + props.domain + page.relativeFilePath,
+        parmaLink: "https://" + props.domain + page.relativeFilePath,
         description: page.data?.description!,
         content: truncate(page.content + "...")!,
         date: buildRFC822Date(page.data?.date!),
