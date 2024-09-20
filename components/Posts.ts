@@ -1,12 +1,8 @@
-import { ProcessedPage } from "../routes.ts";
+import { RoutedPage } from "../routes.ts";
 import { cssClass } from "../style/css.ts";
 import { rowClass } from "../style/mainCss.ts";
 
-export function Posts(props: { postRoute: Record<string, ProcessedPage[]> }) {
-	const entry = Object.entries(props.postRoute)[0];
-	const key = entry[0];
-	const pages = entry[1];
-
+export function Posts(props: { posts: RoutedPage[] }) {
 	const postListClass = cssClass({
 		className: "post-list",
 		properties: {
@@ -35,7 +31,7 @@ export function Posts(props: { postRoute: Record<string, ProcessedPage[]> }) {
 		},
 	});
 
-	pages.sort((a, b) => {
+	const sortedPosts = props.posts.toSorted((a, b) => {
 		if (!a.data?.date) {
 			return 1;
 		}
@@ -49,18 +45,18 @@ export function Posts(props: { postRoute: Record<string, ProcessedPage[]> }) {
 	return `
 <div>
 			${
-		pages.map((p) => {
+		sortedPosts.map((p) => {
 			return `
 <div style="${postListClass.inlineStyle}">
 	<div>
-		<a href="${key + p.relativeFilePath}">
+		<a href="${p.relativeWebsitePath}">
 		  <img width="200px" src="${p.data?.thumbnail?.src}">
 		</a>
 	</div>
 	<div style="flex:0 1 50ch;">
 		${p.data?.date && formatDate(p.data?.date)}
 		<br>
-		<a href="${key + p.relativeFilePath}">${p.data?.title}</a>
+		<a href="${p.relativeWebsitePath}">${p.data?.title}</a>
 		<br>
 		<div style="${tagContainerClass.inlineStyle}">
 			${

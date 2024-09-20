@@ -7,7 +7,9 @@ import { Footer } from "./components/Footer.ts";
 import {
   getPageFromRoute,
   postPages,
+  postRoute,
   ProcessedPage,
+  RoutedPage,
   router,
 } from "./routes.ts";
 import { fromStringToDomToString, traverseFiles } from "./utils/utils.ts";
@@ -32,8 +34,9 @@ websocket()
 </script>
 `;
 
+
 export type Router = {
-  [path: string]: ProcessedPage[] | undefined;
+  [path: string]: RoutedPage[] | undefined;
 };
 
 const developmentMode = true;
@@ -62,7 +65,7 @@ Deno.serve(async (req) => {
     return serveFile(req, "./" + filePath);
   }
 
-  const page: ProcessedPage | undefined = getPageFromRoute(
+  const page: RoutedPage | undefined = getPageFromRoute(
     router,
     filePath,
     folderStructure,
@@ -72,7 +75,7 @@ Deno.serve(async (req) => {
     new RegExp(/\.rss$/).test(pathFileOrFolderName)
   ) {
     const rssFeedFile = FeedRss({
-      feedItems: postPages,
+      feedItems: postRoute["post"]!,
       domain: domain,
       latestBuildDate: (new Date()).toISOString(),
     });
@@ -117,13 +120,13 @@ export type MenuInfo = {
 function getMenuStatus(router: Router) {
   const routes = Object.entries(router);
   const menus = [];
-  for (const [route, pages] of routes) {
+  for (const [, pages] of routes) {
     for (const page of pages ?? []) {
       if (page.data?.menu) {
         menus.push({
           order: page.data?.menu.order ?? 99,
           menuName: page.data?.menu.menuName,
-          url: "/" + route + (page.relativeFilePath ?? ""),
+          url: page.relativeWebsitePath,
         });
       }
     }

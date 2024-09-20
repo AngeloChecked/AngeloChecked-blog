@@ -1,5 +1,5 @@
 import { html } from "../deps/html.ts";
-import { ProcessedPage } from "../routes.ts";
+import { RoutedPage } from "../routes.ts";
 import { mainClass } from "../style/mainCss.ts";
 
 type BaseProps = {
@@ -12,7 +12,7 @@ type BaseProps = {
   style?: string;
   menu: string;
   footer: string;
-  page: ProcessedPage;
+  page: RoutedPage;
   site: { domain: string }
 };
 
@@ -23,9 +23,9 @@ export const Base = (props: BaseProps) =>
     <head>
      <meta property="og:type" content="website">
      ${
-    !props.page?.relativeFilePath ? "" : `
-        <meta property="og:url" content="https://${props.site.domain}${props.page.relativeFilePath}">
-        <meta property="twitter:url" content="https://${props.site.domain}${props.page.relativeFilePath}">
+    !props.page?.relativeWebsitePath ? "" : `
+        <meta property="og:url" content="https://${props.site.domain}${props.page.relativeWebsitePath}">
+        <meta property="twitter:url" content="https://${props.site.domain}${props.page.relativeWebsitePath}">
       `
   }
       <meta property="og:title" content="${props.title}">

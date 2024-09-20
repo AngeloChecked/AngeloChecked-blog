@@ -1,8 +1,8 @@
-import { ProcessedPage } from "../routes.ts";
+import { ProcessedPage, RoutedPage } from "../routes.ts";
 
 export function FeedRss(
   props: {
-    feedItems: ProcessedPage[];
+    feedItems: RoutedPage[];
     domain: string;
     latestBuildDate: string;
   },
@@ -21,8 +21,8 @@ export function FeedRss(
     props.feedItems.map((page) =>
       feedItem({
         title: page.data?.title!,
-        link: "https://" + props.domain + page.relativeFilePath,
-        parmaLink: "https://" + props.domain + page.relativeFilePath,
+        link: "https://" + props.domain + page.relativeWebsitePath,
+        parmaLink: "https://" + props.domain + page.relativeWebsitePath,
         description: page.data?.description!,
         content: truncate(page.content + "...")!,
         date: buildRFC822Date(page.data?.date!),

@@ -85,33 +85,37 @@ export type ProcessedPage = Partial<
   }
 >;
 
+export type RoutedPage = ProcessedPage & {
+  relativeWebsitePath: string;
+};
+
 export const postPages = await pagesFromFolder("./post");
 const docsPages = await pagesFromFolder("./docs");
 
-export const postRoute = { "post": postPages };
-
-export const notFoundRoute = {
+export const postRoute = buildRoute({ "post": postPages });
+const docsRoute = buildRoute({ "docs": docsPages });
+const graphRoute = buildRoute({ "graph": undefined });
+export const notFoundRoute = buildRoute({
   "404": [{
     id: sameAsVar({ NotFound }),
     content: NotFound(),
   }],
-};
-
-export const homeRoute = {
+});
+export const homeRoute = buildRoute({
   "": [{
     data: {
       menu: { menuName: sameAsVar({ Home }), order: 1 },
       title: sameAsVar({ Home }),
     },
     id: sameAsVar({ Home }),
-    content: Home({ posts: Posts({ postRoute }) }),
+    content: Home({ posts: Posts({ posts: postRoute["post"]! }) }),
   }],
-};
+});
 
 export const router: Router = {
   ...postRoute,
-  "docs": docsPages,
-  "graph": undefined,
+  ...docsRoute,
+  ...graphRoute,
   ...notFoundRoute,
   ...homeRoute,
 };
@@ -121,7 +125,7 @@ export function getPageFromRoute(
   filePath: string,
   folderStructure: FileOrDir,
 ) {
-  const page: ProcessedPage = { content: "" };
+  const page: RoutedPage = { content: "", relativeWebsitePath: "/" };
 
   const routeFound = Object.entries(routes).find(([route]) => {
     return filePath.startsWith(route);
@@ -144,4 +148,22 @@ export function getPageFromRoute(
       }
     }
   }
+}
+
+function buildRoute(rawRouter: {
+  [path: string]: ProcessedPage[] | undefined;
+}): Router {
+  return Object.entries(rawRouter).reduce<Router>(
+    (newRouter, [route, pages]) => {
+      const routePages = pages?.map((page) =>
+        Object.assign(
+          { relativeWebsitePath: "/" + route + (page.relativeFilePath ?? "") },
+          page,
+        )
+      );
+      newRouter[route] = routePages;
+      return newRouter;
+    },
+    {},
+  );
 }
