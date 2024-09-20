@@ -57,7 +57,7 @@ export function Posts(props: { postRoute: Record<string, ProcessedPage[]> }) {
 		  <img width="200px" src="${p.data?.thumbnail?.src}">
 		</a>
 	</div>
-	<div style="flex:0 50ch;">
+	<div style="flex:0 1 50ch;">
 		${p.data?.date && formatDate(p.data?.date)}
 		<br>
 		<a href="${key + p.relativeFilePath}">${p.data?.title}</a>
