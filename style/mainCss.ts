@@ -58,6 +58,8 @@ export const mainClass = cssClass({
     textAlign: "justify",
     textJustify: "inter-word",
     lineHeight: "27px",
+    //backgroundColor:"rgb(3,1,1)",
+    padding: '10px 30px 10px 30px'
   },
 });
 
