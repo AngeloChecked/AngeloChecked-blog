@@ -12,7 +12,7 @@ export function SiteMap(props: {
 ${
     Object.values(router).flat().map((page) => {
       return siteMapUrl({
-        pageUrl: "https://" + props.domain + page?.relativeWebsitePath ?? "/",
+        pageUrl: props.domain + page?.relativeWebsitePath ?? "/",
         lastModifiedDate: props.latestBuildDate,
       });
     }).join("\n")

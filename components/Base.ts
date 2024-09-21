@@ -24,8 +24,8 @@ export const Base = (props: BaseProps) =>
      <meta property="og:type" content="website">
      ${
     !props.page?.relativeWebsitePath ? "" : `
-        <meta property="og:url" content="https://${props.site.domain}${props.page.relativeWebsitePath}">
-        <meta property="twitter:url" content="https://${props.site.domain}${props.page.relativeWebsitePath}">
+        <meta property="og:url" content="${props.site.domain}${props.page.relativeWebsitePath}">
+        <meta property="twitter:url" content="${props.site.domain}${props.page.relativeWebsitePath}">
       `
   }
       <meta property="og:title" content="${props.title}">
@@ -36,8 +36,8 @@ export const Base = (props: BaseProps) =>
       <meta name="twitter:card" content="${props.description}">
      ${
     !props.page?.data?.thumbnail?.src ? "" : `
-      <meta property="og:image" content="https://${props.site.domain}${props.page?.data?.thumbnail?.src}">
-      <meta name="twitter:image" content="https://${props.site.domain}${props.page?.data?.thumbnail?.src}">
+      <meta property="og:image" content="${props.site.domain}${props.page?.data?.thumbnail?.src}">
+      <meta name="twitter:image" content="${props.site.domain}${props.page?.data?.thumbnail?.src}">
       `
   }
   

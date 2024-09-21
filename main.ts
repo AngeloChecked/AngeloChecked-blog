@@ -13,6 +13,7 @@ import {
 import { fromStringToDomToString, traverseFiles } from "./utils/utils.ts";
 import { FeedRss } from "./components/FeedRss.ts";
 import { SiteMap } from "./components/SiteMap.ts";
+import { Robots } from "./components/Robots.ts";
 
 const websocketScript = html`
 <script>
@@ -39,7 +40,7 @@ export type Router = {
 
 const developmentMode = true;
 let denoRestarted = true;
-const domain = developmentMode ? "localhost:8000" : "angeloceccato.it";
+const domain = developmentMode ? "http://localhost:8000" : "https://angeloceccato.it";
 const buildDate = (new Date()).toISOString();
 Deno.serve(async (req) => {
   if (req.headers.get("upgrade") === "websocket") {
@@ -89,6 +90,15 @@ Deno.serve(async (req) => {
     });
     return new Response(rssFeedFile, {
       headers: { "content-type": "application/rss+xml" },
+    });
+  }
+
+  if (new RegExp(/robots\.txt$/).test(pathFileOrFolderName)) {
+    const robots = Robots({
+      domain: domain
+    });
+    return new Response(robots, {
+      headers: { "content-type": "text/plain" },
     });
   }
 
