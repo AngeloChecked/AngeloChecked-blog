@@ -1,3 +1,4 @@
+import { Robots } from "./components/Robots.ts";
 import { SiteMap } from "./components/SiteMap.ts";
 import { RoutedPage, router } from "./routes.ts";
 import { Server } from "./websiteServe.ts";
@@ -39,6 +40,16 @@ const staticAndServerRouter: StaticServerRouter = [
         domain: site.domain,
       }),
     contentType: "application/rss+xml",
+  },
+
+  {
+    type: "generate",
+    condition: (file: string) => new RegExp(/robots\.txt$/).test(file),
+    content: (site: Site) =>
+      Robots({
+        domain: site.domain,
+      }),
+    contentType: "text/plain",
   },
 ];
 

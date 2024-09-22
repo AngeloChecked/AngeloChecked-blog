@@ -79,15 +79,6 @@ export class Server {
         folderStructure,
       );
 
-      if (new RegExp(/robots\.txt$/).test(pathFileOrFolderName)) {
-        const robots = Robots({
-          domain: this.domain,
-        });
-        return new Response(robots, {
-          headers: { "content-type": "text/plain" },
-        });
-      }
-
       const { allMenus } = getMenuStatus(router);
       const titleCompanionAndFallback = "Angelo Ceccato Blog";
       const body = Base({
