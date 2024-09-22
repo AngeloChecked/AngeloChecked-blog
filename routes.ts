@@ -134,3 +134,21 @@ export function buildRoute(rawRouter: {
     {},
   );
 }
+
+export function getMenuStatus(router: Router) {
+  const routes = Object.entries(router);
+  const menus = [];
+  for (const [, pages] of routes) {
+    for (const page of pages ?? []) {
+      if (page.data?.menu) {
+        menus.push({
+          order: page.data?.menu.order ?? 99,
+          menuName: page.data?.menu.menuName,
+          url: page.relativeWebsitePath,
+        });
+      }
+    }
+  }
+  menus.sort((a, b) => a.order < b.order ? -1 : 1);
+  return { allMenus: menus };
+}

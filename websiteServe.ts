@@ -6,7 +6,7 @@ import { getPageFromRoute, RoutedPage } from "./routes.ts";
 import { styleCssFile } from "./style/mainCss.ts";
 import { fromStringToDomToString, traverseFiles } from "./utils/utils.ts";
 import { html } from "./deps/html.ts";
-import { Router, StaticServerRouter } from "./main.ts";
+import { createPageHtml, Router, StaticServerRouter } from "./main.ts";
 
 const websocketScript = html`
 <script>
@@ -69,6 +69,7 @@ export class Server {
             });
           }
         }
+
       }
 
       const page: RoutedPage | undefined = getPageFromRoute(
@@ -76,29 +77,7 @@ export class Server {
         filePath,
         folderStructure,
       );
-
-      const { allMenus } = getMenuStatus(this.router);
-      const titleCompanionAndFallback = "Angelo Ceccato Blog";
-      const body = Base({
-        title: (page?.data?.title ? page.data.title + " - " : "") +
-          titleCompanionAndFallback,
-        description: page?.data?.description ?? titleCompanionAndFallback,
-        content: page?.content ?? "404",
-        scripts: websocketScript,
-        style: styleCssFile.style,
-        menu: Menu({
-          currentPageMenu: page?.data?.menu?.menuName,
-          menus: allMenus,
-        }),
-        footer: Footer({
-          currentPageMenu: page?.data?.menu?.menuName,
-          menus: allMenus,
-        }),
-        page: page!,
-        site: { domain: this.domain },
-      });
-
-      const html = fromStringToDomToString(body);
+      const html = createPageHtml(page!, this.domain, websocketScript)
 
       return new Response(html, {
         headers: { "content-type": "text/html; charset=utf-8" },
@@ -107,20 +86,3 @@ export class Server {
   }
 }
 
-function getMenuStatus(router: Router) {
-  const routes = Object.entries(router);
-  const menus = [];
-  for (const [, pages] of routes) {
-    for (const page of pages ?? []) {
-      if (page.data?.menu) {
-        menus.push({
-          order: page.data?.menu.order ?? 99,
-          menuName: page.data?.menu.menuName,
-          url: page.relativeWebsitePath,
-        });
-      }
-    }
-  }
-  menus.sort((a, b) => a.order < b.order ? -1 : 1);
-  return { allMenus: menus };
-}
