@@ -1,11 +1,8 @@
-import { NotFound } from "./components/404.ts";
 import { Article } from "./components/Article.ts";
 import { FileIndex } from "./components/FileIndex.ts";
-import { Home } from "./components/Home.ts";
-import { Posts } from "./components/Posts.ts";
 import { Router } from "./main.ts";
 import { markdown } from "./utils/markdown.ts";
-import { FileOrDir, sameAsVar, traverseFilesFlat } from "./utils/utils.ts";
+import { FileOrDir, traverseFilesFlat } from "./utils/utils.ts";
 import { exists } from "jsr:@std/fs";
 
 export async function pagesFromFolder(folderPath: string) {
@@ -89,36 +86,6 @@ export type RoutedPage = ProcessedPage & {
   relativeWebsitePath: string;
 };
 
-export const postPages = await pagesFromFolder("./post");
-const docsPages = await pagesFromFolder("./docs");
-
-export const postRoute = buildRoute({ "post": postPages });
-const docsRoute = buildRoute({ "docs": docsPages });
-const graphRoute = buildRoute({ "graph": [] });
-export const notFoundRoute = buildRoute({
-  "404": [{
-    id: sameAsVar({ NotFound }),
-    content: NotFound(),
-  }],
-});
-export const homeRoute = buildRoute({
-  "": [{
-    data: {
-      menu: { menuName: sameAsVar({ Home }), order: 1 },
-      title: sameAsVar({ Home }),
-    },
-    id: sameAsVar({ Home }),
-    content: Home({ posts: Posts({ posts: postRoute["post"]! }) }),
-  }],
-});
-
-export const router: Router = {
-  ...postRoute,
-  ...docsRoute,
-  ...graphRoute,
-  ...notFoundRoute,
-  ...homeRoute,
-};
 
 export function getPageFromRoute(
   routes: Router,
@@ -150,7 +117,7 @@ export function getPageFromRoute(
   }
 }
 
-function buildRoute(rawRouter: {
+export function buildRoute(rawRouter: {
   [path: string]: ProcessedPage[];
 }): Router {
   return Object.entries(rawRouter).reduce<Router>(

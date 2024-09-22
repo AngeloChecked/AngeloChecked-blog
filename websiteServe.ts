@@ -1,11 +1,8 @@
 import { serveFile } from "https://jsr.io/@std/http/1.0.5/file_server.ts";
 import { Base } from "./components/Base.ts";
-import { FeedRss } from "./components/FeedRss.ts";
 import { Footer } from "./components/Footer.ts";
 import { Menu } from "./components/Menu.ts";
-import { Robots } from "./components/Robots.ts";
-import { SiteMap } from "./components/SiteMap.ts";
-import { getPageFromRoute, postRoute, RoutedPage, router } from "./routes.ts";
+import { getPageFromRoute, RoutedPage } from "./routes.ts";
 import { styleCssFile } from "./style/mainCss.ts";
 import { fromStringToDomToString, traverseFiles } from "./utils/utils.ts";
 import { html } from "./deps/html.ts";
@@ -34,9 +31,10 @@ export class Server {
   private denoRestarted = true;
   constructor(
     private domain: string,
-    private buildDate: string,
     private staticServerRouter: StaticServerRouter,
+    private router: Router
   ) {}
+
 
   serve() {
     Deno.serve(async (req) => {
@@ -74,12 +72,12 @@ export class Server {
       }
 
       const page: RoutedPage | undefined = getPageFromRoute(
-        router,
+        this.router,
         filePath,
         folderStructure,
       );
 
-      const { allMenus } = getMenuStatus(router);
+      const { allMenus } = getMenuStatus(this.router);
       const titleCompanionAndFallback = "Angelo Ceccato Blog";
       const body = Base({
         title: (page?.data?.title ? page.data.title + " - " : "") +
