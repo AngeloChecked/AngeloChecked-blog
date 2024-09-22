@@ -92,22 +92,20 @@ export function getPageFromRoute(
   filePath: string,
 ) {
   const routeFound = Object.entries(routes).find(([route]) => {
-    return filePath.startsWith(route);
+    return filePath.startsWith("/" + route) ;
   });
 
   if (!routeFound) {
     return ;
   }
 
-  if (filePath.startsWith(routeFound[0])) {
-    const pages = routeFound[1];
-    for (const page of pages ?? []) {
-      if (
-        page.relativeFilePath === undefined ||
-        filePath.endsWith(page.relativeFilePath)
-      ) {
-        return page;
-      }
+  const pages = routeFound[1];
+  for (const page of pages ?? []) {
+    if (
+      page.relativeFilePath === undefined ||
+      filePath.endsWith(page.relativeFilePath)
+    ) {
+      return page;
     }
   }
 }

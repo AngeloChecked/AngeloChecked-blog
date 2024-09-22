@@ -37,6 +37,7 @@ type Route =
   }
   | {
     type: "html";
+    condition: (file: string) => boolean;
     content: (filePath: string) => string;
   };
 
@@ -103,8 +104,17 @@ const router: Router = {
   ...homeRoute,
 };
 
-function flatRouter(router: Router){
-  
+function flatRouter(router: Router) {
+  return Object.entries(router)
+    .flatMap(([, pages]) => {
+      return pages.map((p) => ({
+        type: "html" as const,
+        condition: (file: string) => {
+          return new RegExp(`${p.relativeWebsitePath}`).test("/" + file);
+        },
+        content: () => createPageHtml(domain, p.relativeWebsitePath),
+      }));
+    });
 }
 
 const { allMenus } = getMenuStatus(router);
@@ -127,11 +137,7 @@ const staticAndServerRouter: StaticServerRouter = [
     content: () => Robots({ domain: domain }),
     contentType: "text/plain",
   },
-  {
-    type: "html",
-    content: (filePath: string) =>
-      createPageHtml(domain, filePath),
-  },
+  ...flatRouter(router),
 ];
 
 if (Deno.args[0] == "serve") {

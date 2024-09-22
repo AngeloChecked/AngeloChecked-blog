@@ -61,10 +61,12 @@ export class Server {
         }
 
         if (route.type === "html") {
-          const content = route.content(filePath);
-          return new Response(content, {
-            headers: { "content-type": "text/html; charset=utf-8" },
-          });
+          if (route.condition(filePath)) {
+            const content = route.content(filePath);
+            return new Response(content, {
+              headers: { "content-type": "text/html; charset=utf-8" },
+            });
+          }
         }
       }
       return new Response("error");
