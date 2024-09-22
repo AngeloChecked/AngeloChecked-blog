@@ -9,7 +9,7 @@ import { getPageFromRoute, postRoute, RoutedPage, router } from "./routes.ts";
 import { styleCssFile } from "./style/mainCss.ts";
 import { fromStringToDomToString, traverseFiles } from "./utils/utils.ts";
 import { html } from "./deps/html.ts";
-import { Router } from "./main.ts";
+import { Router, StaticServerRouter } from "./main.ts";
 
 const websocketScript = html`
 <script>
@@ -35,6 +35,7 @@ export class Server {
   constructor(
     private domain: string,
     private buildDate: string,
+    private staticServerRouter: StaticServerRouter,
   ) {}
 
   serve() {
@@ -56,12 +57,12 @@ export class Server {
       const pathFileOrFolderName =
         filePathSplitted[filePathSplitted.length - 1];
 
-      if (
-        new RegExp(/\.webp$|\.png$|\.jpg$|\.svg$|\.css$/).test(
-          pathFileOrFolderName,
-        )
-      ) {
-        return serveFile(req, "./static/" + filePath);
+      for (const route of this.staticServerRouter) {
+        if (route.type === "static") {
+          if (route.condition(pathFileOrFolderName)) {
+            return serveFile(req, "./static/" + filePath);
+          }
+        }
       }
 
       const page: RoutedPage | undefined = getPageFromRoute(
@@ -70,16 +71,6 @@ export class Server {
         folderStructure,
       );
 
-      if (new RegExp(/feed\.rss$/).test(pathFileOrFolderName)) {
-        const rssFeedFile = FeedRss({
-          feedItems: postRoute["post"]!,
-          domain: this.domain,
-          latestBuildDate: this.buildDate,
-        });
-        return new Response(rssFeedFile, {
-          headers: { "content-type": "application/rss+xml" },
-        });
-      }
 
       if (new RegExp(/sitemap\.xml$/).test(pathFileOrFolderName)) {
         const rssFeedFile = SiteMap({
