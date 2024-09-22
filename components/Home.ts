@@ -37,7 +37,6 @@ const socialList = cssClass({
 });
 
 export function Home(props: { posts: string }) {
-
   return html`
     <div style="${homeIntroductionClass.inlineStyle}">
       <img style="maxWidth:150px"  src="${logoImagePath}" >

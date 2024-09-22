@@ -4,7 +4,7 @@ import { rowClass } from "../style/mainCss.ts";
 import { social } from "./social.ts";
 import { MenuInfo } from "../main.ts";
 
-export function Footer(props: { currentPageMenu?: string; menus: MenuInfo[]; }) {
+export function Footer(props: { currentPageMenu?: string; menus: MenuInfo[] }) {
   const footherClass = cssClass({
     className: "foother",
     properties: {
@@ -37,9 +37,9 @@ export function Footer(props: { currentPageMenu?: string; menus: MenuInfo[]; }) 
       <ul>
       ${
     props.menus.map((menu) => {
-      let menuName = menu.menuName
-      if (menuName === props.currentPageMenu){
-         menuName = `<u>${menuName}</u>`
+      let menuName = menu.menuName;
+      if (menuName === props.currentPageMenu) {
+        menuName = `<u>${menuName}</u>`;
       }
       return html`
                 <li>

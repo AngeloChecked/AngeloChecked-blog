@@ -9,23 +9,29 @@ export const menu = {
 
 export default (data: Lume.Data, _helpers: Lume.Helpers) => (
   <>
-    <div style={{
+    <div
+      style={{
         width: "100%",
         height: 400,
-        background: "white"
-    }} id="graph-container">
+        background: "white",
+      }}
+      id="graph-container"
+    >
     </div>
     <div style={{ textAlign: "center" }}>
-      <div style={{ width: 200 , margin: "0 auto"}} id="graph-minimap-container" />
+      <div
+        style={{ width: 200, margin: "0 auto" }}
+        id="graph-minimap-container"
+      />
     </div>
-    {data.nav.menu('/graph/').children.map((cluster: any) => (
+    {data.nav.menu("/graph/").children.map((cluster: any) => (
       <span>
         <p>{cluster.slug}s</p>
         {cluster?.children?.map((item: any) => (
           <>
-              <a key={item?.graph?.name} href={item.data?.url}>
-                <p>{item.data?.title}</p>
-              </a>
+            <a key={item?.graph?.name} href={item.data?.url}>
+              <p>{item.data?.title}</p>
+            </a>
           </>
         ))}
       </span>

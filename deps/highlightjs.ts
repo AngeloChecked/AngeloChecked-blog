@@ -1,1 +1,1 @@
-export { default as highlightjs } from 'npm:highlight.js'
+export { default as highlightjs } from "npm:highlight.js";

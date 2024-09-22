@@ -1,5 +1,5 @@
-import { serveFile } from "https://jsr.io/@std/http/1.0.5/file_server.ts";
 import { html } from "./deps/html.ts";
+import { serveFile } from "./deps/serveFiles.ts";
 import { StaticServerRouter } from "./main.ts";
 
 export const websocketScript = (Deno.args[0] !== "serve") ? "" : html`
@@ -61,7 +61,7 @@ export class Server {
         }
         if (route.type === "html") {
           if (route.condition(filePath)) {
-            const content = route.content(filePath);
+            const content = route.content();
             return new Response(content, {
               headers: { "content-type": "text/html; charset=utf-8" },
             });

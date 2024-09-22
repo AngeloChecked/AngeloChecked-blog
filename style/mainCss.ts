@@ -23,27 +23,27 @@ const aStyle = cssElement({
     fontWeight: "700",
     textDecoration: "none",
     color: "#b00",
-    cursor: "pointer"
+    cursor: "pointer",
   },
 });
 
 const hoverAStyle = cssElement({
   elementName: "a:hover",
   properties: {
-    textDecoration: "underline"
+    textDecoration: "underline",
   },
 });
 
 const preStyle = cssElement({
   elementName: "pre",
   properties: {
-   lineHeight: "1.1",
-   fontFamily: "verdana",
-   fontSize: "10px",
-   backgroundColor:"rgb(5,4,4)",
-   padding: "15px",
-   overflowX: "auto",
-   borderRadius: "20px",
+    lineHeight: "1.1",
+    fontFamily: "verdana",
+    fontSize: "10px",
+    backgroundColor: "rgb(5,4,4)",
+    padding: "15px",
+    overflowX: "auto",
+    borderRadius: "20px",
   },
 });
 
@@ -59,7 +59,7 @@ export const mainClass = cssClass({
     textJustify: "inter-word",
     lineHeight: "27px",
     //backgroundColor:"rgb(3,1,1)",
-    padding: '10px 30px 10px 30px'
+    padding: "10px 30px 10px 30px",
   },
 });
 
@@ -72,4 +72,11 @@ export const rowClass = cssClass({
   },
 });
 
-export const styleCssFile = cssFile({ aStyle, htmlStyle, imgStyle, mainClass, hoverAStyle, preStyle });
+export const styleCssFile = cssFile({
+  aStyle,
+  htmlStyle,
+  imgStyle,
+  mainClass,
+  hoverAStyle,
+  preStyle,
+});

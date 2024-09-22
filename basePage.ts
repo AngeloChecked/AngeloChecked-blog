@@ -5,7 +5,7 @@ import { allMenus, domain } from "./main.ts";
 import { RoutedPage } from "./routes.ts";
 import { styleCssFile } from "./style/mainCss.ts";
 import { fromStringToDomToString } from "./utils/utils.ts";
-import { websocketScript } from "./websiteServe.ts";
+import { websocketScript } from "./server.ts";
 
 export function createPageHtml(
   page?: RoutedPage,

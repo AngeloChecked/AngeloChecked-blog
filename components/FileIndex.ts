@@ -54,7 +54,7 @@ function createIndexPage(
 
   let previousAndCurrent = currentFolder[1];
   if (previousFolder) {
-    previousAndCurrent = prepend(previousAndCurrent, previousFolder); 
+    previousAndCurrent = prepend(previousAndCurrent, previousFolder);
   }
 
   const dot = previousAndCurrent?.map((fileOrDir) => {
@@ -78,28 +78,28 @@ function pathIsEquivalent(rootFolderStrucutreName: string, page: string) {
   if (rootFolderStrucutreName === page) {
     return true;
   }
-  let folderName = rootFolderStrucutreName
-  let currentPage = page
-  if (folderName.startsWith(".")){
-    folderName = folderName.slice(1)
+  let folderName = rootFolderStrucutreName;
+  let currentPage = page;
+  if (folderName.startsWith(".")) {
+    folderName = folderName.slice(1);
   }
-  if (currentPage.startsWith(".")){
-    currentPage = currentPage.slice(1)
+  if (currentPage.startsWith(".")) {
+    currentPage = currentPage.slice(1);
   }
-  if (folderName.startsWith("/")){
-    folderName = folderName.slice(1)
+  if (folderName.startsWith("/")) {
+    folderName = folderName.slice(1);
   }
-  if (currentPage.startsWith("/")){
-    currentPage = currentPage.slice(1)
+  if (currentPage.startsWith("/")) {
+    currentPage = currentPage.slice(1);
   }
-  if (folderName.endsWith("/")){
-    folderName = folderName.slice(undefined, -1)
+  if (folderName.endsWith("/")) {
+    folderName = folderName.slice(undefined, -1);
   }
-  if (currentPage.endsWith("/")){
-    currentPage = currentPage.slice(undefined, -1)
+  if (currentPage.endsWith("/")) {
+    currentPage = currentPage.slice(undefined, -1);
   }
   if (folderName === currentPage) {
-    return true    
+    return true;
   }
-  return false
+  return false;
 }

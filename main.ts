@@ -11,7 +11,8 @@ import {
   Router,
 } from "./routes.ts";
 import { sameAsVar } from "./utils/utils.ts";
-import { Server } from "./websiteServe.ts";
+import { Server } from "./server.ts";
+import { StaticFiles } from "./static.ts";
 
 export const domain = (Deno.args[0] == "serve")
   ? "http://localhost:8000"
@@ -30,7 +31,7 @@ type Route =
   | {
     type: "html";
     condition: (file: string) => boolean;
-    content: (filePath: string) => string;
+    content: () => string;
   };
 export type StaticServerRouter = Route[];
 
@@ -94,6 +95,8 @@ if (Deno.args[0] == "serve") {
 }
 
 if (Deno.args[0] == "build") {
+  const staticFiles = new StaticFiles(staticAndServerRouter);
+  staticFiles.build();
 }
 
 export type MenuInfo = {

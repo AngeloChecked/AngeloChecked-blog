@@ -18,7 +18,8 @@ Deno.test("list root folder", () => {
   });
 
   assertEquals(
-    fileIndexHtml, `
+    fileIndexHtml,
+    `
 <div>
   <ul>
 <li><a href="/posts/one">/posts/one</a></li>
@@ -29,7 +30,6 @@ Deno.test("list root folder", () => {
 `,
   );
 });
-
 
 Deno.test("list inner folder", () => {
   const fileTree: FileOrDir = [
@@ -48,7 +48,8 @@ Deno.test("list inner folder", () => {
   });
 
   assertEquals(
-    fileIndexHtml, `
+    fileIndexHtml,
+    `
 <div>
   <ul>
 <li><a href="/posts">/posts</a></li>

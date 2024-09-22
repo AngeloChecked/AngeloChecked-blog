@@ -1,1 +1,1 @@
-export { default as jsBeautify } from 'npm:js-beautify'
+export { default as jsBeautify } from "npm:js-beautify";

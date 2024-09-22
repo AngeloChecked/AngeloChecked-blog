@@ -12,7 +12,12 @@ import { angeloCeccatoAuthor } from "../graph/pages.page.ts";
 export const myPersonalTechLimboElixirVsRustPost: Graph = {
   type: "post",
   id: "my-personal-tech-limbo-elixir-vs-rust",
-  tagId: [learningTag.id, programmingLanguagesTag.id, cognitiveBiasTag.id, rustLanguageTag.id],
+  tagId: [
+    learningTag.id,
+    programmingLanguagesTag.id,
+    cognitiveBiasTag.id,
+    rustLanguageTag.id,
+  ],
   authorId: angeloCeccatoAuthor.id,
   linkId: [
     learnToLearnLink.id,

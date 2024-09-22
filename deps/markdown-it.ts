@@ -1,2 +1,1 @@
-export { default as markdownIt } from 'npm:markdown-it'
-
+export { default as markdownIt } from "npm:markdown-it";

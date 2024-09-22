@@ -6,6 +6,5 @@ export const helloWorldTestData = {
     seo: ["hello", "world"],
     date: "2024-04-13T13:00:00.000Z",
     thumbnail: { src: "/img/hello.png" },
-  }
+  },
 };
-

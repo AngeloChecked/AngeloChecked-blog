@@ -1,32 +1,32 @@
 import { html } from "../deps/html.ts";
 
-export  const social = [
-    {
-      svg: TwitterSvg(),
-      link: "https://twitter.com/angelochecked",
-      title: "Twitter",
-    },
-    {
-      svg: MastodonSvg(),
-      link: "https://mastodon.social/@angelochecked",
-      title: "Mastodon",
-    },
-    {
-      svg: LinkedinSvg(),
-      link: "https://www.linkedin.com/in/angeloceccato/",
-      title: "Linkedin",
-    },
-    {
-      svg: GithubSvg(),
-      link: "https://github.com/AngeloChecked",
-      title: "Github",
-    },
-    {
-      svg: MailSvg(),
-      link: "mailto:angelochecked@gmail.com",
-      title: "Mail",
-    }
-]
+export const social = [
+  {
+    svg: TwitterSvg(),
+    link: "https://twitter.com/angelochecked",
+    title: "Twitter",
+  },
+  {
+    svg: MastodonSvg(),
+    link: "https://mastodon.social/@angelochecked",
+    title: "Mastodon",
+  },
+  {
+    svg: LinkedinSvg(),
+    link: "https://www.linkedin.com/in/angeloceccato/",
+    title: "Linkedin",
+  },
+  {
+    svg: GithubSvg(),
+    link: "https://github.com/AngeloChecked",
+    title: "Github",
+  },
+  {
+    svg: MailSvg(),
+    link: "mailto:angelochecked@gmail.com",
+    title: "Mail",
+  },
+];
 
 function TwitterSvg() {
   return html`
@@ -80,4 +80,4 @@ function MailSvg() {
   </g>
 </svg>
 `;
-} 
+}

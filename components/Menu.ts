@@ -3,8 +3,7 @@ import { html } from "../deps/html.ts";
 import { rowClass } from "../style/mainCss.ts";
 import { MenuInfo } from "../main.ts";
 
-
-export function Menu(props: { currentPageMenu?: string; menus: MenuInfo[]; }) {
+export function Menu(props: { currentPageMenu?: string; menus: MenuInfo[] }) {
   const menuRowContainerClass = cssClass({
     className: "menuRowContainer",
     properties: {
@@ -41,14 +40,15 @@ export function Menu(props: { currentPageMenu?: string; menus: MenuInfo[]; }) {
               </div>
             </div>
             <div style="${menuPagesRowContainerClass.inlineStyle}">
-              ${props.menus.map((menu) => {
-    let menuName = menu.menuName
-    if (props.currentPageMenu === menu.menuName) {
-      menuName = `<u>${menuName}</u>`;
-    }
-    return `<div><strong><a href="${menu.url}">${menuName}</a></strong></div>`;
-                  
-  }).join("")}
+              ${
+    props.menus.map((menu) => {
+      let menuName = menu.menuName;
+      if (props.currentPageMenu === menu.menuName) {
+        menuName = `<u>${menuName}</u>`;
+      }
+      return `<div><strong><a href="${menu.url}">${menuName}</a></strong></div>`;
+    }).join("")
+  }
             </div>
           </div>
         </nav>

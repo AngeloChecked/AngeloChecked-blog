@@ -1,13 +1,13 @@
-import { Base } from "./components/Base";
-import { Footer } from "./components/Footer";
-import { Menu } from "./components/Menu";
-import { RoutedPage } from "./routes";
-import { styleCssFile } from "./style/mainCss";
-import { websocketScript } from "./websiteServe";
-
+import { Base } from "./components/Base.ts";
+import { Footer } from "./components/Footer.ts";
+import { Menu } from "./components/Menu.ts";
+import { RoutedPage } from "./routes.ts";
+import { styleCssFile } from "./style/mainCss.ts";
+import { websocketScript } from "./server.ts";
+import { allMenus } from "./main.ts";
 
 export function createPageHtml(
-  page?: RoutedPage
+  page?: RoutedPage,
 ) {
   const titleCompanionAndFallback = "Angelo Ceccato Blog";
   const body = Base({

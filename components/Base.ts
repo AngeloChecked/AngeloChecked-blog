@@ -13,7 +13,7 @@ type BaseProps = {
   menu: string;
   footer: string;
   page: RoutedPage;
-  site: { domain: string }
+  site: { domain: string };
 };
 
 export const Base = (props: BaseProps) =>

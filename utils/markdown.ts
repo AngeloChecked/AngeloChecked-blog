@@ -8,8 +8,8 @@ export function markdown(str: TemplateStringsArray | string): string {
     typographer: true,
     highlight: function (str: string, lang: string) {
       if (lang && highlightjs.getLanguage(lang)) {
-          const value = highlightjs.highlight(str, { language: lang }).value;
-          return value;
+        const value = highlightjs.highlight(str, { language: lang }).value;
+        return value;
       }
       return "";
     },

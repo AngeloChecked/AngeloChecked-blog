@@ -281,7 +281,8 @@ export const jamieBrandonAuthor: Graph = {
   tagId: [programmingTag.id, programmingLanguagesTag.id],
   data: {
     name: "jamie Brandon",
-    description: "I discovered him searching about rust and zig. Very good thinking about programming.",
+    description:
+      "I discovered him searching about rust and zig. Very good thinking about programming.",
     website: "https://www.scattered-thoughts.net/",
   },
 };
@@ -506,7 +507,11 @@ export const peopleDontUnderstandOOPLink: Graph = {
   type: "link",
   id: "people-dont-understand-oop-link",
   authorId: sigmaStartAuthor.id,
-  tagId: [programmingTag.id, programmingLanguagesTag.id, objectOrientedProgrammingTag.id],
+  tagId: [
+    programmingTag.id,
+    programmingLanguagesTag.id,
+    objectOrientedProgrammingTag.id,
+  ],
   data: {
     name: "People Don’t Understand OOP",
     url: "https://blog.sigma-star.io/2024/01/people-dont-understand-oop/",
@@ -519,15 +524,19 @@ export const assortedThoughtsOnZigAandRustLink: Graph = {
   type: "link",
   id: "assorted-thoughts-on-zig-and-rust-link",
   authorId: jamieBrandonAuthor.id,
-  tagId: [programmingTag.id, zigLanguageTag.id, rustLanguageTag.id, programmingLanguagesTag.id],
+  tagId: [
+    programmingTag.id,
+    zigLanguageTag.id,
+    rustLanguageTag.id,
+    programmingLanguagesTag.id,
+  ],
   data: {
     name: "Assorted thoughts on zig (and rust)",
-    url: "https://www.scattered-thoughts.net/writing/assorted-thoughts-on-zig-and-rust/",
-    description:
-      "Zig and Rust thoughts/qualities very well explained!",
+    url:
+      "https://www.scattered-thoughts.net/writing/assorted-thoughts-on-zig-and-rust/",
+    description: "Zig and Rust thoughts/qualities very well explained!",
   },
 };
-
 
 export type Graph = {
   type: string;
@@ -585,9 +594,8 @@ const resources: Graph[] = [
   theLanguageNightmaresAreProgrammedInLink,
   okayButWhatAreMonadsLink,
   peopleDontUnderstandOOPLink,
-  assortedThoughtsOnZigAandRustLink
+  assortedThoughtsOnZigAandRustLink,
 ];
-
 
 export default function* () {
   for (const resource of resources) {

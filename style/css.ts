@@ -27,15 +27,13 @@ type CssProperty =
   | { fontSize: string }
   | { overflowX: "auto" }
   | { borderRadius: string }
-
   | { display: "flex" | "grid" | "none" }
   | { flexDirection: "row" | "column" }
   | { flexWrap: "wrap" }
   | { gap: string }
   | { alignItems: "center" }
   | { justifyContent: "space-between" | "space-around" | "space-evenly" }
-
-  | { gridTemplateColumns: string }
+  | { gridTemplateColumns: string };
 
 type CssProperties<T = CssProperty> = {
   [Key in keyof T]: T[Key];

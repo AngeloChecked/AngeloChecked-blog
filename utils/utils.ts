@@ -21,21 +21,23 @@ export async function traverseFiles(folderName: string): Promise<FileOrDir> {
 
 export async function traverseFilesFlat(folderName: string) {
   const filesWithPath = [];
-  const folders = [{ path: "", asyncFolder: Deno.readDir(folderName)}];
+  const folders = [{ path: "", asyncFolder: Deno.readDir(folderName) }];
   while (folders.length) {
     const folder = folders.pop();
     if (!folder) {
-      continue
+      continue;
     }
     for await (const fileOrFolder of folder.asyncFolder) {
       if (fileOrFolder.isDirectory) {
         folders.push({
           path: folder.path + "/" + fileOrFolder.name,
-          asyncFolder: Deno.readDir(folderName + "/" + folder.path + "/" + fileOrFolder.name)
+          asyncFolder: Deno.readDir(
+            folderName + "/" + folder.path + "/" + fileOrFolder.name,
+          ),
         });
       }
       if (fileOrFolder.isFile) {
-        filesWithPath.push(folder.path + "/" + fileOrFolder.name) 
+        filesWithPath.push(folder.path + "/" + fileOrFolder.name);
       }
     }
   }
@@ -50,6 +52,6 @@ export function fromStringToDomToString(body: string) {
   return jsBeautify.html(html);
 }
 
-export function sameAsVar(obj: object){
-  return Object.keys(obj)[0]
+export function sameAsVar(obj: object) {
+  return Object.keys(obj)[0];
 }
