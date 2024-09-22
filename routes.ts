@@ -4,9 +4,7 @@ import { markdown } from "./utils/markdown.ts";
 import { traverseFilesFlat } from "./utils/utils.ts";
 import { exists } from "jsr:@std/fs";
 
-export type Router = {
-  [path: string]: RoutedPage[];
-};
+export type Router = RoutedPage[];
 
 export async function pagesFromFolder(folderPath: string) {
   const relativeFilePaths = await traverseFilesFlat(folderPath);
@@ -89,51 +87,40 @@ export type RoutedPage = ProcessedPage & {
   relativeWebsitePath: string;
 };
 
-export function buildRoute(rawRouter: {
+export function flatRoute(rawRouter: {
   [path: string]: ProcessedPage[];
-}): Router {
-  return Object.entries(rawRouter).reduce<Router>(
-    (newRouter, [route, pages]) => {
+}) {
+  return Object.entries(rawRouter).flatMap(
+    ([route, pages]) => {
       const routePages = pages?.map((page) =>
         Object.assign(
           { relativeWebsitePath: route + (page.relativeFilePath ?? "") },
           page,
         )
       );
-      newRouter[route] = routePages;
-      return newRouter;
+      return routePages;
     },
-    {},
   );
 }
 
 export function getMenuStatus(router: Router) {
-  const routes = Object.entries(router);
-  const menus = [];
-  for (const [, pages] of routes) {
-    for (const page of pages ?? []) {
-      if (page.data?.menu) {
-        menus.push({
-          order: page.data?.menu.order ?? 99,
-          menuName: page.data?.menu.menuName,
-          url: page.relativeWebsitePath,
-        });
-      }
-    }
-  }
+  const menus = router
+    .filter(page => page.data?.menu)
+    .map(page => ({
+        order: page.data?.menu?.order ?? 99,
+        menuName: page.data?.menu?.menuName,
+        url: page.relativeWebsitePath,
+      }))
   menus.sort((a, b) => a.order < b.order ? -1 : 1);
   return { allMenus: menus };
 }
 
-export function flatRouter(router: Router) {
-  return Object.entries(router)
-    .flatMap(([, pages]) => {
-      return pages.map((page) => ({
-        type: "html" as const,
-        condition: (file: string) => {
-          return new RegExp(`${page.relativeWebsitePath}`).test("/" + file);
-        },
-        content: () => createPageHtml(page),
-      }));
-    });
+export function applyConditionsRouter(router: Router) {
+  return router.map((page) => ({
+    type: "html" as const,
+    condition: (file: string) => {
+      return new RegExp(`${page.relativeWebsitePath}`).test("/" + file);
+    },
+    content: () => createPageHtml(page),
+  }));
 }

@@ -9,7 +9,7 @@ export function SiteMap(props: {
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${
-    Object.values(props.router).flat().map((page) => {
+    props.router.map((page) => {
       return siteMapUrl({
         pageUrl: props.domain + page?.relativeWebsitePath ?? "/",
         lastModifiedDate: props.latestBuildDate,

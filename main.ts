@@ -4,15 +4,14 @@ import { Posts } from "./components/Posts.ts";
 import { Robots } from "./components/Robots.ts";
 import { SiteMap } from "./components/SiteMap.ts";
 import {
-  buildRoute,
-  flatRouter,
+  applyConditionsRouter,
+  flatRoute,
   getMenuStatus,
   pagesFromFolder,
   Router,
 } from "./routes.ts";
 import { sameAsVar } from "./utils/utils.ts";
 import { Server } from "./websiteServe.ts";
-
 
 export const domain = (Deno.args[0] == "serve")
   ? "http://localhost:8000"
@@ -37,33 +36,33 @@ export type StaticServerRouter = Route[];
 
 const postPages = await pagesFromFolder("./post");
 const docsPages = await pagesFromFolder("./docs");
-const postRoute = buildRoute({ "/post": postPages });
-const docsRoute = buildRoute({ "/docs": docsPages });
-const graphRoute = buildRoute({ "/graph": [] });
-const notFoundRoute = buildRoute({
+const postRoute = flatRoute({ "/post": postPages });
+const docsRoute = flatRoute({ "/docs": docsPages });
+const graphRoute = flatRoute({ "/graph": [] });
+const notFoundRoute = flatRoute({
   "/404": [{
     id: sameAsVar({ NotFound }),
     content: NotFound(),
   }],
 });
-const homeRoute = buildRoute({
+const homeRoute = flatRoute({
   "/": [{
     data: {
       menu: { menuName: sameAsVar({ Home }), order: 1 },
       title: sameAsVar({ Home }),
     },
     id: sameAsVar({ Home }),
-    content: Home({ posts: Posts({ posts: postRoute["/post"]! }) }),
+    content: Home({ posts: Posts({ posts: postRoute }) }),
   }],
 });
 
-const router: Router = {
+const router: Router = [
   ...postRoute,
   ...docsRoute,
   ...graphRoute,
   ...notFoundRoute,
   ...homeRoute,
-};
+];
 
 export const { allMenus } = getMenuStatus(router);
 
@@ -86,7 +85,7 @@ const staticAndServerRouter: StaticServerRouter = [
     content: () => Robots({ domain: domain }),
     contentType: "text/plain",
   },
-  ...flatRouter(router),
+  ...applyConditionsRouter(router),
 ];
 
 if (Deno.args[0] == "serve") {
