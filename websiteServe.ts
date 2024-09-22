@@ -63,6 +63,14 @@ export class Server {
             return serveFile(req, "./static/" + filePath);
           }
         }
+        if (route.type === "generate") {
+          if (route.condition(pathFileOrFolderName)) {
+            const content = route.content({ domain: this.domain });
+            return new Response(content, {
+              headers: { "content-type": route.contentType },
+            });
+          }
+        }
       }
 
       const page: RoutedPage | undefined = getPageFromRoute(
@@ -70,18 +78,6 @@ export class Server {
         filePath,
         folderStructure,
       );
-
-
-      if (new RegExp(/sitemap\.xml$/).test(pathFileOrFolderName)) {
-        const rssFeedFile = SiteMap({
-          router: router,
-          latestBuildDate: this.buildDate,
-          domain: this.domain,
-        });
-        return new Response(rssFeedFile, {
-          headers: { "content-type": "application/rss+xml" },
-        });
-      }
 
       if (new RegExp(/robots\.txt$/).test(pathFileOrFolderName)) {
         const robots = Robots({

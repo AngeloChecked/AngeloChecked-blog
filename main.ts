@@ -1,4 +1,5 @@
-import { RoutedPage } from "./routes.ts";
+import { SiteMap } from "./components/SiteMap.ts";
+import { RoutedPage, router } from "./routes.ts";
 import { Server } from "./websiteServe.ts";
 
 export type Router = {
@@ -7,16 +8,37 @@ export type Router = {
 
 export const buildDate = (new Date()).toISOString();
 
-export type StaticServerRouter = {
-  type: "static";
-  condition: (file: string) => boolean;
-}[];
+type Route =
+  | { type: "static"; condition: (file: string) => boolean }
+  | {
+    type: "generate";
+    condition: (file: string) => boolean;
+    content: (site: Site) => string;
+    contentType: string;
+  };
+
+export type StaticServerRouter = Route[];
+
+type Site = {
+  domain: string;
+};
 
 const staticAndServerRouter: StaticServerRouter = [
   {
     type: "static",
     condition: (file: string) =>
       new RegExp(/\.webp$|\.png$|\.jpg$|\.svg$|\.css$/).test(file),
+  },
+  {
+    type: "generate",
+    condition: (file) => new RegExp(/sitemap\.xml$/).test(file),
+    content: (site: Site) =>
+      SiteMap({
+        router: router,
+        latestBuildDate: buildDate,
+        domain: site.domain,
+      }),
+    contentType: "application/rss+xml",
   },
 ];
 
