@@ -90,18 +90,13 @@ export type RoutedPage = ProcessedPage & {
 export function getPageFromRoute(
   routes: Router,
   filePath: string,
-  folderStructure: FileOrDir,
 ) {
-  const page: RoutedPage = { content: "", relativeWebsitePath: "/" };
-
   const routeFound = Object.entries(routes).find(([route]) => {
     return filePath.startsWith(route);
   });
 
   if (!routeFound) {
-    const fileIndex = FileIndex({ folderStructure, page: "./" + filePath });
-    page.content = fileIndex;
-    return page;
+    return ;
   }
 
   if (filePath.startsWith(routeFound[0])) {

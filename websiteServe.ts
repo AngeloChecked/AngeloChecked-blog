@@ -1,12 +1,6 @@
 import { serveFile } from "https://jsr.io/@std/http/1.0.5/file_server.ts";
-import { Base } from "./components/Base.ts";
-import { Footer } from "./components/Footer.ts";
-import { Menu } from "./components/Menu.ts";
-import { getPageFromRoute, RoutedPage } from "./routes.ts";
-import { styleCssFile } from "./style/mainCss.ts";
-import { fromStringToDomToString, traverseFiles } from "./utils/utils.ts";
 import { html } from "./deps/html.ts";
-import { createPageHtml, Router, StaticServerRouter } from "./main.ts";
+import * as mainTs from "./main.ts";
 
 const websocketScript = html`
 <script>
@@ -31,10 +25,9 @@ export class Server {
   private denoRestarted = true;
   constructor(
     private domain: string,
-    private staticServerRouter: StaticServerRouter,
-    private router: Router
+    private staticServerRouter: mainTs.StaticServerRouter,
+    private router: mainTs.Router,
   ) {}
-
 
   serve() {
     Deno.serve(async (req) => {
@@ -49,7 +42,6 @@ export class Server {
         return response;
       }
 
-      const folderStructure = await traverseFiles("./post");
       const filePathSplitted = req.url.split("/").slice(3);
       const filePath = filePathSplitted.join("/");
       const pathFileOrFolderName =
@@ -70,19 +62,16 @@ export class Server {
           }
         }
 
+        if (route.type === "html") {
+          const content = route.content({
+            domain: this.domain,
+          }, websocketScript, filePath);
+          return new Response(content, {
+            headers: { "content-type": "text/html; charset=utf-8" },
+          });
+        }
       }
-
-      const page: RoutedPage | undefined = getPageFromRoute(
-        this.router,
-        filePath,
-        folderStructure,
-      );
-      const html = createPageHtml(page!, this.domain, websocketScript)
-
-      return new Response(html, {
-        headers: { "content-type": "text/html; charset=utf-8" },
-      });
+      return new Response("error");
     });
   }
 }
-

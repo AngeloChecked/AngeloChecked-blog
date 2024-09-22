@@ -9,6 +9,7 @@ import { SiteMap } from "./components/SiteMap.ts";
 import {
   buildRoute,
   getMenuStatus,
+  getPageFromRoute,
   pagesFromFolder,
   RoutedPage,
 } from "./routes.ts";
@@ -29,6 +30,10 @@ type Route =
     condition: (file: string) => boolean;
     content: (site: Site) => string;
     contentType: string;
+  }
+  | {
+    type: "html";
+    content: (site: Site, websiteScript: string, filePath: string) => string;
   };
 
 export type StaticServerRouter = Route[];
@@ -38,10 +43,14 @@ type Site = {
 };
 
 export function createPageHtml(
-  page: RoutedPage,
   domain: string,
   websocketScript: string,
+  filePath: string,
 ) {
+  const page: RoutedPage | undefined = getPageFromRoute(
+    router,
+    filePath,
+  );
   const titleCompanionAndFallback = "Angelo Ceccato Blog";
   const body = Base({
     title: (page?.data?.title ? page.data.title + " - " : "") +
@@ -121,6 +130,11 @@ const staticAndServerRouter: StaticServerRouter = [
         domain: site.domain,
       }),
     contentType: "text/plain",
+  },
+  {
+    type: "html",
+    content: (site: Site, websiteScript: string, filePath: string) =>
+      createPageHtml(site.domain, websiteScript, filePath),
   },
 ];
 
