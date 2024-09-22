@@ -1,4 +1,5 @@
 import { DOMParser } from "../deps/dom.ts";
+import { jsBeautify } from "../deps/js-beautify.ts";
 
 export type FileOrDir = [string, FileOrDir[]] | string;
 
@@ -45,7 +46,8 @@ export function fromStringToDomToString(body: string) {
   const parser = new DOMParser();
   const { documentElement } = parser.parseFromString(body, "text/html");
   const html = `<!DOCTYPE html>\n${documentElement?.outerHTML || ""}`;
-  return html;
+
+  return jsBeautify.html(html);
 }
 
 export function sameAsVar(obj: object){

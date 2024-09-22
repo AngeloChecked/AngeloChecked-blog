@@ -108,7 +108,7 @@ export function getMenuStatus(router: Router) {
     .filter(page => page.data?.menu)
     .map(page => ({
         order: page.data?.menu?.order ?? 99,
-        menuName: page.data?.menu?.menuName,
+        menuName: page.data?.menu?.menuName!,
         url: page.relativeWebsitePath,
       }))
   menus.sort((a, b) => a.order < b.order ? -1 : 1);
