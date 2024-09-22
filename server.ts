@@ -48,7 +48,7 @@ export class Server {
       for (const route of this.staticServerRouter) {
         if (route.type === "static") {
           if (route.condition(pathFileOrFolderName)) {
-            return serveFile(req, "./static/" + filePath);
+            return serveFile(req, route.folder + "/" + filePath);
           }
         }
         if (route.type === "generate") {

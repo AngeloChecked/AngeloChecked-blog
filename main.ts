@@ -13,6 +13,7 @@ import {
 import { sameAsVar } from "./utils/utils.ts";
 import { Server } from "./server.ts";
 import { StaticFiles } from "./static.ts";
+import { FeedRss } from "./components/FeedRss.ts";
 
 export const domain = (Deno.args[0] == "serve")
   ? "http://localhost:8000"
@@ -21,15 +22,17 @@ export const domain = (Deno.args[0] == "serve")
 export const buildDate = (new Date()).toISOString();
 
 type Route =
-  | { type: "static"; condition: (file: string) => boolean }
+  | { type: "static"; folder: string; condition: (file: string) => boolean }
   | {
     type: "generate";
+    relativeFileNamePath: string;
     condition: (file: string) => boolean;
     content: () => string;
     contentType: string;
   }
   | {
     type: "html";
+    relativeWebsitePath: string;
     condition: (file: string) => boolean;
     content: () => string;
   };
@@ -41,7 +44,7 @@ const postRoute = flatRoute({ "/post": postPages });
 const docsRoute = flatRoute({ "/docs": docsPages });
 const graphRoute = flatRoute({ "/graph": [] });
 const notFoundRoute = flatRoute({
-  "/404": [{
+  "/404.html": [{
     id: sameAsVar({ NotFound }),
     content: NotFound(),
   }],
@@ -70,18 +73,29 @@ export const { allMenus } = getMenuStatus(router);
 const staticAndServerRouter: StaticServerRouter = [
   {
     type: "static",
+    folder: "./static",
     condition: (file: string) =>
       new RegExp(/\.webp$|\.png$|\.jpg$|\.svg$|\.css$/).test(file),
   },
   {
     type: "generate",
+    relativeFileNamePath: "/sitemap.xml",
     condition: (file) => new RegExp(/sitemap\.xml$/).test(file),
     content: () =>
       SiteMap({ router: router, latestBuildDate: buildDate, domain: domain }),
+    contentType: "application/xml",
+  },
+  {
+    type: "generate",
+    relativeFileNamePath: "/feed.rss",
+    condition: (file) => new RegExp(/feed\.rss$/).test(file),
+    content: () =>
+      FeedRss({ domain, latestBuildDate: buildDate, feedItems: postRoute }),
     contentType: "application/rss+xml",
   },
   {
     type: "generate",
+    relativeFileNamePath: "/robots.txt",
     condition: (file: string) => new RegExp(/robots\.txt$/).test(file),
     content: () => Robots({ domain: domain }),
     contentType: "text/plain",
@@ -95,8 +109,8 @@ if (Deno.args[0] == "serve") {
 }
 
 if (Deno.args[0] == "build") {
-  const staticFiles = new StaticFiles(staticAndServerRouter);
-  staticFiles.build();
+  const staticFiles = new StaticFiles(staticAndServerRouter, "./dist");
+  await staticFiles.build();
 }
 
 export type MenuInfo = {

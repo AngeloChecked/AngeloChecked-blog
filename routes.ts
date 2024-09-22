@@ -118,6 +118,7 @@ export function getMenuStatus(router: Router) {
 export function applyConditionsRouter(router: Router) {
   return router.map((page) => ({
     type: "html" as const,
+    relativeWebsitePath: page.relativeWebsitePath,
     condition: (file: string) => {
       return new RegExp(`${page.relativeWebsitePath}`).test("/" + file);
     },
