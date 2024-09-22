@@ -59,7 +59,6 @@ export class Server {
             });
           }
         }
-
         if (route.type === "html") {
           if (route.condition(filePath)) {
             const content = route.content(filePath);

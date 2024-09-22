@@ -86,30 +86,6 @@ export type RoutedPage = ProcessedPage & {
   relativeWebsitePath: string;
 };
 
-
-export function getPageFromRoute(
-  routes: Router,
-  filePath: string,
-) {
-  const routeFound = Object.entries(routes).find(([route]) => {
-    return filePath.startsWith("/" + route) ;
-  });
-
-  if (!routeFound) {
-    return ;
-  }
-
-  const pages = routeFound[1];
-  for (const page of pages ?? []) {
-    if (
-      page.relativeFilePath === undefined ||
-      filePath.endsWith(page.relativeFilePath)
-    ) {
-      return page;
-    }
-  }
-}
-
 export function buildRoute(rawRouter: {
   [path: string]: ProcessedPage[];
 }): Router {
@@ -117,7 +93,7 @@ export function buildRoute(rawRouter: {
     (newRouter, [route, pages]) => {
       const routePages = pages?.map((page) =>
         Object.assign(
-          { relativeWebsitePath: "/" + route + (page.relativeFilePath ?? "") },
+          { relativeWebsitePath: route + (page.relativeFilePath ?? "") },
           page,
         )
       );

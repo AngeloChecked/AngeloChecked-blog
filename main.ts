@@ -9,7 +9,6 @@ import { SiteMap } from "./components/SiteMap.ts";
 import {
   buildRoute,
   getMenuStatus,
-  getPageFromRoute,
   pagesFromFolder,
   RoutedPage,
 } from "./routes.ts";
@@ -44,13 +43,8 @@ type Route =
 export type StaticServerRouter = Route[];
 
 export function createPageHtml(
-  domain: string,
-  filePath: string,
+  page?: RoutedPage,
 ) {
-  const page: RoutedPage | undefined = getPageFromRoute(
-    router,
-    filePath,
-  );
   const titleCompanionAndFallback = "Angelo Ceccato Blog";
   const body = Base({
     title: (page?.data?.title ? page.data.title + " - " : "") +
@@ -76,23 +70,23 @@ export function createPageHtml(
 
 const postPages = await pagesFromFolder("./post");
 const docsPages = await pagesFromFolder("./docs");
-const postRoute = buildRoute({ "post": postPages });
-const docsRoute = buildRoute({ "docs": docsPages });
-const graphRoute = buildRoute({ "graph": [] });
+const postRoute = buildRoute({ "/post": postPages });
+const docsRoute = buildRoute({ "/docs": docsPages });
+const graphRoute = buildRoute({ "/graph": [] });
 const notFoundRoute = buildRoute({
-  "404": [{
+  "/404": [{
     id: sameAsVar({ NotFound }),
     content: NotFound(),
   }],
 });
 const homeRoute = buildRoute({
-  "": [{
+  "/": [{
     data: {
       menu: { menuName: sameAsVar({ Home }), order: 1 },
       title: sameAsVar({ Home }),
     },
     id: sameAsVar({ Home }),
-    content: Home({ posts: Posts({ posts: postRoute["post"]! }) }),
+    content: Home({ posts: Posts({ posts: postRoute["/post"]! }) }),
   }],
 });
 
@@ -112,7 +106,7 @@ function flatRouter(router: Router) {
         condition: (file: string) => {
           return new RegExp(`${p.relativeWebsitePath}`).test("/" + file);
         },
-        content: () => createPageHtml(domain, p.relativeWebsitePath),
+        content: () => createPageHtml(p),
       }));
     });
 }
