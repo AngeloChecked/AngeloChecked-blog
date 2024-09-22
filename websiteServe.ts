@@ -1,8 +1,8 @@
 import { serveFile } from "https://jsr.io/@std/http/1.0.5/file_server.ts";
 import { html } from "./deps/html.ts";
-import * as mainTs from "./main.ts";
+import { StaticServerRouter } from "./main.ts";
 
-const websocketScript = html`
+export const websocketScript = (Deno.args[0] !== "serve") ? "" : html`
 <script>
 function websocket(){
     let socket = new WebSocket("ws://localhost:8000");
@@ -24,13 +24,11 @@ websocket()
 export class Server {
   private denoRestarted = true;
   constructor(
-    private domain: string,
-    private staticServerRouter: mainTs.StaticServerRouter,
-    private router: mainTs.Router,
+    private staticServerRouter: StaticServerRouter,
   ) {}
 
   serve() {
-    Deno.serve(async (req) => {
+    Deno.serve((req) => {
       if (req.headers.get("upgrade") === "websocket") {
         const { socket, response } = Deno.upgradeWebSocket(req);
         socket.addEventListener("open", () => {
@@ -55,7 +53,7 @@ export class Server {
         }
         if (route.type === "generate") {
           if (route.condition(pathFileOrFolderName)) {
-            const content = route.content({ domain: this.domain });
+            const content = route.content();
             return new Response(content, {
               headers: { "content-type": route.contentType },
             });
@@ -63,9 +61,7 @@ export class Server {
         }
 
         if (route.type === "html") {
-          const content = route.content({
-            domain: this.domain,
-          }, websocketScript, filePath);
+          const content = route.content(websocketScript, filePath);
           return new Response(content, {
             headers: { "content-type": "text/html; charset=utf-8" },
           });

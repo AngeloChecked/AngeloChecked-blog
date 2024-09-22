@@ -21,6 +21,10 @@ export type Router = {
   [path: string]: RoutedPage[];
 };
 
+const domain = (Deno.args[0] == "serve")
+  ? "http://localhost:8000"
+  : "https://angeloceccato.it";
+
 export const buildDate = (new Date()).toISOString();
 
 type Route =
@@ -28,19 +32,15 @@ type Route =
   | {
     type: "generate";
     condition: (file: string) => boolean;
-    content: (site: Site) => string;
+    content: () => string;
     contentType: string;
   }
   | {
     type: "html";
-    content: (site: Site, websiteScript: string, filePath: string) => string;
+    content: (websiteScript: string, filePath: string) => string;
   };
 
 export type StaticServerRouter = Route[];
-
-type Site = {
-  domain: string;
-};
 
 export function createPageHtml(
   domain: string,
@@ -104,6 +104,10 @@ const router: Router = {
   ...homeRoute,
 };
 
+function flatRouter(router: Router){
+  
+}
+
 const { allMenus } = getMenuStatus(router);
 const staticAndServerRouter: StaticServerRouter = [
   {
@@ -114,38 +118,29 @@ const staticAndServerRouter: StaticServerRouter = [
   {
     type: "generate",
     condition: (file) => new RegExp(/sitemap\.xml$/).test(file),
-    content: (site: Site) =>
-      SiteMap({
-        router: router,
-        latestBuildDate: buildDate,
-        domain: site.domain,
-      }),
+    content: () =>
+      SiteMap({ router: router, latestBuildDate: buildDate, domain: domain }),
     contentType: "application/rss+xml",
   },
   {
     type: "generate",
     condition: (file: string) => new RegExp(/robots\.txt$/).test(file),
-    content: (site: Site) =>
-      Robots({
-        domain: site.domain,
-      }),
+    content: () => Robots({ domain: domain }),
     contentType: "text/plain",
   },
   {
     type: "html",
-    content: (site: Site, websiteScript: string, filePath: string) =>
-      createPageHtml(site.domain, websiteScript, filePath),
+    content: (websiteScript: string, filePath: string) =>
+      createPageHtml(domain, websiteScript, filePath),
   },
 ];
 
 if (Deno.args[0] == "serve") {
-  const domain = "http://localhost:8000";
-  const server = new Server(domain, staticAndServerRouter, router);
+  const server = new Server(staticAndServerRouter);
   server.serve();
 }
 
 if (Deno.args[0] == "build") {
-  const domain = "https://angeloceccato.it";
 }
 
 export type MenuInfo = {
