@@ -15,7 +15,7 @@ import {
 } from "./routes.ts";
 import { styleCssFile } from "./style/mainCss.ts";
 import { fromStringToDomToString, sameAsVar } from "./utils/utils.ts";
-import { Server } from "./websiteServe.ts";
+import { Server, websocketScript } from "./websiteServe.ts";
 
 export type Router = {
   [path: string]: RoutedPage[];
@@ -37,14 +37,13 @@ type Route =
   }
   | {
     type: "html";
-    content: (websiteScript: string, filePath: string) => string;
+    content: (filePath: string) => string;
   };
 
 export type StaticServerRouter = Route[];
 
 export function createPageHtml(
   domain: string,
-  websocketScript: string,
   filePath: string,
 ) {
   const page: RoutedPage | undefined = getPageFromRoute(
@@ -130,8 +129,8 @@ const staticAndServerRouter: StaticServerRouter = [
   },
   {
     type: "html",
-    content: (websiteScript: string, filePath: string) =>
-      createPageHtml(domain, websiteScript, filePath),
+    content: (filePath: string) =>
+      createPageHtml(domain, filePath),
   },
 ];
 

@@ -61,7 +61,7 @@ export class Server {
         }
 
         if (route.type === "html") {
-          const content = route.content(websocketScript, filePath);
+          const content = route.content(filePath);
           return new Response(content, {
             headers: { "content-type": "text/html; charset=utf-8" },
           });
