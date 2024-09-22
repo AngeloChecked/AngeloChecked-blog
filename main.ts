@@ -1,26 +1,20 @@
 import { NotFound } from "./components/404.ts";
-import { Base } from "./components/Base.ts";
-import { Footer } from "./components/Footer.ts";
 import { Home } from "./components/Home.ts";
-import { Menu } from "./components/Menu.ts";
 import { Posts } from "./components/Posts.ts";
 import { Robots } from "./components/Robots.ts";
 import { SiteMap } from "./components/SiteMap.ts";
 import {
   buildRoute,
+  flatRouter,
   getMenuStatus,
   pagesFromFolder,
-  RoutedPage,
+  Router,
 } from "./routes.ts";
-import { styleCssFile } from "./style/mainCss.ts";
-import { fromStringToDomToString, sameAsVar } from "./utils/utils.ts";
-import { Server, websocketScript } from "./websiteServe.ts";
+import { sameAsVar } from "./utils/utils.ts";
+import { Server } from "./websiteServe.ts";
 
-export type Router = {
-  [path: string]: RoutedPage[];
-};
 
-const domain = (Deno.args[0] == "serve")
+export const domain = (Deno.args[0] == "serve")
   ? "http://localhost:8000"
   : "https://angeloceccato.it";
 
@@ -39,34 +33,7 @@ type Route =
     condition: (file: string) => boolean;
     content: (filePath: string) => string;
   };
-
 export type StaticServerRouter = Route[];
-
-export function createPageHtml(
-  page?: RoutedPage,
-) {
-  const titleCompanionAndFallback = "Angelo Ceccato Blog";
-  const body = Base({
-    title: (page?.data?.title ? page.data.title + " - " : "") +
-      titleCompanionAndFallback,
-    description: page?.data?.description ?? titleCompanionAndFallback,
-    content: page?.content ?? "404",
-    scripts: websocketScript,
-    style: styleCssFile.style,
-    menu: Menu({
-      currentPageMenu: page?.data?.menu?.menuName,
-      menus: allMenus,
-    }),
-    footer: Footer({
-      currentPageMenu: page?.data?.menu?.menuName,
-      menus: allMenus,
-    }),
-    page: page!,
-    site: { domain: domain },
-  });
-  const html = fromStringToDomToString(body);
-  return html;
-}
 
 const postPages = await pagesFromFolder("./post");
 const docsPages = await pagesFromFolder("./docs");
@@ -98,20 +65,8 @@ const router: Router = {
   ...homeRoute,
 };
 
-function flatRouter(router: Router) {
-  return Object.entries(router)
-    .flatMap(([, pages]) => {
-      return pages.map((p) => ({
-        type: "html" as const,
-        condition: (file: string) => {
-          return new RegExp(`${p.relativeWebsitePath}`).test("/" + file);
-        },
-        content: () => createPageHtml(p),
-      }));
-    });
-}
+export const { allMenus } = getMenuStatus(router);
 
-const { allMenus } = getMenuStatus(router);
 const staticAndServerRouter: StaticServerRouter = [
   {
     type: "static",

@@ -1,9 +1,12 @@
+import { createPageHtml } from "./basePage.ts";
 import { Article } from "./components/Article.ts";
-import { FileIndex } from "./components/FileIndex.ts";
-import { Router } from "./main.ts";
 import { markdown } from "./utils/markdown.ts";
-import { FileOrDir, traverseFilesFlat } from "./utils/utils.ts";
+import { traverseFilesFlat } from "./utils/utils.ts";
 import { exists } from "jsr:@std/fs";
+
+export type Router = {
+  [path: string]: RoutedPage[];
+};
 
 export async function pagesFromFolder(folderPath: string) {
   const relativeFilePaths = await traverseFilesFlat(folderPath);
@@ -120,4 +123,17 @@ export function getMenuStatus(router: Router) {
   }
   menus.sort((a, b) => a.order < b.order ? -1 : 1);
   return { allMenus: menus };
+}
+
+export function flatRouter(router: Router) {
+  return Object.entries(router)
+    .flatMap(([, pages]) => {
+      return pages.map((page) => ({
+        type: "html" as const,
+        condition: (file: string) => {
+          return new RegExp(`${page.relativeWebsitePath}`).test("/" + file);
+        },
+        content: () => createPageHtml(page),
+      }));
+    });
 }

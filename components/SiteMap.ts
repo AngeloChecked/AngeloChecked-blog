@@ -1,4 +1,4 @@
-import { Router } from "../main.ts";
+import { Router } from "../routes.ts";
 
 export function SiteMap(props: {
   router: Router;
