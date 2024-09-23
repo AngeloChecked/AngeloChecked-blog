@@ -3,7 +3,7 @@ export const aboutPageData = {
     title: "About Me",
     description: "About Me",
     menu: {
-      menuName: "About",
+      menuName: "About Me",
     },
     thumbnail: { src: "img/angelo_smile_resized.webp" },
   },

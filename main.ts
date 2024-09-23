@@ -14,6 +14,7 @@ import { sameAsVar } from "./utils/utils.ts";
 import { Server } from "./server.ts";
 import { StaticFiles } from "./static.ts";
 import { FeedRss } from "./components/FeedRss.ts";
+import { Graph } from "./components/Graph.ts";
 
 export const domain = (Deno.args[0] == "serve")
   ? "http://localhost:8000"
@@ -60,11 +61,25 @@ const homeRoute = flatRoute({
   }],
 });
 
+const graphR = flatRoute({
+  "/graph.html": [{
+    data: {
+      menu: { menuName: sameAsVar({ Graph })},
+    },
+    id: sameAsVar({ Graph }),
+    content: Graph({
+      width: 800,
+      height: 400,
+      bgColor: "white"
+    }),
+  }],
+});
 const router: Router = [
   ...postRoute,
   ...docsRoute,
   ...graphRoute,
   ...notFoundRoute,
+  ...graphR,
   ...homeRoute,
 ];
 
