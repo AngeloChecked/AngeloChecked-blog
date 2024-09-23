@@ -1,5 +1,7 @@
 import { DOMParser } from "../deps/dom.ts";
 import { jsBeautify } from "../deps/js-beautify.ts";
+import pictureRelosution from "../preprocess/md_picture_resolution_plugin.ts";
+import { RoutedPage } from "../routes.ts";
 
 export type FileOrDir = [string, FileOrDir[]] | string;
 
@@ -44,11 +46,15 @@ export async function traverseFilesFlat(folderName: string) {
   return filesWithPath;
 }
 
-export function fromStringToDomToString(body: string) {
-  const parser = new DOMParser();
-  const { documentElement } = parser.parseFromString(body, "text/html");
-  const html = `<!DOCTYPE html>\n${documentElement?.outerHTML || ""}`;
+const imagesInFolder = await traverseFilesFlat("./static/img")
 
+export function fromStringToDomToString(page: RoutedPage, body: string) {
+  const parser = new DOMParser();
+  const document = parser.parseFromString(body, "text/html");
+
+  const documentUpdated = pictureRelosution(page, document!, imagesInFolder) ?? document
+
+  const html = `<!DOCTYPE html>\n${documentUpdated.documentElement?.outerHTML || ""}`;
   return jsBeautify.html(html);
 }
 

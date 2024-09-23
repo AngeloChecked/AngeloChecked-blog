@@ -30,6 +30,7 @@ export function createPageHtml(
     site: { domain: domain },
   });
 
-  const html = fromStringToDomToString(body);
+
+  const html = fromStringToDomToString(page!, body);
   return html;
 }
