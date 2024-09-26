@@ -193,51 +193,52 @@ const node${node.id} = document.getElementById("node${node.id}");
     const edgeNeightbours = new Set(allEdgeNeightbours.get(node.id));
     const edgeNotNeightbours = edgeIds.difference(edgeNeightbours);
 
-    let focusNeightboursScript = "";
-    for (const neightbour of neightbours) {
-      focusNeightboursScript += `node${neightbour}.style.opacity = 1;
-      `;
-    }
+    const focusNeightboursScript = Array.from(neightbours).reduce(
+      (script, neightbour) => script + `node${neightbour}.style.opacity = 1;\n`,
+      "",
+    );
 
-    let unfocusNoNeightboursScript = "";
-    for (const notNeightbour of notNeightbours) {
-      unfocusNoNeightboursScript += `node${notNeightbour}.style.opacity = 0.1;
-      `;
-    }
+    const unfocusNoNeightboursScript = Array.from(notNeightbours).reduce(
+      (script, notNeightbour) =>
+        script + `node${notNeightbour}.style.opacity = 0.1;\n`,
+      "",
+    );
 
-    let focusEdgeNeightboursScript = "";
-    for (const edgeIndex of edgeNeightbours) {
-      focusEdgeNeightboursScript += `document.getElementById("edgeText${edgeIndex}").setAttribute("fill", "rgba(0,0,0,1)");`;
-      focusEdgeNeightboursScript += `document.getElementById("edgeArrow${edgeIndex}").style.opacity = 1;
-      `;
-    }
+    const focusEdgeNeightboursScript = Array.from(edgeNeightbours).reduce(
+      (script, edgeIndex) =>
+        script +
+        `document.getElementById("edgeText${edgeIndex}").setAttribute("fill", "rgba(0,0,0,1)");
+        document.getElementById("edgeArrow${edgeIndex}").style.opacity = 1;\n`,
+      "",
+    );
 
-    let unfocusEdgeNoNeightboursScript = "";
-    for (const edgeIndex of edgeNotNeightbours) {
-      unfocusEdgeNoNeightboursScript += `document.getElementById("edgeText${edgeIndex}").setAttribute("fill", "rgba(0,0,0,0.1)");`;
-      unfocusEdgeNoNeightboursScript += `document.getElementById("edgeArrow${edgeIndex}").style.opacity = 0.1;
-      `;
-    }
+    const unfocusEdgeNoNeightboursScr = Array.from(edgeNotNeightbours).reduce(
+      (script, edgeIndex) =>
+        script +
+        `document.getElementById("edgeText${edgeIndex}").setAttribute("fill", "rgba(0,0,0,0.1)");
+        document.getElementById("edgeArrow${edgeIndex}").style.opacity = 0.1;\n`,
+      "",
+    );
 
-    let focusAllScript = ``;
-    for (const nodeId of nodeIds) {
-      focusAllScript += `node${nodeId}.style.opacity = 1;
-      `;
-    }
+    const focusAllScript = Array.from(nodeIds).reduce(
+      (script, nodeId) => script + `node${nodeId}.style.opacity = 1;\n`,
+      "",
+    );
 
-    let unfocusFocusAllEdgesScript = ``;
-    for (const edgeIndex of edgeIds) {
-      unfocusFocusAllEdgesScript += `document.getElementById("edgeText${edgeIndex}").setAttribute("fill", "rgba(0,0,0,0.1)");`;
-      unfocusFocusAllEdgesScript += `document.getElementById("edgeArrow${edgeIndex}").style.opacity = 0.1;
-      `;
-    }
+    const unfocusFocusAllEdgesScript = Array.from(edgeIds).reduce(
+      (script, edgeIndex) =>
+        script +
+        `document.getElementById("edgeText${edgeIndex}").setAttribute("fill", "rgba(0,0,0,0.1)");
+        document.getElementById("edgeArrow${edgeIndex}").style.opacity = 0.1;\n`,
+      "",
+    );
 
     script.innerHTML += `
 node${node.id}.addEventListener("mouseenter", (event) => {
     ${focusNeightboursScript}
     ${unfocusNoNeightboursScript}
     ${focusEdgeNeightboursScript}
-    ${unfocusEdgeNoNeightboursScript}
+    ${unfocusEdgeNoNeightboursScr}
   });
 node${node.id}.addEventListener("mouseleave", (event) => {
     ${focusAllScript}
