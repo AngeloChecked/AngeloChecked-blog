@@ -167,37 +167,21 @@ const node${node.id} = document.getElementById("node${node.id}");
     const sourceId = findNode(edge.source).id;
     const targetId = findNode(edge.target).id;
 
-    let alreadyFoundNeightbours = allNodeNeightbours.get(sourceId);
-    if (!alreadyFoundNeightbours) {
-      alreadyFoundNeightbours = [targetId];
-      allNodeNeightbours.set(sourceId, alreadyFoundNeightbours);
-    } else {
-      alreadyFoundNeightbours.push(targetId);
-    }
+    let alreadyFoundNeightbours = allNodeNeightbours.get(sourceId) ?? [];
+    alreadyFoundNeightbours.push(targetId);
+    allNodeNeightbours.set(sourceId, alreadyFoundNeightbours);
 
-    alreadyFoundNeightbours = allNodeNeightbours.get(targetId);
-    if (!alreadyFoundNeightbours) {
-      alreadyFoundNeightbours = [sourceId];
-      allNodeNeightbours.set(targetId, alreadyFoundNeightbours);
-    } else {
-      alreadyFoundNeightbours.push(sourceId);
-    }
+    alreadyFoundNeightbours = allNodeNeightbours.get(targetId) ?? [];
+    alreadyFoundNeightbours.push(sourceId);
+    allNodeNeightbours.set(targetId, alreadyFoundNeightbours);
 
-    let alreadyFoundEdgeNeightbours = allEdgeNeightbours.get(sourceId);
-    if (!alreadyFoundEdgeNeightbours) {
-      alreadyFoundEdgeNeightbours = [edgeIndex];
-      allEdgeNeightbours.set(sourceId, alreadyFoundEdgeNeightbours);
-    } else {
-      alreadyFoundEdgeNeightbours.push(edgeIndex);
-    }
+    let alreadyFoundEdgeNeightbours = allEdgeNeightbours.get(sourceId) ?? [];
+    alreadyFoundEdgeNeightbours.push(edgeIndex);
+    allEdgeNeightbours.set(sourceId, alreadyFoundEdgeNeightbours);
 
-    alreadyFoundEdgeNeightbours = allEdgeNeightbours.get(targetId);
-    if (!alreadyFoundEdgeNeightbours) {
-      alreadyFoundEdgeNeightbours = [edgeIndex];
-      allEdgeNeightbours.set(targetId, alreadyFoundEdgeNeightbours);
-    } else {
-      alreadyFoundEdgeNeightbours.push(edgeIndex);
-    }
+    alreadyFoundEdgeNeightbours = allEdgeNeightbours.get(targetId) ?? [];
+    alreadyFoundEdgeNeightbours.push(edgeIndex);
+    allEdgeNeightbours.set(targetId, alreadyFoundEdgeNeightbours);
   }
 
   const nodeIds = new Set(nodes.map((node) => node.id));
