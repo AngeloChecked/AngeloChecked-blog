@@ -1,12 +1,12 @@
-import { createSvg, draw } from "./draw.js";
+import { createSvg, draw, graphInteractive } from "./draw.js";
 import { calculateGraph } from "./graph.js";
 import { Point } from "./Point.js";
 
 function randomPoint(width, height) {
   return () =>
     new Point(
-      Math.random() * width - width / 2,
-      Math.random() * height - height / 2,
+      (Math.random() * width) / 2 - width / 4,
+      (Math.random() * height) / 2 - height / 4,
     );
 }
 
@@ -15,66 +15,139 @@ async function sleep(ms) {
 }
 
 const graphConfig = {
-  WIDTH: 800,
-  HEIGHT: 600,
-  NODE_RADIUS: 40,
-  SPRING_LENGTH: 150,
+  WIDTH: 1000,
+  HEIGHT: 1000,
+  NODE_RADIUS: 30,
   SPRING_CONSTANT: 0.1,
   REPULSION_CONSTANT: 1000,
   DAMPING: 0.85,
   ITERATIONS: 100,
-  MARGIN: 50,
+  SPRING_LENGTH: 240,
+  MARGIN: 120,
+};
+
+/** @type {import('./draw.js').DrawConfig} */
+const drawConfig = {
+  backgroundColor: "white",
+  textColor: "black",
+
+  nodeTextFontSize: "1.2em",
+  nodeTextBelowMargin: 20,
+  nodeOutFocusOpacity: 0.5,
+
+  edgeTextFontSize: "1.1em",
+  edgeOutFocusColor: "rgba(0,0,0, 0.5)",
+  edgeOutFocusOpacity: 0.5,
 };
 
 const randPoint = randomPoint(graphConfig.WIDTH, graphConfig.HEIGHT);
-const svg = createSvg(graphConfig.WIDTH, graphConfig.HEIGHT);
+
+const svg = createSvg(
+  800,
+  400,
+  graphConfig.WIDTH,
+  graphConfig.HEIGHT,
+  drawConfig.backgroundColor,
+);
 
 const nodes = [
-  { id: 1, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 2, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 3, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 4, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 5, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 6, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 7, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 8, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 9, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 10, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 11, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 12, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 13, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 14, point: randPoint(), xpoint: new Point(0, 0) },
-  { id: 15, point: randPoint(), xpoint: new Point(0, 0) },
+  {
+    id: 1,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_1_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 2,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_2_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 3,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_3_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 4,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_4_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 5,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_5_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 6,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_6_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 7,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_7_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 8,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_8_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 9,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_9_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 10,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_10_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 11,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_11_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 12,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_12_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 13,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_13_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 14,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_14_abcdefghijklmnopqrstuvwxyz",
+  },
+  {
+    id: 15,
+    point: randPoint(),
+    xpoint: new Point(0, 0),
+    text: "random_name_15_abcdefghijklmnopqrstuvwxyz",
+  },
 ];
 
-function svgTextSize(text) {
-  let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.style.position = "absolute";
-  svg.style.visibility = "hidden";
-  svg.style.left = Number.MIN_SAFE_INTEGER + "px";
-  let textSvg = document.createElementNS("http://www.w3.org/2000/svg", "text");
-  textSvg.innerHTML = text;
-  svg.appendChild(textSvg);
-  document.body.appendChild(svg);
-  const size = {
-    width: textSvg.getBBox().width,
-    height: textSvg.getBBox().height,
-  };
-  svg.remove();
-  console.log(size);
-  return size;
-}
-
-function createText(text) {
-  const size = svgTextSize(text);
-  return { text, width: size.width, height: size.height };
-}
-
-const JOHNSON_SMITH = createText("johnson smith");
-const DOEINGTON_SMITH = createText("doeington smith");
-const JANET_SMITH = createText("janet smith");
-const SMITHSON_SMITH = createText("smithson smith");
-const SMITHHHHHSON_SMITH = createText("smithhhhhson smith");
+const JOHNSON_SMITH = { text: "johnson smith" };
+const DOEINGTON_SMITH = { text: "doeington smith" };
+const JANET_SMITH = { text: "janet smith" };
+const SMITHSON_SMITH = { text: "smithson smith" };
+const SMITHHHHHSON_SMITH = { text: "smithhhhhson smith" };
 
 const edges = [
   { source: 1, target: 2, text: JOHNSON_SMITH },
@@ -94,7 +167,14 @@ const edges = [
   { source: 14, target: 13, text: DOEINGTON_SMITH },
 ];
 
-calculateGraph(graphConfig, nodes, edges, async (graph) => {
-  draw(graph, graphConfig.NODE_RADIUS, svg);
-  await sleep(10);
-});
+const graph = calculateGraph(
+  graphConfig,
+  nodes,
+  edges,
+  // async (graph) => {
+  // draw(graph, graphConfig.NODE_RADIUS, svg, drawConfig);
+  // await sleep(0); }
+);
+
+draw(graph, graphConfig.NODE_RADIUS, svg, drawConfig);
+graphInteractive(graph, drawConfig);

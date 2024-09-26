@@ -1,50 +1,74 @@
-function createCircle(point, r, fill) {
-  return `<circle cx="${point.x}" cy="${point.y}" r="${r}" fill="${fill}" />`;
+import { Point } from "./Point.js";
+
+function createCircle(point, r, fill, id) {
+  return `<circle id="node${id}" cx="${point.x}" cy="${point.y}" r="${r}" fill="${fill}" />`;
 }
 
 function createLine(pointA, pointB, stroke) {
   return `<line x1="${pointA.x}" y1="${pointA.y}" x2="${pointB.x}" y2="${pointB.y}" stroke="${stroke}" />`;
 }
 
-export function createArrow(pointA, pointB, stroke) {
-  return `<line x1="${pointA.x}" y1="${pointA.y}" x2="${pointB.x}" y2="${pointB.y}" stroke="${stroke}" marker-end="url(#arrow)" />`;
+export function createArrow(pointA, pointB, stroke, opacity, id) {
+  return `<line id="edgeArrow${id}" x1="${pointA.x}" y1="${pointA.y}" x2="${pointB.x}" y2="${pointB.y}" stroke="${stroke}" marker-end="url(#arrow)" opacity="${opacity}" />`;
 }
 
-function createText(point, text, angle, color, backgroundColor) {
+function createText({ point, text, angle, color, fontSize, id }) {
   return `
-  <text filter="url(#solid)" x="${point.x}" y="${point.y}" fill="${color}"  text-anchor="middle" dominant-baseline="central" transform="rotate(${angle}, ${point.x}, ${point.y})">
+  <text id="edgeText${id}" filter="url(#solid)" font-size="${fontSize}" x="${point.x}" y="${point.y}" fill="${color}"  text-anchor="middle" dominant-baseline="central" transform="rotate(${angle}, ${point.x}, ${point.y})">
          ${text}
        </text>
        </g>`;
 }
 
-function createDefs(arrowTextBgColor = "gray") {
+function createDefs(arrowTextBgColor) {
   return `
     <defs>
       <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
         <path d="M0,0 L0,6 L9,3 z" fill="black" />
       </marker>
       <filter id="solid" x="0" y="0" width="1" height="1" >
-           <feFlood flood-color="${arrowTextBgColor}" result="bg" />
-           <feMerge>
-             <feMergeNode in="bg"/>
-             <feMergeNode in="SourceGraphic"/>
-           </feMerge>
-         </filter>
+          <feFlood flood-color="${arrowTextBgColor}" result="bg" />
+          <feMerge>
+            <feMergeNode in="bg"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+      </filter>
     </defs>
   `;
 }
 
-export function createSvg(width, height) {
+export function createSvg(
+  width,
+  height,
+  innerWidth = 1000,
+  innerHeight = 1000,
+  bgColor,
+) {
   document.body.innerHTML = `
-    <svg viewBox="${-width / 2} ${-height / 2} ${width} ${height}" width="${width}" height="${height}" style="background-color: gray;"></svg>
-    ${createDefs()}
+    <svg viewBox="-${innerWidth / 4} -${innerHeight / 4} ${innerWidth / 2} ${innerHeight / 2}" width="${width}" height="${height}" style="background-color: ${bgColor};"></svg>
   `;
   const svg = document.querySelector("svg");
   return svg;
 }
 
-export function draw({ edges, nodes }, circleRadius, svg) {
+/**
+ * @typedef {{
+ *   backgroundColor: string,
+ *   textColor: string,
+ *   nodeTextFontSize: number,
+ *   nodeTextBelowMargin: number,
+ *   edgeTextFontSize: number
+ *   edgeOutFocusOpacity: number,
+ * }} DrawConfig
+ */
+
+/**
+ * @param {import('./graph.js').Graph} graph
+ * @param {number} circleRadius
+ * @param {SVGElement} svg
+ * @param {DrawConfig} [config={}]
+ */
+export function draw({ edges, nodes }, circleRadius, svg, config = {}) {
   function findNode(id) {
     return nodes.find((node) => node.id === id);
   }
@@ -56,21 +80,19 @@ export function draw({ edges, nodes }, circleRadius, svg) {
     return pointA.plus(direction.multiplyScalar(scale));
   }
 
-  function calculateAngle(pointA, pointB) {
-    const dx = pointB.x - pointA.x;
-    const dy = pointB.y - pointA.y;
-    return Math.atan2(dy, dx) * (180 / Math.PI); // Convert to degrees
-  }
-
   function calculateMidpoint(pointA, pointB) {
     return pointA.plus(pointB).divideScalar(2);
   }
 
+  function calculateBelowCenterPoint(point, radius, margin = 0) {
+    return point.plus(new Point(0, radius + margin));
+  }
+
   svg.innerHTML = `
-    ${createDefs()}
+    ${createDefs(config.backgroundColor)}
     `;
 
-  for (let edge of edges) {
+  for (const [edgeIndex, edge] of edges.entries()) {
     const nodeA = findNode(edge.source);
     const nodeB = findNode(edge.target);
 
@@ -88,11 +110,176 @@ export function draw({ edges, nodes }, circleRadius, svg) {
     const midpoint = calculateMidpoint(startPoint, endPoint);
     const angle = startPoint.angleTo(endPoint);
 
-    svg.innerHTML += createArrow(startPoint, endPoint, "black");
-    svg.innerHTML += createText(midpoint, edge.text, angle, "black", "gray");
+    svg.innerHTML += createArrow(
+      startPoint,
+      endPoint,
+      "black",
+      config.edgeOutFocusOpacity,
+      edgeIndex,
+    );
+    svg.innerHTML += createText({
+      point: midpoint,
+      text: edge.text.text,
+      angle: angle,
+      color: config.edgeOutFocusColor,
+      fontSize: config.edgeTextFontSize,
+      id: edgeIndex,
+    });
   }
 
-  for (let node of nodes) {
-    svg.innerHTML += createCircle(node.point, circleRadius, "red");
+  for (const node of nodes) {
+    svg.innerHTML += createCircle(node.point, circleRadius, "red", node.id);
+
+    const belowCenterPoint = calculateBelowCenterPoint(
+      node.point,
+      circleRadius,
+      20,
+    );
+    svg.innerHTML += createText({
+      point: belowCenterPoint,
+      text: node.text,
+      angle: 0,
+      color: config.textColor,
+      fontSize: config.nodeTextFontSize,
+    });
   }
+
+  svg.innerHTML += createCircle(new Point(478, 0), 22, "blue");
+  svg.innerHTML += createCircle(new Point(0, 250), 22, "blue");
+}
+
+export function graphInteractive({ edges, nodes }, config) {
+  function findNode(id) {
+    return nodes.find((node) => node.id === id);
+  }
+
+  const script = document.createElement("script");
+
+  for (const node of nodes) {
+    script.innerHTML += `
+const node${node.id} = document.getElementById("node${node.id}");
+`;
+  }
+
+  const allNodeNeightbours = new Map();
+  const allEdgeNeightbours = new Map();
+  for (const [edgeIndex, edge] of edges.entries()) {
+    const sourceId = findNode(edge.source).id;
+    const targetId = findNode(edge.target).id;
+
+    let alreadyFoundNeightbours = allNodeNeightbours.get(sourceId);
+    if (!alreadyFoundNeightbours) {
+      alreadyFoundNeightbours = [targetId];
+      allNodeNeightbours.set(sourceId, alreadyFoundNeightbours);
+    } else {
+      alreadyFoundNeightbours.push(targetId);
+    }
+
+    alreadyFoundNeightbours = allNodeNeightbours.get(targetId);
+    if (!alreadyFoundNeightbours) {
+      alreadyFoundNeightbours = [sourceId];
+      allNodeNeightbours.set(targetId, alreadyFoundNeightbours);
+    } else {
+      alreadyFoundNeightbours.push(sourceId);
+    }
+
+    let alreadyFoundEdgeNeightbours = allEdgeNeightbours.get(sourceId);
+    if (!alreadyFoundEdgeNeightbours) {
+      alreadyFoundEdgeNeightbours = [edgeIndex];
+      allEdgeNeightbours.set(sourceId, alreadyFoundEdgeNeightbours);
+    } else {
+      alreadyFoundEdgeNeightbours.push(edgeIndex);
+    }
+
+    alreadyFoundEdgeNeightbours = allEdgeNeightbours.get(targetId);
+    if (!alreadyFoundEdgeNeightbours) {
+      alreadyFoundEdgeNeightbours = [edgeIndex];
+      allEdgeNeightbours.set(targetId, alreadyFoundEdgeNeightbours);
+    } else {
+      alreadyFoundEdgeNeightbours.push(edgeIndex);
+    }
+  }
+
+  const nodeIds = new Set(nodes.map((node) => node.id));
+  const edgeIds = new Set(edges.map((edge, index) => index));
+  for (const node of nodes) {
+    const neightbours = new Set(allNodeNeightbours.get(node.id));
+    const notNeightbours = nodeIds.difference(neightbours.add(node.id));
+
+    const edgeNeightbours = new Set(allEdgeNeightbours.get(node.id));
+    const edgeNotNeightbours = edgeIds.difference(edgeNeightbours);
+
+    let focusNeightboursScript = "";
+    for (const neightbour of neightbours) {
+      focusNeightboursScript += `node${neightbour}.style.opacity = 1;
+      `;
+    }
+
+    let unfocusNoNeightboursScript = "";
+    for (const notNeightbour of notNeightbours) {
+      unfocusNoNeightboursScript += `node${notNeightbour}.style.opacity = 0.1;
+      `;
+    }
+
+    let focusEdgeNeightboursScript = "";
+    for (const edgeIndex of edgeNeightbours) {
+      focusEdgeNeightboursScript += `document.getElementById("edgeText${edgeIndex}").setAttribute("fill", "rgba(0,0,0,1)");`;
+      focusEdgeNeightboursScript += `document.getElementById("edgeArrow${edgeIndex}").style.opacity = 1;
+      `;
+    }
+
+    let unfocusEdgeNoNeightboursScript = "";
+    for (const edgeIndex of edgeNotNeightbours) {
+      unfocusEdgeNoNeightboursScript += `document.getElementById("edgeText${edgeIndex}").setAttribute("fill", "rgba(0,0,0,0.1)");`;
+      unfocusEdgeNoNeightboursScript += `document.getElementById("edgeArrow${edgeIndex}").style.opacity = 0.1;
+      `;
+    }
+
+    let focusAllScript = ``;
+    for (const nodeId of nodeIds) {
+      focusAllScript += `node${nodeId}.style.opacity = 1;
+      `;
+    }
+
+    let unfocusFocusAllEdgesScript = ``;
+    for (const edgeIndex of edgeIds) {
+      unfocusFocusAllEdgesScript += `document.getElementById("edgeText${edgeIndex}").setAttribute("fill", "rgba(0,0,0,0.1)");`;
+      unfocusFocusAllEdgesScript += `document.getElementById("edgeArrow${edgeIndex}").style.opacity = 0.1;
+      `;
+    }
+
+    script.innerHTML += `
+node${node.id}.addEventListener("mouseenter", (event) => {
+    ${focusNeightboursScript}
+    ${unfocusNoNeightboursScript}
+    ${focusEdgeNeightboursScript}
+    ${unfocusEdgeNoNeightboursScript}
+  });
+node${node.id}.addEventListener("mouseleave", (event) => {
+    ${focusAllScript}
+    ${unfocusFocusAllEdgesScript}
+  });
+    `;
+  }
+
+  document.body.appendChild(script);
+}
+
+/** @param {string} text * @returns {{width: number, height: number}} */
+function svgTextSize(text) {
+  let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.style.position = "absolute";
+  svg.style.visibility = "hidden";
+  svg.style.left = Number.MIN_SAFE_INTEGER + "px";
+  let textSvg = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  textSvg.innerHTML = text;
+  svg.appendChild(textSvg);
+  document.body.appendChild(svg);
+  const size = {
+    width: textSvg.getBBox().width,
+    height: textSvg.getBBox().height,
+  };
+  svg.remove();
+  console.log(size);
+  return size;
 }
