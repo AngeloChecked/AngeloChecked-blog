@@ -14,7 +14,7 @@ export function createArrow(pointA, pointB, stroke, opacity, id) {
 
 function createText({ point, text, angle, color, fontSize, id }) {
   return `
-  <text id="${id}" filter="url(#solid)" font-size="${fontSize}" x="${point.x}" y="${point.y}" fill="${color}"  text-anchor="middle" dominant-baseline="central" transform="rotate(${angle}, ${point.x}, ${point.y})" style="pointer-events: none;">
+  <text id="${id}" filter="url(#solid)" font-size="${fontSize}" x="${point.x}" y="${point.y}" fill="${color}"  text-anchor="middle" dominant-baseline="central" transform="rotate(${angle}, ${point.x}, ${point.y})" style="pointer-events: none ;user-select: none;">
          ${text}
        </text>
        </g>`;
@@ -43,12 +43,13 @@ export function createSvg(
   innerWidth = 1000,
   innerHeight = 1000,
   bgColor,
+  body,
 ) {
-  document.body.innerHTML = `
+  const svg = `
     <svg id="graph" viewBox="-${innerWidth / 4} -${innerHeight / 4} ${innerWidth / 2} ${innerHeight / 2}" width="${width}" height="${height}" style="background-color: ${bgColor};">
+    ${body}
     </svg>
   `;
-  const svg = document.querySelector("svg");
   return svg;
 }
 
@@ -70,9 +71,9 @@ export function createSvg(
 /**
  * @param {import('./graph.js').Graph} graph
  * @param {SVGElement} svg
- * @param {DrawConfig} [config={}]
+ * @param {DrawConfig} [drawConfig={}]
  */
-export function draw({ edges, nodes }, svg, config = {}) {
+export function generateSvgHtml({ edges, nodes }, drawConfig, graphConfig) {
   function findNode(id) {
     return nodes.find((node) => node.id === id);
   }
@@ -92,8 +93,8 @@ export function draw({ edges, nodes }, svg, config = {}) {
     return point.plus(new Point(0, radius + margin));
   }
 
-  svg.innerHTML = `
-    ${createDefs(config.backgroundColor)}
+  let svgHtmlBody = `
+    ${createDefs(drawConfig.backgroundColor)}
     `;
 
   for (const [edgeIndex, edge] of edges.entries()) {
@@ -114,25 +115,25 @@ export function draw({ edges, nodes }, svg, config = {}) {
     const midpoint = calculateMidpoint(startPoint, endPoint);
     const angle = startPoint.angleTo(endPoint);
 
-    svg.innerHTML += createArrow(
+    svgHtmlBody += createArrow(
       startPoint,
       endPoint,
       "black",
-      config.edgeUnfocusOpacity,
+      drawConfig.edgeUnfocusOpacity,
       edgeIndex,
     );
-    svg.innerHTML += createText({
+    svgHtmlBody += createText({
       point: midpoint,
       text: edge.text,
       angle: angle,
-      color: config.edgeUnfocusTextColor,
-      fontSize: config.edgeTextFontSize,
+      color: drawConfig.edgeUnfocusTextColor,
+      fontSize: drawConfig.edgeTextFontSize,
       id: "edgeText" + edgeIndex,
     });
   }
 
   for (const node of nodes) {
-    svg.innerHTML += createCircle(
+    svgHtmlBody += createCircle(
       node.point,
       node.radius,
       node.color,
@@ -145,18 +146,27 @@ export function draw({ edges, nodes }, svg, config = {}) {
       node.radius,
       20,
     );
-    svg.innerHTML += createText({
+    svgHtmlBody += createText({
       point: belowCenterPoint,
       text: node.text,
       angle: 0,
-      color: config.textColor,
-      fontSize: config.nodeTextFontSize,
+      color: drawConfig.textColor,
+      fontSize: drawConfig.nodeTextFontSize,
       id: "nodeText" + node.id,
     });
   }
+
+  return createSvg(
+    drawConfig.svgWidth,
+    drawConfig.svgHeight,
+    graphConfig.WIDTH,
+    graphConfig.HEIGHT,
+    drawConfig.backgroundColor,
+    svgHtmlBody,
+  );
 }
 
-export function graphInteractive(
+export function generateSvgInteractiveScript(
   { edges, nodes },
   {
     nodeUnfocusOpacity,
@@ -276,7 +286,6 @@ node${node.id}.addEventListener("mouseleave", (event) => {
 
   script += `
   const graphSvg = document.querySelector("#graph")
-   console.log('hello')
 	const onWheel = (event) => {
 	  event.preventDefault()
 		const viewBox = graphSvg.getAttribute("viewBox")
