@@ -28,7 +28,6 @@ export function calculateGraph(
   {
     WIDTH,
     HEIGHT,
-    NODE_RADIUS,
     SPRING_LENGTH,
     SPRING_CONSTANT,
     REPULSION_CONSTANT,
@@ -53,7 +52,7 @@ export function calculateGraph(
         const nodeB = nodes[j];
 
         const distance = nodeB.point.distanceTo(nodeA.point);
-        const minDistance = 2 * NODE_RADIUS + MARGIN;
+        const minDistance = nodeA.radius + nodeB.radius + MARGIN;
 
         if (distance < minDistance) {
           const force = REPULSION_CONSTANT / (distance * distance);
@@ -99,12 +98,12 @@ export function calculateGraph(
 
       node.point = new Point(
         Math.max(
-          -WIDTH / 2 + NODE_RADIUS,
-          Math.min(WIDTH / 2 - NODE_RADIUS, node.point.x),
+          -WIDTH / 2 + node.radius,
+          Math.min(WIDTH / 2 - node.radius, node.point.x),
         ),
         Math.max(
-          -HEIGHT / 2 + NODE_RADIUS,
-          Math.min(HEIGHT / 2 - NODE_RADIUS, node.point.y),
+          -HEIGHT / 2 + node.radius,
+          Math.min(HEIGHT / 2 - node.radius, node.point.y),
         ),
       );
     }
@@ -117,7 +116,7 @@ export function calculateGraph(
         const nodeB = nodes[j];
 
         const distance = nodeB.point.distanceTo(nodeA.point);
-        const minDistance = 2 * NODE_RADIUS + MARGIN;
+        const minDistance = nodeA.radius + nodeB.radius + MARGIN;
 
         if (distance < minDistance) {
           const overlap = minDistance - distance;

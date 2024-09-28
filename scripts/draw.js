@@ -72,11 +72,10 @@ export function createSvg(
 
 /**
  * @param {import('./graph.js').Graph} graph
- * @param {number} circleRadius
  * @param {SVGElement} svg
  * @param {DrawConfig} [config={}]
  */
-export function draw({ edges, nodes }, circleRadius, svg, config = {}) {
+export function draw({ edges, nodes }, svg, config = {}) {
   function findNode(id) {
     return nodes.find((node) => node.id === id);
   }
@@ -107,12 +106,12 @@ export function draw({ edges, nodes }, circleRadius, svg, config = {}) {
     const startPoint = calculatePerimeterPoint(
       nodeA.point,
       nodeB.point,
-      circleRadius,
+      nodeA.radius,
     );
     const endPoint = calculatePerimeterPoint(
       nodeB.point,
       nodeA.point,
-      circleRadius,
+      nodeB.radius,
     );
 
     const midpoint = calculateMidpoint(startPoint, endPoint);
@@ -138,7 +137,7 @@ export function draw({ edges, nodes }, circleRadius, svg, config = {}) {
   for (const node of nodes) {
     svg.innerHTML += createCircle(
       node.point,
-      circleRadius,
+      node.radius,
       node.color,
       node.id,
       node.link,
@@ -146,7 +145,7 @@ export function draw({ edges, nodes }, circleRadius, svg, config = {}) {
 
     const belowCenterPoint = calculateBelowCenterPoint(
       node.point,
-      circleRadius,
+      node.radius,
       20,
     );
     svg.innerHTML += createText({

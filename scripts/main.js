@@ -17,7 +17,6 @@ async function sleep(ms) {
 const graphConfig = {
   WIDTH: 1000,
   HEIGHT: 1000,
-  NODE_RADIUS: 30,
   SPRING_CONSTANT: 0.1,
   REPULSION_CONSTANT: 1000,
   DAMPING: 0.85,
@@ -223,5 +222,5 @@ const graph = calculateGraph(
   // await sleep(0); }
 );
 
-draw(graph, graphConfig.NODE_RADIUS, svg, drawConfig);
+draw(graph, svg, drawConfig);
 graphInteractive(graph, drawConfig);
