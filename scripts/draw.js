@@ -38,6 +38,7 @@ function createDefs(arrowTextBgColor) {
 }
 
 export function createSvg(
+  id,
   width,
   height,
   innerWidth = 1000,
@@ -46,7 +47,7 @@ export function createSvg(
   body,
 ) {
   const svg = `
-    <svg id="graph" viewBox="-${innerWidth / 4} -${innerHeight / 4} ${innerWidth / 2} ${innerHeight / 2}" width="${width}" height="${height}" style="background-color: ${bgColor};">
+    <svg id="${id}" viewBox="-${innerWidth / 4} -${innerHeight / 4} ${innerWidth / 2} ${innerHeight / 2}" width="${width}" height="${height}" style="background-color: ${bgColor};">
     ${body}
     </svg>
   `;
@@ -157,6 +158,7 @@ export function generateSvgHtml({ edges, nodes }, drawConfig, graphConfig) {
   }
 
   return createSvg(
+    drawConfig.id,
     drawConfig.svgWidth,
     drawConfig.svgHeight,
     graphConfig.WIDTH,
@@ -174,8 +176,10 @@ export function generateSvgInteractiveScript(
     edgeUnfocusOpacity,
     edgeUnfocusTextColor,
     edgeFocusTextColor,
+    svgWidth,
+    svgHeight,
+    id,
   },
-  { width, height },
 ) {
   function findNode(id) {
     return nodes.find((node) => node.id === id);
@@ -285,7 +289,7 @@ node${node.id}.addEventListener("mouseleave", (event) => {
   }
 
   script += `
-  const graphSvg = document.querySelector("#graph")
+  const graphSvg = document.getElementById("${id}")
 	const onWheel = (event) => {
 	  event.preventDefault()
 		const viewBox = graphSvg.getAttribute("viewBox")
@@ -310,7 +314,7 @@ node${node.id}.addEventListener("mouseleave", (event) => {
 		const viewBox = graphSvg.getAttribute("viewBox")
 		if(viewBox){
 			let [xx, yy, w, h] = viewBox.split(" ").map(Number)
-		  const biggerSide = ${Math.max(width, height)}
+		  const biggerSide = ${Math.max(svgWidth, svgHeight)}
     	yy += -((event.movementY*(h*2))/biggerSide)
     	xx += -((event.movementX*(w*2))/biggerSide)
 			graphSvg.setAttribute("viewBox", \`\$\{xx\} \$\{yy\} \$\{w\} \$\{h\}\`)

@@ -4,7 +4,6 @@ import { Point } from "./Point.js";
  * @typedef {Object} GraphConfig
  * @property {number} WIDTH
  * @property {number} HEIGHT
- * @property {number} NODE_RADIUS
  * @property {number} SPRING_LENGTH
  * @property {number} SPRING_CONSTANT
  * @property {number} REPULSION_CONSTANT
@@ -35,8 +34,7 @@ export function calculateGraph(
     ITERATIONS,
     MARGIN,
   },
-  nodes,
-  edges,
+  { nodes, edges },
   simulationStepCallback = undefined,
 ) {
   function randomPoint(width, height) {

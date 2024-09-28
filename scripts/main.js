@@ -1,34 +1,5 @@
-import { generateSvgHtml, generateSvgInteractiveScript } from "./draw.js";
-import { calculateGraph } from "./graph.js";
+import { SimpleBlogNetworkGraph } from "./SimpleBlogNetworkGraph.js";
 
-const graphConfig = {
-  WIDTH: 1000,
-  HEIGHT: 1000,
-  SPRING_CONSTANT: 0.1,
-  REPULSION_CONSTANT: 1000,
-  DAMPING: 0.85,
-  ITERATIONS: 100,
-  SPRING_LENGTH: 240,
-  MARGIN: 120,
-};
-
-/** @type {import('./draw.js').DrawConfig} */
-const drawConfig = {
-  backgroundColor: "white",
-  textColor: "black",
-  nodeTextFontSize: "1.2em",
-  edgeTextFontSize: "1.1em",
-  nodeTextBelowMargin: 20,
-  nodeUnfocusOpacity: 0.1,
-  edgeFocusOpacity: 0.6,
-  edgeFocusTextColor: `rgba(0,0,0,0.6)`,
-  edgeUnfocusOpacity: 0.2,
-  edgeUnfocusTextColor: `rgba(0,0,0,0.2)`,
-  svgWidth: 800,
-  svgHeight: 400,
-};
-
-// deno-fmt-ignore
 const nodes = [
   {
     id: 1,
@@ -155,14 +126,12 @@ const edges = [
   { source: 14, target: 13, text: "doeington smith" },
 ];
 
-const graph = calculateGraph(graphConfig, nodes, edges);
-const svgHtmlBody = generateSvgHtml(graph, drawConfig, graphConfig);
-const script = generateSvgInteractiveScript(graph, drawConfig, {
-  width: drawConfig.svgWidth,
-  height: drawConfig.svgHeight,
-});
-document.body.innerHTML = svgHtmlBody;
+const simpleBlogNetworkGraph = new SimpleBlogNetworkGraph({ nodes, edges });
 
+console.log(simpleBlogNetworkGraph.defaultDrawConfig);
+const { svgHtml, script } = simpleBlogNetworkGraph.render();
+
+document.body.innerHTML = svgHtml;
 const scriptElement = document.createElement("script");
 scriptElement.innerHTML = script;
 document.body.appendChild(scriptElement);
