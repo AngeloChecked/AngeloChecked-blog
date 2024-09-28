@@ -39,6 +39,14 @@ export function calculateGraph(
   edges,
   simulationStepCallback = undefined,
 ) {
+  function randomPoint(width, height) {
+    return () =>
+      new Point(
+        (Math.random() * width) / 2 - width / 4,
+        (Math.random() * height) / 2 - height / 4,
+      );
+  }
+
   function findNode(id) {
     return nodes.find((node) => node.id === id);
   }
@@ -132,6 +140,12 @@ export function calculateGraph(
         }
       }
     }
+  }
+
+  const createRandomPoint = randomPoint(WIDTH, HEIGHT);
+  for (let node of nodes) {
+    node.point = createRandomPoint();
+    node.xpoint = new Point(0, 0);
   }
 
   if (simulationStepCallback) {

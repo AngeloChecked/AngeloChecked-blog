@@ -8,10 +8,6 @@ function createCircle(point, r, fill, id, link) {
   `;
 }
 
-function createLine(pointA, pointB, stroke) {
-  return `<line x1="${pointA.x}" y1="${pointA.y}" x2="${pointB.x}" y2="${pointB.y}" stroke="${stroke}" />`;
-}
-
 export function createArrow(pointA, pointB, stroke, opacity, id) {
   return `<line id="edgeArrow${id}" x1="${pointA.x}" y1="${pointA.y}" x2="${pointB.x}" y2="${pointB.y}" stroke="${stroke}" marker-end="url(#arrow)" opacity="${opacity}" />`;
 }
@@ -49,7 +45,8 @@ export function createSvg(
   bgColor,
 ) {
   document.body.innerHTML = `
-    <svg viewBox="-${innerWidth / 4} -${innerHeight / 4} ${innerWidth / 2} ${innerHeight / 2}" width="${width}" height="${height}" style="background-color: ${bgColor};"></svg>
+    <svg id="graph" viewBox="-${innerWidth / 4} -${innerHeight / 4} ${innerWidth / 2} ${innerHeight / 2}" width="${width}" height="${height}" style="background-color: ${bgColor};">
+    </svg>
   `;
   const svg = document.querySelector("svg");
   return svg;
@@ -126,7 +123,7 @@ export function draw({ edges, nodes }, svg, config = {}) {
     );
     svg.innerHTML += createText({
       point: midpoint,
-      text: edge.text.text,
+      text: edge.text,
       angle: angle,
       color: config.edgeUnfocusTextColor,
       fontSize: config.edgeTextFontSize,
@@ -157,9 +154,6 @@ export function draw({ edges, nodes }, svg, config = {}) {
       id: "nodeText" + node.id,
     });
   }
-
-  // svg.innerHTML += createCircle(new Point(478, 0), 22, "blue");
-  // svg.innerHTML += createCircle(new Point(0, 250), 22, "blue");
 }
 
 export function graphInteractive(
@@ -171,15 +165,14 @@ export function graphInteractive(
     edgeUnfocusTextColor,
     edgeFocusTextColor,
   },
+  { width, height },
 ) {
   function findNode(id) {
     return nodes.find((node) => node.id === id);
   }
-
-  const script = document.createElement("script");
-
+  let script = "";
   for (const node of nodes) {
-    script.innerHTML += `
+    script += `
 const node${node.id} = document.getElementById("node${node.id}");
 `;
   }
@@ -267,7 +260,7 @@ const node${node.id} = document.getElementById("node${node.id}");
       "",
     );
 
-    script.innerHTML += `
+    script += `
 node${node.id}.addEventListener("mouseenter", (event) => {
     ${focusNeightboursScript}
     ${unfocusNoNeightboursScript}
@@ -281,7 +274,43 @@ node${node.id}.addEventListener("mouseleave", (event) => {
     `;
   }
 
-  document.body.appendChild(script);
+  script += `
+  const graphSvg = document.querySelector("#graph")
+   console.log('hello')
+	const onWheel = (event) => {
+	  event.preventDefault()
+		const viewBox = graphSvg.getAttribute("viewBox")
+		if(viewBox){
+			let [xx, yy, w, h] = viewBox.split(" ").map(Number)
+		  const movement = 50
+		  const deltaY = !event.wheelDeltaY ? 0 : event.wheelDeltaY > 0 ? movement : -movement
+		  const deltaX = !event.wheelDeltaX ? 0 : event.wheelDeltaX > 0 ? movement : -movement
+    	h += deltaY
+    	w += deltaY
+    	xx -= deltaY/2
+    	yy -= deltaY/2
+			graphSvg.setAttribute("viewBox", \`\$\{xx\} \$\{yy\} \$\{w\} \$\{h\}\`)
+		}
+	}
+	graphSvg.addEventListener("wheel", onWheel)
+	const onMouseMove = (event) => {
+	  event.preventDefault()
+	  if (event.buttons === 0) {
+		  return;
+	  }
+		const viewBox = graphSvg.getAttribute("viewBox")
+		if(viewBox){
+			let [xx, yy, w, h] = viewBox.split(" ").map(Number)
+		  const biggerSide = ${Math.max(width, height)}
+    	yy += -((event.movementY*(h*2))/biggerSide)
+    	xx += -((event.movementX*(w*2))/biggerSide)
+			graphSvg.setAttribute("viewBox", \`\$\{xx\} \$\{yy\} \$\{w\} \$\{h\}\`)
+		}
+	}
+	graphSvg.addEventListener("mousemove", onMouseMove)
+	`;
+
+  return script;
 }
 
 /** @param {string} text * @returns {{width: number, height: number}} */

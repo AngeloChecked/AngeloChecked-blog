@@ -2,14 +2,6 @@ import { createSvg, draw, graphInteractive } from "./draw.js";
 import { calculateGraph } from "./graph.js";
 import { Point } from "./Point.js";
 
-function randomPoint(width, height) {
-  return () =>
-    new Point(
-      (Math.random() * width) / 2 - width / 4,
-      (Math.random() * height) / 2 - height / 4,
-    );
-}
-
 async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -41,11 +33,11 @@ const drawConfig = {
   edgeUnfocusTextColor: `rgba(0,0,0,0.2)`,
 };
 
-const randPoint = randomPoint(graphConfig.WIDTH, graphConfig.HEIGHT);
-
+const svgWidth = 800;
+const svgHeight = 400;
 const svg = createSvg(
-  800,
-  400,
+  svgWidth,
+  svgHeight,
   graphConfig.WIDTH,
   graphConfig.HEIGHT,
   drawConfig.backgroundColor,
@@ -54,8 +46,6 @@ const svg = createSvg(
 const nodes = [
   {
     id: 1,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_1_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "green",
@@ -63,8 +53,6 @@ const nodes = [
   },
   {
     id: 2,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_2_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "blue",
@@ -72,8 +60,6 @@ const nodes = [
   },
   {
     id: 3,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_3_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "yellow",
@@ -81,8 +67,6 @@ const nodes = [
   },
   {
     id: 4,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_4_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "green",
@@ -90,8 +74,6 @@ const nodes = [
   },
   {
     id: 5,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_5_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "blue",
@@ -99,8 +81,6 @@ const nodes = [
   },
   {
     id: 6,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_6_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "yellow",
@@ -108,8 +88,6 @@ const nodes = [
   },
   {
     id: 7,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_7_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "green",
@@ -117,8 +95,6 @@ const nodes = [
   },
   {
     id: 8,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_8_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "blue",
@@ -126,8 +102,6 @@ const nodes = [
   },
   {
     id: 9,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_9_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "yellow",
@@ -135,8 +109,6 @@ const nodes = [
   },
   {
     id: 10,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_10_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "green",
@@ -144,8 +116,6 @@ const nodes = [
   },
   {
     id: 11,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_11_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "blue",
@@ -153,8 +123,6 @@ const nodes = [
   },
   {
     id: 12,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_12_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "yellow",
@@ -162,8 +130,6 @@ const nodes = [
   },
   {
     id: 13,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_13_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "green",
@@ -171,8 +137,6 @@ const nodes = [
   },
   {
     id: 14,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_14_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "blue",
@@ -180,8 +144,6 @@ const nodes = [
   },
   {
     id: 15,
-    point: randPoint(),
-    xpoint: new Point(0, 0),
     text: "random_name_15_abcdefghijklmnopqrstuvwxyz",
     link: "https://www.google.it",
     color: "yellow",
@@ -189,28 +151,22 @@ const nodes = [
   },
 ];
 
-const JOHNSON_SMITH = { text: "johnson smith" };
-const DOEINGTON_SMITH = { text: "doeington smith" };
-const JANET_SMITH = { text: "janet smith" };
-const SMITHSON_SMITH = { text: "smithson smith" };
-const SMITHHHHHSON_SMITH = { text: "smithhhhhson smith" };
-
 const edges = [
-  { source: 1, target: 2, text: JOHNSON_SMITH },
-  { source: 2, target: 3, text: DOEINGTON_SMITH },
-  { source: 3, target: 4, text: JANET_SMITH },
-  { source: 4, target: 1, text: SMITHSON_SMITH },
-  { source: 5, target: 6, text: JANET_SMITH },
-  { source: 6, target: 7, text: DOEINGTON_SMITH },
-  { source: 7, target: 8, text: JOHNSON_SMITH },
-  { source: 8, target: 10, text: SMITHHHHHSON_SMITH },
-  { source: 9, target: 1, text: SMITHSON_SMITH },
-  { source: 10, target: 1, text: JOHNSON_SMITH },
-  { source: 11, target: 1, text: DOEINGTON_SMITH },
-  { source: 15, target: 1, text: JANET_SMITH },
-  { source: 12, target: 13, text: SMITHSON_SMITH },
-  { source: 13, target: 12, text: JOHNSON_SMITH },
-  { source: 14, target: 13, text: DOEINGTON_SMITH },
+  { source: 1, target: 2, text: "johnson smith" },
+  { source: 2, target: 3, text: "doeington smith" },
+  { source: 3, target: 4, text: "janet smith" },
+  { source: 4, target: 1, text: "smithson smith" },
+  { source: 5, target: 6, text: "janet smith" },
+  { source: 6, target: 7, text: "doeington smith" },
+  { source: 7, target: 8, text: "johnson smith" },
+  { source: 8, target: 10, text: "smithhhhhson smith" },
+  { source: 9, target: 1, text: "smithson smith" },
+  { source: 10, target: 1, text: "johnson smith" },
+  { source: 11, target: 1, text: "doeington smith" },
+  { source: 15, target: 1, text: "janet smith" },
+  { source: 12, target: 13, text: "smithson smith" },
+  { source: 13, target: 12, text: "johnson smith" },
+  { source: 14, target: 13, text: "doeington smith" },
 ];
 
 const graph = calculateGraph(
@@ -223,4 +179,11 @@ const graph = calculateGraph(
 );
 
 draw(graph, svg, drawConfig);
-graphInteractive(graph, drawConfig);
+
+const script = graphInteractive(graph, drawConfig, {
+  width: svgWidth,
+  height: svgHeight,
+});
+const scriptElement = document.createElement("script");
+scriptElement.innerHTML = script;
+document.body.appendChild(scriptElement);
