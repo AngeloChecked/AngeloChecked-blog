@@ -2,6 +2,18 @@ import { html } from "../deps/html.ts";
 import { SimpleBlogNetworkGraph } from "../scripts/SimpleBlogNetworkGraph.js";
 import type { Node, Edge } from "../scripts/graph.js";
 import { graphNodes } from "../graph/knowledgeGraph.ts";
+import { GraphNoteTable } from "./GraphNodeTable.ts";
+
+export function colorFrom(type: string) {
+  if (type == "link") {
+    return "lightgreen";
+  } else if (type == "author") {
+    return "#ffcccb";
+  } else if (type == "tag") {
+    return "lightblue";
+  }
+  return "black";
+}
 
 export function Graph() {
   const nodes: Node[] = [];
@@ -11,8 +23,8 @@ export function Graph() {
     nodes.push({
       id: node.id,
       text: node.data.name,
-      link: "",
-      color: "green",
+      link: node.data?.url ?? "",
+      color: colorFrom(node.type),
       radius: 5,
     });
 
@@ -34,7 +46,7 @@ export function Graph() {
 
   return html`
     <div>
-      ${svgHtml}
+      ${svgHtml} ${GraphNoteTable()}
       <script>
         ${script};
       </script>

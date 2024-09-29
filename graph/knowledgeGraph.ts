@@ -539,6 +539,7 @@ export type GraphNode = {
   data: {
     description: string;
     name: string;
+    url?: string;
     [key: string]: unknown;
   };
   [key: string]: unknown;
