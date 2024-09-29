@@ -3,6 +3,8 @@ import { SimpleBlogNetworkGraph } from "../scripts/SimpleBlogNetworkGraph.js";
 import type { Node, Edge } from "../scripts/graph.js";
 import { graphNodes } from "../graph/knowledgeGraph.ts";
 import { GraphNoteTable } from "./GraphNodeTable.ts";
+import { myPersonalTechLimboElixirVsRustPost } from "../post/my-personal-tech-limbo-elixir-vs-rust.data.ts";
+import { philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava } from "../post/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java.data.ts";
 
 export function colorFrom(type: string) {
   if (type == "link") {
@@ -16,13 +18,18 @@ export function colorFrom(type: string) {
 }
 
 export function Graph() {
+  graphNodes.push(myPersonalTechLimboElixirVsRustPost);
+  graphNodes.push(
+    philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava,
+  );
+
   const nodes: Node[] = [];
   const edges: Edge[] = [];
 
   for (const node of graphNodes) {
     nodes.push({
       id: node.id,
-      text: node.data.name,
+      text: node.data.title,
       link: node.data?.url ?? "",
       color: colorFrom(node.type),
       radius: 5,

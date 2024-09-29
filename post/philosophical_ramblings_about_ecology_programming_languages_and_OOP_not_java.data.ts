@@ -1,7 +1,7 @@
+import type { GraphNode } from "../graph/knowledgeGraph.ts";
+
 import {
-  dontLearnASyntaxLearnToChangeTheWayYouThinkLink,
   functionalProgrammingTag,
-  GraphNode,
   objectOrientedProgrammingisBadLink,
   objectOrientedProgrammingTag,
   peopleDontUnderstandOOPLink,
@@ -11,7 +11,7 @@ import {
   angeloCeccatoAuthor,
 } from "../graph/knowledgeGraph.ts";
 
-export const philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava: Graph =
+export const philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava: GraphNode =
   {
     type: "post",
     id: "philosophical-ramblings-about-ecology-programming-languages-and-OOP-not-java",

@@ -1,6 +1,7 @@
+import type { GraphNode } from "../graph/knowledgeGraph.ts";
+
 import {
   dontLearnASyntaxLearnToChangeTheWayYouThinkLink,
-  GraphNode,
   learnToLearnLink,
   programmingLanguagesTag,
   rustLanguageTag,

@@ -17,7 +17,7 @@ export function GraphNoteTable() {
   }
 
   for (const node of graphNodes) {
-    if (node.type == "link") {
+    if (node.type == "link" || node.type == "post") {
       if (!node.authorId) {
         continue;
       }
@@ -81,15 +81,19 @@ function table(authorData: AuthorData) {
   return html`
     <tr>
       <td>
-        <a style="color: ${colorFrom("author")};" href=""
-          >${authorData.node.data.name}</a
-        >
+        <ul>
+          <li>
+            <a style="color: ${colorFrom("author")};" href=""
+              >${authorData.node.data.title}</a
+            >
+          </li>
+        </ul>
       </td>
       <td>
         <ul>
           ${authorData.links
             .map((link) => {
-              return html`<li><a style="color: ${colorFrom("link")};" href="${link.data.url}">${link.data.name}</li></li>`;
+              return html`<li><a style="color: ${colorFrom("link")};" href="${link.data.url}">${link.data.title}</li></li>`;
             })
             .join("")}
         </ul>
@@ -98,7 +102,7 @@ function table(authorData: AuthorData) {
         <ul>
           ${authorData.tags
             .map((tag) => {
-              return html`<li><a style="color: ${colorFrom("tag")};" href="">${tag.data.name}<a/></li>`;
+              return html`<li><a style="color: ${colorFrom("tag")};" href="">${tag.data.title}<a/></li>`;
             })
             .join("")}
         </ul>
