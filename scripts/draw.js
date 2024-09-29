@@ -47,7 +47,7 @@ export function createSvg(
   body,
 ) {
   const svg = `
-    <svg id="${id}" viewBox="-${innerWidth / 4} -${innerHeight / 4} ${innerWidth / 2} ${innerHeight / 2}" width="${width}" height="${height}" style="background-color: ${bgColor};">
+    <svg id="${id}" viewBox="-${innerWidth / 2} -${innerHeight / 2} ${innerWidth} ${innerHeight}" width="${width}" height="${height}" style="background-color: ${bgColor};">
     ${body}
     </svg>
   `;
@@ -295,13 +295,11 @@ node${node.id}.addEventListener("mouseleave", (event) => {
 		const viewBox = graphSvg.getAttribute("viewBox")
 		if(viewBox){
 			let [xx, yy, w, h] = viewBox.split(" ").map(Number)
-		  const movement = 50
-		  const deltaY = !event.wheelDeltaY ? 0 : event.wheelDeltaY > 0 ? movement : -movement
-		  const deltaX = !event.wheelDeltaX ? 0 : event.wheelDeltaX > 0 ? movement : -movement
-    	h += deltaY
-    	w += deltaY
-    	xx -= deltaY/2
-    	yy -= deltaY/2
+  		const	zoomRatio = event.wheelDeltaY + event.wheelDeltaX > 0 ? 1.1 : 0.9
+    	h *= zoomRatio
+    	w *= zoomRatio
+    	xx *= zoomRatio
+    	yy *= zoomRatio
 			graphSvg.setAttribute("viewBox", \`\$\{xx\} \$\{yy\} \$\{w\} \$\{h\}\`)
 		}
 	}

@@ -2,9 +2,9 @@ import { generateSvgHtml, generateSvgInteractiveScript } from "./draw.js";
 import { calculateGraph } from "./graph.js";
 
 /** @type {import('./graph.js').GraphConfig} */
-const graphConfig = {
-  WIDTH: 1000,
-  HEIGHT: 1000,
+const defaultGraphConfig = {
+  WIDTH: 800,
+  HEIGHT: 400,
   SPRING_CONSTANT: 0.1,
   REPULSION_CONSTANT: 1000,
   DAMPING: 0.85,
@@ -14,7 +14,7 @@ const graphConfig = {
 };
 
 /** @type {import('./draw.js').DrawConfig} */
-const drawConfig = {
+const defaultDrawConfig = {
   svgId: "simple-blog-network-graph",
   backgroundColor: "white",
   textColor: "black",
@@ -31,26 +31,34 @@ const drawConfig = {
 };
 
 export class SimpleBlogNetworkGraph {
-  static get defaultDrawConfig() {
-    return drawConfig;
-  }
-
-  static get defaultGraphConfig() {
-    return graphConfig;
-  }
+  #graph;
+  #drawConfig;
+  #graphConfig;
 
   /** @param {import('./graph.js').Graph} graph */
-  constructor(graph, drawConfig, graphConfig) {
-    this.graph = graph;
-    this.drawConfig = drawConfig || SimpleBlogNetworkGraph.defaultDrawConfig;
-    this.graphConfig = graphConfig || SimpleBlogNetworkGraph.defaultGraphConfig;
+  constructor(graph) {
+    this.#graph = graph;
+    this.#drawConfig = defaultDrawConfig;
+    this.#graphConfig = defaultGraphConfig;
+  }
+
+  /** @param {Partial<import('./draw.js').DrawConfig>} drawConfig */
+  drawConfig(drawConfig) {
+    this.#drawConfig = { ...this.#drawConfig, ...drawConfig };
+    return this;
+  }
+
+  /** @param {Partial<import('./graph.js').GraphConfig>} graphConfig */
+  graphConfig(graphConfig) {
+    this.#graphConfig = { ...this.#graphConfig, ...graphConfig };
+    return this;
   }
 
   /** @returns {{ svgHtml: string, script: string }} */
   render() {
-    const graph = calculateGraph(graphConfig, this.graph);
-    const svgHtml = generateSvgHtml(graph, this.drawConfig, this.graphConfig);
-    const script = generateSvgInteractiveScript(graph, this.drawConfig);
+    const graph = calculateGraph(defaultGraphConfig, this.#graph);
+    const svgHtml = generateSvgHtml(graph, this.#drawConfig, this.#graphConfig);
+    const script = generateSvgInteractiveScript(graph, this.#drawConfig);
     return { svgHtml, script };
   }
 }

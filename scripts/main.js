@@ -127,8 +127,6 @@ const edges = [
 ];
 
 const simpleBlogNetworkGraph = new SimpleBlogNetworkGraph({ nodes, edges });
-
-console.log(simpleBlogNetworkGraph.defaultDrawConfig);
 const { svgHtml, script } = simpleBlogNetworkGraph.render();
 
 document.body.innerHTML = svgHtml;
