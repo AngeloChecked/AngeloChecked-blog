@@ -263,12 +263,12 @@ export function generateSvgInteractiveScript(
     ${unfocusAllEdgesScript}
   }`;
 
-  const updateFillFunction = `function updateFill(instances, color) {
+  const updateFillFunction = `function updateFill(color, instances) {
     for (const instance of instances) {
       instance.setAttribute("fill", color);
     }
   }`;
-  const updateOpacityFunction = `function updateOpacity(instances, opacity) {
+  const updateOpacityFunction = `function updateOpacity(opacity, instances) {
     for (const instance of instances) {
       instance.style.opacity = opacity;
     }
@@ -281,47 +281,47 @@ export function generateSvgInteractiveScript(
     const edgeNeightbours = new Set(allEdgeNeightbours.get(node.id));
     const edgeNotNeightbours = edgeIds.difference(edgeNeightbours);
 
-    const focusNeightboursScript = Array.from(neightbours).reduce(
-      (script, neightbour) =>
-        script +
-        `node${neightbour}.style.opacity = 1;
-       nodeText${neightbour}.style.opacity = 1;
-      \n`,
-      "",
-    );
+    const focusNeightboursInstances = Array.from(neightbours)
+      .map((neightbour) => `node${neightbour},nodeText${neightbour}`)
+      .join(",");
 
-    const unfocusNoNeightboursScript = Array.from(notNeightbours).reduce(
-      (script, notNeightbour) =>
-        script +
-        `
-          node${notNeightbour}.style.opacity = ${nodeUnfocusOpacity};
-          nodeText${notNeightbour}.style.opacity = ${nodeUnfocusOpacity};\n`,
-      "",
-    );
+    const unfocusNoNeightboursInstances = Array.from(notNeightbours)
+      .map((notNeightbour) => `node${notNeightbour},nodeText${notNeightbour}`)
+      .join(",");
 
-    const focusEdgeNeightboursScript = Array.from(edgeNeightbours).reduce(
-      (script, edgeIndex) =>
-        script +
-        `edgeText${edgeIndex}.setAttribute("fill", "${edgeFocusTextColor}");
-        edgeArrow${edgeIndex}.style.opacity = ${edgeFocusOpacity};\n`,
-      "",
-    );
+    const focusEdgeNeightboursTextInstances = Array.from(edgeNeightbours)
+      .map((edgeIndex) => `edgeText${edgeIndex}`)
+      .join(",");
 
-    const unfocusEdgeNoNeightboursScr = Array.from(edgeNotNeightbours).reduce(
-      (script, edgeIndex) =>
-        script +
-        `edgeText${edgeIndex}.setAttribute("fill", "rgba(0,0,0,${edgeUnfocusOpacity})");
-        edgeArrow${edgeIndex}.style.opacity = ${edgeUnfocusOpacity};\n`,
-      "",
-    );
+    const focusEdgeNeightboursArrowInstances = Array.from(edgeNeightbours)
+      .map((edgeIndex) => `edgeArrow${edgeIndex}`)
+      .join(",");
 
+    const unfocusEdgeNoNeightboursTextInstances = Array.from(edgeNotNeightbours)
+      .map((edgeIndex) => `edgeText${edgeIndex}`)
+      .join(",");
+
+    const unfocusEdgeNoNeightboursArrowInstances = Array.from(
+      edgeNotNeightbours,
+    )
+      .map((edgeIndex) => `edgeArrow${edgeIndex}`)
+      .join(",");
     script += `
 node${node.id}.addEventListener("mouseenter", (event) => {
-    ${focusNeightboursScript}
-    ${unfocusNoNeightboursScript}
-    ${focusEdgeNeightboursScript}
-    ${unfocusEdgeNoNeightboursScr}
-  });
+// focus
+updateOpacity(1, [${focusNeightboursInstances}]); // focus neightbours
+
+// unfocus
+updateOpacity(${nodeUnfocusOpacity}, [${unfocusNoNeightboursInstances}]);
+
+// focus
+updateFill("${edgeFocusTextColor}", [${focusEdgeNeightboursTextInstances}])
+updateOpacity(${edgeFocusOpacity}, [${focusEdgeNeightboursArrowInstances}]);
+
+// unfocus
+updateFill("${edgeUnfocusTextColor}", [${unfocusEdgeNoNeightboursTextInstances}]);
+updateOpacity(${edgeUnfocusOpacity}, [${unfocusEdgeNoNeightboursArrowInstances}]);
+});
 node${node.id}.addEventListener("mouseleave", (event) => {
     focusAll();
     unfocusAllEdges();
