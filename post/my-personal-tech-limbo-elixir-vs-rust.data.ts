@@ -1,15 +1,15 @@
 import {
   dontLearnASyntaxLearnToChangeTheWayYouThinkLink,
-  Graph,
+  GraphNode,
   learnToLearnLink,
   programmingLanguagesTag,
   rustLanguageTag,
-} from "../graph/pages.page.ts";
-import { cognitiveBiasTag } from "../graph/pages.page.ts";
-import { learningTag } from "../graph/pages.page.ts";
-import { angeloCeccatoAuthor } from "../graph/pages.page.ts";
+  cognitiveBiasTag,
+  learningTag,
+  angeloCeccatoAuthor,
+} from "../graph/knowledgeGraph.ts";
 
-export const myPersonalTechLimboElixirVsRustPost: Graph = {
+export const myPersonalTechLimboElixirVsRustPost: GraphNode = {
   type: "post",
   id: "my-personal-tech-limbo-elixir-vs-rust",
   tagId: [

@@ -56,6 +56,7 @@ export function createSvg(
 
 /**
  * @typedef {{
+ *   svgId: string,
  *   backgroundColor: string,
  *   textColor: string,
  *   nodeTextFontSize: string,
@@ -66,6 +67,8 @@ export function createSvg(
  *   edgeFocusTextColor: string,
  *   edgeUnfocusOpacity: number,
  *   edgeUnfocusTextColor: string,
+ *   svgWidth: number,
+ *   svgHeight: number,
  * }} DrawConfig
  */
 
@@ -101,6 +104,15 @@ export function generateSvgHtml({ edges, nodes }, drawConfig, graphConfig) {
   for (const [edgeIndex, edge] of edges.entries()) {
     const nodeA = findNode(edge.source);
     const nodeB = findNode(edge.target);
+
+    if (!nodeA || !nodeB) {
+      console.log("Edge source or target not found", {
+        edge,
+        nodeA,
+        nodeB,
+      });
+      continue;
+    }
 
     const startPoint = calculatePerimeterPoint(
       nodeA.point,
@@ -145,7 +157,7 @@ export function generateSvgHtml({ edges, nodes }, drawConfig, graphConfig) {
     const belowCenterPoint = calculateBelowCenterPoint(
       node.point,
       node.radius,
-      20,
+      drawConfig.nodeTextBelowMargin,
     );
     svgHtmlBody += createText({
       point: belowCenterPoint,
@@ -186,16 +198,28 @@ export function generateSvgInteractiveScript(
   }
   let script = "";
   for (const node of nodes) {
-    script += `
-const node${node.id} = document.getElementById("node${node.id}");
-`;
+    script += `const node${node.id} = document.getElementById("node${node.id}");`;
+  }
+
+  for (const [edgeIndex] of edges.entries()) {
+    script += `const edgeText${edgeIndex} = document.getElementById("edgeText${edgeIndex}");`;
+    script += `const edgeArrow${edgeIndex} = document.getElementById("edgeArrow${edgeIndex}");`;
   }
 
   const allNodeNeightbours = new Map();
   const allEdgeNeightbours = new Map();
   for (const [edgeIndex, edge] of edges.entries()) {
-    const sourceId = findNode(edge.source).id;
-    const targetId = findNode(edge.target).id;
+    const sourceId = findNode(edge.source)?.id;
+    const targetId = findNode(edge.target)?.id;
+
+    if (!sourceId || !targetId) {
+      console.log("Edge source or target not found", {
+        edge,
+        sourceId,
+        targetId,
+      });
+      continue;
+    }
 
     let alreadyFoundNeightbours = allNodeNeightbours.get(sourceId) ?? [];
     alreadyFoundNeightbours.push(targetId);
@@ -216,6 +240,39 @@ const node${node.id} = document.getElementById("node${node.id}");
 
   const nodeIds = new Set(nodes.map((node) => node.id));
   const edgeIds = new Set(edges.map((_, index) => index));
+
+  const focusAllScript = Array.from(nodeIds).reduce(
+    (script, nodeId) =>
+      script +
+      `node${nodeId}.style.opacity = 1;
+       nodeText${nodeId}.style.opacity = 1;\n`,
+    "",
+  );
+  const focusAllScriptFunction = `function focusAll() {
+    ${focusAllScript}
+  }`;
+
+  const unfocusAllEdgesScript = Array.from(edgeIds).reduce(
+    (script, edgeIndex) =>
+      script +
+      `edgeText${edgeIndex}.setAttribute("fill", "${edgeUnfocusTextColor}");
+      edgeArrow${edgeIndex}.style.opacity = ${edgeUnfocusOpacity};\n`,
+    "",
+  );
+  const unfocusAllEdgesScriptFunction = `function unfocusAllEdges() {
+    ${unfocusAllEdgesScript}
+  }`;
+
+  const updateFillFunction = `function updateFill(instances, color) {
+    for (const instance of instances) {
+      instance.setAttribute("fill", color);
+    }
+  }`;
+  const updateOpacityFunction = `function updateOpacity(instances, opacity) {
+    for (const instance of instances) {
+      instance.style.opacity = opacity;
+    }
+  }`;
 
   for (const node of nodes) {
     const neightbours = new Set(allNodeNeightbours.get(node.id));
@@ -245,32 +302,16 @@ const node${node.id} = document.getElementById("node${node.id}");
     const focusEdgeNeightboursScript = Array.from(edgeNeightbours).reduce(
       (script, edgeIndex) =>
         script +
-        `document.getElementById("edgeText${edgeIndex}").setAttribute("fill", "${edgeFocusTextColor}");
-        document.getElementById("edgeArrow${edgeIndex}").style.opacity = ${edgeFocusOpacity};\n`,
+        `edgeText${edgeIndex}.setAttribute("fill", "${edgeFocusTextColor}");
+        edgeArrow${edgeIndex}.style.opacity = ${edgeFocusOpacity};\n`,
       "",
     );
 
     const unfocusEdgeNoNeightboursScr = Array.from(edgeNotNeightbours).reduce(
       (script, edgeIndex) =>
         script +
-        `document.getElementById("edgeText${edgeIndex}").setAttribute("fill", "rgba(0,0,0,${edgeUnfocusOpacity})");
-        document.getElementById("edgeArrow${edgeIndex}").style.opacity = ${edgeUnfocusOpacity};\n`,
-      "",
-    );
-
-    const focusAllScript = Array.from(nodeIds).reduce(
-      (script, nodeId) =>
-        script +
-        `node${nodeId}.style.opacity = 1;
-         nodeText${nodeId}.style.opacity = 1;\n`,
-      "",
-    );
-
-    const unfocusAllEdgesScript = Array.from(edgeIds).reduce(
-      (script, edgeIndex) =>
-        script +
-        `document.getElementById("edgeText${edgeIndex}").setAttribute("fill", "${edgeUnfocusTextColor}");
-        document.getElementById("edgeArrow${edgeIndex}").style.opacity = ${edgeUnfocusOpacity};\n`,
+        `edgeText${edgeIndex}.setAttribute("fill", "rgba(0,0,0,${edgeUnfocusOpacity})");
+        edgeArrow${edgeIndex}.style.opacity = ${edgeUnfocusOpacity};\n`,
       "",
     );
 
@@ -282,12 +323,18 @@ node${node.id}.addEventListener("mouseenter", (event) => {
     ${unfocusEdgeNoNeightboursScr}
   });
 node${node.id}.addEventListener("mouseleave", (event) => {
-    ${focusAllScript}
-    ${unfocusAllEdgesScript}
+    focusAll();
+    unfocusAllEdges();
   });
     `;
   }
 
+  script += `
+  ${focusAllScriptFunction}
+  ${unfocusAllEdgesScriptFunction}
+  ${updateFillFunction}
+  ${updateOpacityFunction}
+  `;
   script += `
   const graphSvg = document.getElementById("${id}")
 	const onWheel = (event) => {

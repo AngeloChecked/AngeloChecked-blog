@@ -1,21 +1,20 @@
 import {
   dontLearnASyntaxLearnToChangeTheWayYouThinkLink,
   functionalProgrammingTag,
-  Graph,
+  GraphNode,
   objectOrientedProgrammingisBadLink,
   objectOrientedProgrammingTag,
   peopleDontUnderstandOOPLink,
   programmingLanguagesTag,
-} from "../graph/pages.page.ts";
-import { cognitiveBiasTag } from "../graph/pages.page.ts";
-import { learningTag } from "../graph/pages.page.ts";
-import { angeloCeccatoAuthor } from "../graph/pages.page.ts";
+  cognitiveBiasTag,
+  learningTag,
+  angeloCeccatoAuthor,
+} from "../graph/knowledgeGraph.ts";
 
-export const philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava:
-  Graph = {
+export const philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava: Graph =
+  {
     type: "post",
-    id:
-      "philosophical-ramblings-about-ecology-programming-languages-and-OOP-not-java",
+    id: "philosophical-ramblings-about-ecology-programming-languages-and-OOP-not-java",
     tagId: [
       learningTag.id,
       programmingLanguagesTag.id,
@@ -40,8 +39,7 @@ export const philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava
       ],
       date: "2024-04-13T13:00:00.000Z",
       thumbnail: {
-        src:
-          "/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/toomanyspiderman.small.png",
+        src: "/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/toomanyspiderman.small.png",
       },
     },
   };

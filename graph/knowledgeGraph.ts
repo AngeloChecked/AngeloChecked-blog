@@ -1,4 +1,4 @@
-export const learningTag: Graph = {
+export const learningTag: GraphNode = {
   type: "tag",
   id: "learning",
   data: {
@@ -7,7 +7,7 @@ export const learningTag: Graph = {
   },
 };
 
-export const cognitiveBiasTag: Graph = {
+export const cognitiveBiasTag: GraphNode = {
   type: "tag",
   id: "cognitive-bias",
   data: {
@@ -16,7 +16,7 @@ export const cognitiveBiasTag: Graph = {
   },
 };
 
-export const programmingLanguagesTag: Graph = {
+export const programmingLanguagesTag: GraphNode = {
   type: "tag",
   id: "programming-languages",
   data: {
@@ -25,7 +25,7 @@ export const programmingLanguagesTag: Graph = {
   },
 };
 
-export const rustLanguageTag: Graph = {
+export const rustLanguageTag: GraphNode = {
   type: "tag",
   id: "rust-language",
   data: {
@@ -36,7 +36,7 @@ export const rustLanguageTag: Graph = {
   },
 };
 
-export const zigLanguageTag: Graph = {
+export const zigLanguageTag: GraphNode = {
   type: "tag",
   id: "zig-language",
   data: {
@@ -47,7 +47,7 @@ export const zigLanguageTag: Graph = {
   },
 };
 
-export const softwareDeveloperCareersTag: Graph = {
+export const softwareDeveloperCareersTag: GraphNode = {
   type: "tag",
   id: "software-developer-careers",
   data: {
@@ -56,7 +56,7 @@ export const softwareDeveloperCareersTag: Graph = {
   },
 };
 
-export const programmingTag: Graph = {
+export const programmingTag: GraphNode = {
   type: "tag",
   id: "programming",
   data: {
@@ -66,7 +66,7 @@ export const programmingTag: Graph = {
   },
 };
 
-export const dataOrientedDesignTag: Graph = {
+export const dataOrientedDesignTag: GraphNode = {
   type: "tag",
   id: "data-oriented-design",
   data: {
@@ -77,7 +77,7 @@ export const dataOrientedDesignTag: Graph = {
   },
 };
 
-export const gameDevelopmentTag: Graph = {
+export const gameDevelopmentTag: GraphNode = {
   type: "tag",
   id: "game-development",
   data: {
@@ -86,7 +86,7 @@ export const gameDevelopmentTag: Graph = {
   },
 };
 
-export const artificialIntelligenceTag: Graph = {
+export const artificialIntelligenceTag: GraphNode = {
   type: "tag",
   id: "artificial-intelligence",
   data: {
@@ -95,7 +95,7 @@ export const artificialIntelligenceTag: Graph = {
   },
 };
 
-export const objectOrientedProgrammingTag: Graph = {
+export const objectOrientedProgrammingTag: GraphNode = {
   type: "tag",
   id: "object-oriented-programming",
   data: {
@@ -104,7 +104,7 @@ export const objectOrientedProgrammingTag: Graph = {
   },
 };
 
-export const functionalProgrammingTag: Graph = {
+export const functionalProgrammingTag: GraphNode = {
   type: "tag",
   id: "functional-programming",
   data: {
@@ -113,7 +113,7 @@ export const functionalProgrammingTag: Graph = {
   },
 };
 
-export const yanCuiAuthor: Graph = {
+export const yanCuiAuthor: GraphNode = {
   type: "author",
   id: "yan-cui",
   tagId: [
@@ -130,7 +130,7 @@ export const yanCuiAuthor: Graph = {
   },
 };
 
-export const angeloCeccatoAuthor: Graph = {
+export const angeloCeccatoAuthor: GraphNode = {
   type: "author",
   id: "angelo-ceccato",
   tagId: [programmingLanguagesTag.id, cognitiveBiasTag.id],
@@ -143,7 +143,7 @@ export const angeloCeccatoAuthor: Graph = {
   },
 };
 
-export const alexandruNedelcuAuthor: Graph = {
+export const alexandruNedelcuAuthor: GraphNode = {
   type: "author",
   id: "alexandru-nedelcu",
   tagId: [programmingLanguagesTag.id],
@@ -156,7 +156,7 @@ export const alexandruNedelcuAuthor: Graph = {
   },
 };
 
-export const alexKladovAuthor: Graph = {
+export const alexKladovAuthor: GraphNode = {
   type: "author",
   id: "alex-kladov",
   tagId: [programmingLanguagesTag.id, zigLanguageTag.id, rustLanguageTag.id],
@@ -169,7 +169,7 @@ export const alexKladovAuthor: Graph = {
   },
 };
 
-export const noelLlopisAuthor: Graph = {
+export const noelLlopisAuthor: GraphNode = {
   type: "author",
   id: "noel-llopis",
   tagId: [
@@ -187,7 +187,7 @@ export const noelLlopisAuthor: Graph = {
   },
 };
 
-export const yehonathanSharvitAuthor: Graph = {
+export const yehonathanSharvitAuthor: GraphNode = {
   type: "author",
   id: "yehonathan-sharvit",
   tagId: [programmingTag.id],
@@ -200,7 +200,7 @@ export const yehonathanSharvitAuthor: Graph = {
   },
 };
 
-export const richardFeldmanAuthor: Graph = {
+export const richardFeldmanAuthor: GraphNode = {
   type: "author",
   id: "richard-feldman",
   tagId: [programmingTag.id, programmingLanguagesTag.id],
@@ -212,7 +212,7 @@ export const richardFeldmanAuthor: Graph = {
   },
 };
 
-export const patrickMcKenzieAuthor: Graph = {
+export const patrickMcKenzieAuthor: GraphNode = {
   type: "author",
   id: "patrick-mckenzie",
   tagId: [softwareDeveloperCareersTag.id],
@@ -225,7 +225,7 @@ export const patrickMcKenzieAuthor: Graph = {
   },
 };
 
-export const henrikKnibergAuthor: Graph = {
+export const henrikKnibergAuthor: GraphNode = {
   type: "author",
   id: "henrik-kniberg",
   tagId: [softwareDeveloperCareersTag.id, artificialIntelligenceTag.id],
@@ -238,7 +238,7 @@ export const henrikKnibergAuthor: Graph = {
   },
 };
 
-export const brianWillAuthor: Graph = {
+export const brianWillAuthor: GraphNode = {
   type: "author",
   id: "brian-will",
   tagId: [programmingTag.id, programmingLanguagesTag.id],
@@ -251,7 +251,7 @@ export const brianWillAuthor: Graph = {
   },
 };
 
-export const oliverPowellAuthor: Graph = {
+export const oliverPowellAuthor: GraphNode = {
   type: "author",
   id: "oliver-powell",
   tagId: [programmingTag.id, programmingLanguagesTag.id],
@@ -263,7 +263,7 @@ export const oliverPowellAuthor: Graph = {
   },
 };
 
-export const sigmaStartAuthor: Graph = {
+export const sigmaStartAuthor: GraphNode = {
   type: "author",
   id: "sigma-star",
   tagId: [programmingTag.id, programmingLanguagesTag.id],
@@ -275,7 +275,7 @@ export const sigmaStartAuthor: Graph = {
   },
 };
 
-export const jamieBrandonAuthor: Graph = {
+export const jamieBrandonAuthor: GraphNode = {
   type: "author",
   id: "jamie-brandon",
   tagId: [programmingTag.id, programmingLanguagesTag.id],
@@ -287,7 +287,7 @@ export const jamieBrandonAuthor: Graph = {
   },
 };
 
-export const myAdviceToJuniorDevelopersLink: Graph = {
+export const myAdviceToJuniorDevelopersLink: GraphNode = {
   type: "link",
   id: "my-advice-to-junior-developers",
   authorId: yanCuiAuthor.id,
@@ -299,7 +299,7 @@ export const myAdviceToJuniorDevelopersLink: Graph = {
   },
 };
 
-export const learnToLearnLink: Graph = {
+export const learnToLearnLink: GraphNode = {
   type: "link",
   id: "learn-to-learn-link",
   authorId: yanCuiAuthor.id,
@@ -312,7 +312,7 @@ export const learnToLearnLink: Graph = {
   },
 };
 
-export const aTourOfTheLanguageLandscapeLink: Graph = {
+export const aTourOfTheLanguageLandscapeLink: GraphNode = {
   type: "link",
   id: "a-tour-of-the-language-landscape-link",
   authorId: yanCuiAuthor.id,
@@ -324,21 +324,20 @@ export const aTourOfTheLanguageLandscapeLink: Graph = {
   },
 };
 
-export const dontLearnASyntaxLearnToChangeTheWayYouThinkLink: Graph = {
+export const dontLearnASyntaxLearnToChangeTheWayYouThinkLink: GraphNode = {
   type: "link",
   id: "dont-learn-a-syntax-learn-to-change-the-way-you-think-link",
   authorId: yanCuiAuthor.id,
   tagId: [learningTag.id],
   data: {
     name: "Don’t learn a syntax, learn to change the way you think",
-    url:
-      "https://medium.com/hackernoon/dont-learn-a-syntax-learn-to-change-the-way-you-think-18436807012d",
+    url: "https://medium.com/hackernoon/dont-learn-a-syntax-learn-to-change-the-way-you-think-18436807012d",
     description:
       "Interesting article about learning and programming languages, how progamming affect the way we reason about problems?",
   },
 };
 
-export const dontbreakprodWebsiteLink: Graph = {
+export const dontbreakprodWebsiteLink: GraphNode = {
   type: "link",
   id: "dont-break-prod-com-link",
   tagId: [learningTag.id],
@@ -350,21 +349,20 @@ export const dontbreakprodWebsiteLink: Graph = {
   },
 };
 
-export const dataOrientedDesignLink: Graph = {
+export const dataOrientedDesignLink: GraphNode = {
   type: "link",
   id: "data-oriented-desing-link",
   authorId: noelLlopisAuthor.id,
   tagId: [programmingTag.id, dataOrientedDesignTag.id],
   data: {
-    name:
-      "Data-Oriented Design (Or Why You Might Be Shooting Yourself in The Foot With OOP)",
+    name: "Data-Oriented Design (Or Why You Might Be Shooting Yourself in The Foot With OOP)",
     url: "https://gamesfromwithin.com/data-oriented-design",
     description:
       "Amazing blogpost about Data-Oriented Design. Possible the first One?",
   },
 };
 
-export const dataOrientedDesignBookLink: Graph = {
+export const dataOrientedDesignBookLink: GraphNode = {
   type: "link",
   id: "data-oriented-desing-book-link",
   tagId: [programmingTag.id, dataOrientedDesignTag.id],
@@ -375,7 +373,7 @@ export const dataOrientedDesignBookLink: Graph = {
   },
 };
 
-export const principlesOfdataOrientedProgrammingLink: Graph = {
+export const principlesOfdataOrientedProgrammingLink: GraphNode = {
   type: "link",
   id: "principles-of-data-oriented-programming-link",
   authorId: yehonathanSharvitAuthor.id,
@@ -387,21 +385,20 @@ export const principlesOfdataOrientedProgrammingLink: Graph = {
   },
 };
 
-export const dontCallYourselfAProgrammerAndOtherCareerAdviceLink: Graph = {
+export const dontCallYourselfAProgrammerAndOtherCareerAdviceLink: GraphNode = {
   type: "link",
   id: "dont-call-yourself-a-programmer-and-other-career-advice-link",
   authorId: patrickMcKenzieAuthor.id,
   tagId: [programmingTag.id],
   data: {
     name: "Don't Call Yourself A Programmer, And Other Career Advice",
-    url:
-      "https://www.kalzumeus.com/2011/10/28/dont-call-yourself-a-programmer/",
+    url: "https://www.kalzumeus.com/2011/10/28/dont-call-yourself-a-programmer/",
     description:
       "A remarkable and valuable perspective on software development and the identity of programmers. It emphasizes that we work for creating business value, programming is portrayed as an intricate business activity that goes beyond being a simple tool.",
   },
 };
 
-export const complexityBiasLink: Graph = {
+export const complexityBiasLink: GraphNode = {
   type: "link",
   id: "complexity-bias-why-we-prefer-complicated-to-simple-link",
   tagId: [softwareDeveloperCareersTag.id, cognitiveBiasTag.id],
@@ -413,7 +410,7 @@ export const complexityBiasLink: Graph = {
   },
 };
 
-export const agileProductOwnershipInANutshellLink: Graph = {
+export const agileProductOwnershipInANutshellLink: GraphNode = {
   type: "link",
   id: "agile-product-ownership-in-a-nutshell-link",
   authorId: henrikKnibergAuthor.id,
@@ -426,22 +423,20 @@ export const agileProductOwnershipInANutshellLink: Graph = {
   },
 };
 
-export const generativeAIInANutshellHowToSurviveAndThriveInTheAgeOfAILink:
-  Graph = {
+export const generativeAIInANutshellHowToSurviveAndThriveInTheAgeOfAILink: GraphNode =
+  {
     type: "link",
-    id:
-      "generative-ai-ina-nutshell-how-to-survive-and-thrive-in-the-age-of-ai-link",
+    id: "generative-ai-ina-nutshell-how-to-survive-and-thrive-in-the-age-of-ai-link",
     authorId: henrikKnibergAuthor.id,
     tagId: [softwareDeveloperCareersTag.id, artificialIntelligenceTag.id],
     data: {
-      name:
-        "Generative AI in a Nutshell - how to survive and thrive in the age of AI",
+      name: "Generative AI in a Nutshell - how to survive and thrive in the age of AI",
       url: "https://www.youtube.com/watch?v=2IK3DFHRFfw",
       description: "Concise introduction the the world of generative AI.",
     },
   };
 
-export const areDevelopersNeededUnTheAgeOfAiLink: Graph = {
+export const areDevelopersNeededUnTheAgeOfAiLink: GraphNode = {
   type: "link",
   id: "are-developers-needed-in-the-age-of-ai-link",
   authorId: henrikKnibergAuthor.id,
@@ -454,7 +449,7 @@ export const areDevelopersNeededUnTheAgeOfAiLink: Graph = {
   },
 };
 
-export const objectOrientedProgrammingisBadLink: Graph = {
+export const objectOrientedProgrammingisBadLink: GraphNode = {
   type: "link",
   id: "object-oriented-programming-is-bad-link",
   authorId: brianWillAuthor.id,
@@ -466,20 +461,19 @@ export const objectOrientedProgrammingisBadLink: Graph = {
   },
 };
 
-export const talksThatChangedTheWayIThinkAboutProgrammingLink: Graph = {
+export const talksThatChangedTheWayIThinkAboutProgrammingLink: GraphNode = {
   type: "link",
   id: "talks-that-changed-the-way-i-think-about-programming-link",
   authorId: oliverPowellAuthor.id,
   tagId: [programmingTag.id],
   data: {
     name: "Talks that changed the way I think about programming",
-    url:
-      "http://www.opowell.com/post/talks-that-changed-the-way-i-think-about-programming/",
+    url: "http://www.opowell.com/post/talks-that-changed-the-way-i-think-about-programming/",
     description: "Incredible set of resources about programming!",
   },
 };
 
-export const theLanguageNightmaresAreProgrammedInLink: Graph = {
+export const theLanguageNightmaresAreProgrammedInLink: GraphNode = {
   type: "link",
   id: "the-language-nightmares-are-programmedin-link",
   authorId: sigmaStartAuthor.id,
@@ -491,7 +485,7 @@ export const theLanguageNightmaresAreProgrammedInLink: Graph = {
   },
 };
 
-export const okayButWhatAreMonadsLink: Graph = {
+export const okayButWhatAreMonadsLink: GraphNode = {
   type: "link",
   id: "what-are-monads-link",
   authorId: sigmaStartAuthor.id,
@@ -503,7 +497,7 @@ export const okayButWhatAreMonadsLink: Graph = {
   },
 };
 
-export const peopleDontUnderstandOOPLink: Graph = {
+export const peopleDontUnderstandOOPLink: GraphNode = {
   type: "link",
   id: "people-dont-understand-oop-link",
   authorId: sigmaStartAuthor.id,
@@ -520,7 +514,7 @@ export const peopleDontUnderstandOOPLink: Graph = {
   },
 };
 
-export const assortedThoughtsOnZigAandRustLink: Graph = {
+export const assortedThoughtsOnZigAandRustLink: GraphNode = {
   type: "link",
   id: "assorted-thoughts-on-zig-and-rust-link",
   authorId: jamieBrandonAuthor.id,
@@ -532,24 +526,25 @@ export const assortedThoughtsOnZigAandRustLink: Graph = {
   ],
   data: {
     name: "Assorted thoughts on zig (and rust)",
-    url:
-      "https://www.scattered-thoughts.net/writing/assorted-thoughts-on-zig-and-rust/",
+    url: "https://www.scattered-thoughts.net/writing/assorted-thoughts-on-zig-and-rust/",
     description: "Zig and Rust thoughts/qualities very well explained!",
   },
 };
 
-export type Graph = {
+export type GraphNode = {
   type: string;
   id: string;
+  authorId?: string;
+  tagId?: string[];
   data: {
-    title: string;
     description: string;
+    name: string;
     [key: string]: unknown;
   };
   [key: string]: unknown;
 };
 
-const resources: Graph[] = [
+export const graphNodes: GraphNode[] = [
   yanCuiAuthor,
   angeloCeccatoAuthor,
   alexandruNedelcuAuthor,
@@ -575,6 +570,7 @@ const resources: Graph[] = [
   gameDevelopmentTag,
   objectOrientedProgrammingTag,
   functionalProgrammingTag,
+  artificialIntelligenceTag,
 
   myAdviceToJuniorDevelopersLink,
   learnToLearnLink,
@@ -596,21 +592,3 @@ const resources: Graph[] = [
   peopleDontUnderstandOOPLink,
   assortedThoughtsOnZigAandRustLink,
 ];
-
-export default function* () {
-  for (const resource of resources) {
-    const websiteUrl = `/graph/${resource.type}/${resource.id}/`;
-    yield {
-      url: websiteUrl,
-      layout: `/layouts/link.tsx`,
-      title: resource.data.name,
-      description: resource.data.description,
-
-      type: resource.type,
-      id: resource.id,
-      author_id: resource.authorId,
-      tag_id: resource.tagId,
-      graph: { websiteUrl, ...resource },
-    };
-  }
-}

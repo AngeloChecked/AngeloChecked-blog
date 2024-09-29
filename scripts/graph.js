@@ -12,9 +12,9 @@ import { Point } from "./Point.js";
  * @property {number} MARGIN
  */
 
-/** @typedef {{ id: number, point: Point, xpoint: Point}} Node */
-/** @typedef {{ source: number, target: number }} Edge */
-/** @typedef {{ edges: Array<Edge>, nodes: Array<Node> }} Graph  */
+/** @typedef {{ id: string | number, text: string, link: string, color: string, radius: number }} Node */
+/** @typedef {{ source: string | number, target: string | number, text: string }} Edge */
+/** @typedef {{ nodes: Array<Node> edges: Array<Edge>,  }} Graph  */
 
 /**
  * @param {GraphConfig} arg0
@@ -50,7 +50,10 @@ export function calculateGraph(
   }
 
   function applyForces() {
-    const forces = nodes.map(() => new Point(0, 0));
+    const forces = {};
+    for (const node of nodes) {
+      forces[node.id] = new Point(0, 0);
+    }
 
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
@@ -67,8 +70,8 @@ export function calculateGraph(
             .divideScalar(distance)
             .multiplyScalar(force);
 
-          forces[i] = forces[i].minus(forcePoint);
-          forces[j] = forces[j].plus(forcePoint);
+          forces[nodeA.id] = forces[nodeA.id].minus(forcePoint);
+          forces[nodeB.id] = forces[nodeB.id].plus(forcePoint);
         }
       }
     }
@@ -76,6 +79,10 @@ export function calculateGraph(
     for (let edge of edges) {
       const nodeA = findNode(edge.source);
       const nodeB = findNode(edge.target);
+
+      if (!nodeA || !nodeB) {
+        continue;
+      }
 
       const distance = nodeA.point.distanceTo(nodeB.point);
       const displacement = distance - SPRING_LENGTH;
@@ -85,17 +92,20 @@ export function calculateGraph(
         .divideScalar(distance)
         .multiplyScalar(force);
 
-      forces[edge.source - 1] = forces[edge.source - 1].plus(forcePoint);
-      forces[edge.target - 1] = forces[edge.target - 1].minus(forcePoint);
+      forces[edge.source] = forces[edge.source].plus(forcePoint);
+      forces[edge.target] = forces[edge.target].minus(forcePoint);
     }
 
     return forces;
   }
 
   function updatePositions(forces) {
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i];
-      node.xpoint = node.xpoint.plus(forces[i]);
+    for (const key in forces) {
+      const node = findNode(key);
+      if (!node) {
+        continue;
+      }
+      node.xpoint = node.xpoint.plus(forces[key]);
 
       // Apply damping to slow down over time
       node.xpoint = node.xpoint.multiplyScalar(DAMPING);
@@ -140,10 +150,25 @@ export function calculateGraph(
     }
   }
 
+  const newLocal = /\ |-/g;
   const createRandomPoint = randomPoint(WIDTH, HEIGHT);
   for (let node of nodes) {
     node.point = createRandomPoint();
     node.xpoint = new Point(0, 0);
+    const adjustId = node.id.replaceAll?.(newLocal, "_");
+    if (adjustId) {
+      node.id = adjustId;
+    }
+  }
+  for (let edge of edges) {
+    const adjustSource = edge.source.replaceAll?.(newLocal, "_");
+    const adjustTarget = edge.target.replaceAll?.(newLocal, "_");
+    if (adjustSource) {
+      edge.source = adjustSource;
+    }
+    if (adjustTarget) {
+      edge.target = adjustTarget;
+    }
   }
 
   if (simulationStepCallback) {
