@@ -1,0 +1,32 @@
+
+on:
+  push:
+    paths:
+      - new-site/**
+  workflow_dispatch:
+
+  
+jobs:
+  my_job:
+    name: deploy mysite
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-1
+    - name: setup deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: canary
+    - name: checkout the repository
+      uses: actions/checkout@v4
+    - name: lume build
+      run: cd new-site && deno task build
+    - name: sync bucket and refresh cache
+      run: .scripts/sync.sh && .scrips/invalidate-cloudfront.sh
+    
+      

@@ -1,0 +1,65 @@
+# My deadriming blog?
+
+![the blog, the graph and the garden](/img/lion_witch_wardrobe.webp)
+
+- ![digital gardeners](https://github.com/MaggieAppleton/digital-gardeners)
+- ![pkm](https://www.youtube.com/@VisualPKM )
+- ![build a second brain book](https://www.buildingasecondbrain.com/book)
+- ![the garden and the stream](https://christiantietze.de/wiki/stream-garden/)
+- ![](https://nick.groenen.me/terms/)
+- ![data oriented blogging](https://matklad.github.io/2023/11/07/dta-oriented-blogging.html)
+- ![](https://wiki.nikiv.dev/)
+- ![](https://lobste.rs/about)
+- ![](https://www.scientificamerican.com/article/long-live-the-web/)
+- ![](https://ecma-international.org/about-ecma/history/)
+- wikis
+- browser wars
+- ![](https://www.donaldmcintosh.net/blog/why-the-web-is-broken)
+
+data exploration: 
+the idea:
+- lsp find references
+- https://www.w3.org/DesignIssues/LinkedData.html
+- https://www.youtube.com/watch?v=-I_jE0l7sYQ&t=1306s 44:42
+- https://en.wikipedia.org/wiki/Project_Xanadu
+
+- the better web:
+-- stop pushing the web: https://www.quirksmode.org/blog/archives/2015/07/stop_pushing_th.html
+-- don't broken the web: https://www.javascript.christmas/2018/2
+-- why js is evil: https://thehackernews.com/2022/05/tails-os-users-advised-not-to-use-tor.html
+-- the js fatigue: 
+-- https://auth0.com/blog/how-to-manage-javascript-fatigue/
+-- https://lucasfcosta.com/2017/07/17/The-Ultimate-Guide-to-JavaScript-Fatigue.html
+-- https://jarredsumner.com/codeblog/
+-- https://dkb.blog/p/google-search-is-dying
+-- https://dkb.blog/p/ai-will-make-the-internet-beautiful
+
+- web application strategies:
+-- templating
+   iniziated by php, but today there are lot of different templating engine
+-- ast based templating
+   iniziated by react with the jsx, initially the vision was single page applications, but today jsx can be approached without state and with the goal to produce static content is a very different experience, also be able to operate with the document object model
+-- htmx 
+   the htmx approach is quite unique, but i consider it as making the html more powerfull, giving it a minimum of interactivity without handling logic client side,
+   can be an alternative to templating, but also an additional toolbox to give front-end interactivity without the high complexity of single page applicaions
+-- single page applications
+   the entire website 
+-- hibrid approaches
+   reidratation, nextjs and now quick seems to be the powerfull in this fields, where there is code sharing between front-end and backend, the code is lazily loaded and the app don't pay the first bootstrap 
+   have advantages in seo, heavy client logic
+-- full static with the minimum need of a cdn, or the need of a database.
+
+for me, a personal blog, don't need to have a server, all my content can be generate statically and the database are all my files handled with git versioning, 
+obiously to give interactivity to multiple people in the interenet this change the paradigm 
+
+note taking app: 
+- https://github.com/jsplumb/jsplumb
+- https://github.com/zadam/trilium/tree/master
+- https://tiddlywiki.com/
+
+comments from interested people
+- https://github.com/freedit-org/freedit    
+
+
+https://en.wikipedia.org/wiki/Quine_(computing)
+   https://joearms.github.io/#Index

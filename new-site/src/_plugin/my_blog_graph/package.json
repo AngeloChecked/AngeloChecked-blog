@@ -1,0 +1,17 @@
+{
+  "name": "my-blog-graph",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@antv/g6": "^4.8.24"
+  },
+  "devDependencies": {
+    "vite": "^4.5.0"
+  }
+}
