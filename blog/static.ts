@@ -8,7 +8,11 @@ export class StaticFiles {
     private buildPath: string,
   ) {}
   async build() {
-    await Deno.remove(this.buildPath, { recursive: true });
+    try {
+        await Deno.remove(this.buildPath, { recursive: true  });
+    } catch {
+      console.log("dist folder not found")
+    }
     for (const route of this.staticServerRouter) {
       if (route.type === "static") {
         const files = await traverseFilesFlat(route.folder);
