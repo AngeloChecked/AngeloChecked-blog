@@ -10,6 +10,8 @@ export function Footer(props: { currentPageMenu?: string; menus: MenuInfo[] }) {
     properties: {
       justifyContent: "space-around",
       margin: "50px 0 50px 0",
+      flexWrap: "wrap",
+      gap: "20px"
     },
     from: rowClass,
   });

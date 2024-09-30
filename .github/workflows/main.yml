@@ -27,6 +27,6 @@ jobs:
     - name: blog build
       run: cd blog && deno run --allow-all main.ts build
     - name: sync bucket and refresh cache
-      run: .scripts/sync.sh && .scrips/invalidate-cloudfront.sh
+      run: ls blog && ./scripts/sync.sh && ./scripts/invalidate-cloudfront.sh
     
       
