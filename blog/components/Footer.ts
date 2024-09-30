@@ -39,7 +39,7 @@ export function Footer(props: { currentPageMenu?: string; menus: MenuInfo[] }) {
           >, <a href="https://www.buildingasecondbrain.com/">Second Brain</a>,
           <a href="https://obsidian.md/">Obsidian</a> and a bit by my ancient
           theme: <a href="https://github.com/Vimux/Mainroad">Mainroad</a>. You
-          can find the source code here.
+          can find the source code <a href="https://github.com/AngeloChecked/AngeloChecked-blog">here</a>.
         </div>
 
         <div>
