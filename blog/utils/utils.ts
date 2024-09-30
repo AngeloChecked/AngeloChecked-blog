@@ -52,9 +52,9 @@ export function fromStringToDomToString(page: RoutedPage, body: string) {
   const parser = new DOMParser();
   const document = parser.parseFromString(body, "text/html");
 
-  const documentUpdated = pictureRelosution(page, document!, imagesInFolder) ?? document
+  //const documentUpdated = pictureRelosution(page, document!, imagesInFolder) ?? document
 
-  const html = `<!DOCTYPE html>\n${documentUpdated.documentElement?.outerHTML || ""}`;
+  const html = `<!DOCTYPE html>\n${document.documentElement?.outerHTML || ""}`;
   return jsBeautify.html(html);
 }
 

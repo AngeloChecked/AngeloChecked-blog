@@ -634,7 +634,7 @@ and dropping the less valuable ones (like inheritance, maybe! :P).
 
 ## Conclusion: In the end it doesn't even matter
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/eVTXPUF4Oz4?si=86BNhoI2MOcdIm6S" title="in the end - linking park" ></iframe>
+<lite-youtube videoid="eVTXPUF4Oz4"></lite-youtube>
 
 So, programming languages are basically experiments influenced by what others
 before us believed. Both object-oriented programming and functional programming
