@@ -8,7 +8,7 @@ export class StaticFiles {
     private buildPath: string,
   ) {}
   async build() {
-    await Deno.remove(this.buildPath, { recursive: true })
+    await Deno.remove(this.buildPath, { recursive: true });
     for (const route of this.staticServerRouter) {
       if (route.type === "static") {
         const files = await traverseFilesFlat(route.folder);
@@ -29,8 +29,11 @@ export class StaticFiles {
         await Deno.writeFile(targetPathFileName, data);
       }
       if (route.type === "html") {
-        const fileName = route.relativeWebsitePath.endsWith(".html") ? "" : "index.html"
-        const targetPathFileName = this.buildPath + route.relativeWebsitePath + fileName;
+        const fileName = route.relativeWebsitePath.endsWith(".html")
+          ? ""
+          : "index.html";
+        const targetPathFileName =
+          this.buildPath + route.relativeWebsitePath + fileName;
         const folder = getFolderFromPath(targetPathFileName);
         console.log({ log: `creating: '${targetPathFileName}'` });
         await Deno.mkdir(folder, { recursive: true });

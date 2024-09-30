@@ -264,12 +264,12 @@ export function generateSvgInteractiveScript(
   }`;
 
   const updateFillFunction = `function updateFill(color, instances) {
-    for (const instance of instances) {
+    for (const [_idx,instance] of instances.entries()) {
       instance.setAttribute("fill", color);
     }
   }`;
   const updateOpacityFunction = `function updateOpacity(opacity, instances) {
-    for (const instance of instances) {
+    for (const [_idx, instance] of instances.entries()) {
       instance.style.opacity = opacity;
     }
   }`;

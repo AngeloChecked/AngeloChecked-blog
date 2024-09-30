@@ -15,64 +15,79 @@ import { Server } from "./server.ts";
 import { StaticFiles } from "./static.ts";
 import { FeedRss } from "./components/FeedRss.ts";
 import { Graph } from "./components/Graph.ts";
+import {
+  aTourOfTheLanguageLandscapeLink,
+  graphNodes,
+  yanCuiAuthor,
+} from "./graph/knowledgeGraph.ts";
 
-export const domain = (Deno.args[0] == "serve")
-  ? "http://localhost:8000"
-  : "https://angeloceccato.it";
+export const domain =
+  Deno.args[0] == "serve"
+    ? "http://localhost:8000"
+    : "https://angeloceccato.it";
 
-export const buildDate = (new Date()).toISOString();
+export const buildDate = new Date().toISOString();
 
 type Route =
   | { type: "static"; folder: string; condition: (file: string) => boolean }
   | {
-    type: "generate";
-    relativeFileNamePath: string;
-    condition: (file: string) => boolean;
-    content: () => string;
-    contentType: string;
-  }
+      type: "generate";
+      relativeFileNamePath: string;
+      condition: (file: string) => boolean;
+      content: () => string;
+      contentType: string;
+    }
   | {
-    type: "html";
-    relativeWebsitePath: string;
-    condition: (file: string) => boolean;
-    content: () => string;
-  };
+      type: "html";
+      relativeWebsitePath: string;
+      condition: (file: string) => boolean;
+      content: () => string;
+    };
 export type StaticServerRouter = Route[];
 
 const postPages = await pagesFromFolder("./post");
 const docsPages = await pagesFromFolder("./docs");
 const postRoute = flatRoute({ "/post": postPages });
 const docsRoute = flatRoute({ "/docs": docsPages });
-const graphRoute = flatRoute({ "/graph": [] });
+const graphRoute = flatRoute({
+  "/graph": graphNodes.map((node) => ({
+    ...node,
+    relativeFilePath: `/${node.id}/`,
+    content: Graph({ nodeIdToFocus: node.id }),
+  })),
+});
 const notFoundRoute = flatRoute({
-  "/404.html": [{
-    id: sameAsVar({ NotFound }),
-    content: NotFound(),
-  }],
+  "/404.html": [
+    {
+      id: sameAsVar({ NotFound }),
+      content: NotFound(),
+    },
+  ],
 });
 const homeRoute = flatRoute({
-  "/": [{
-    data: {
-      menu: { menuName: sameAsVar({ Home }), order: 1 },
-      title: sameAsVar({ Home }),
+  "/": [
+    {
+      data: {
+        menu: { menuName: sameAsVar({ Home }), order: 1 },
+        title: sameAsVar({ Home }),
+      },
+      id: sameAsVar({ Home }),
+      content: Home({ posts: Posts({ posts: postRoute }) }),
     },
-    id: sameAsVar({ Home }),
-    content: Home({ posts: Posts({ posts: postRoute }) }),
-  }],
+  ],
 });
 
 const graphR = flatRoute({
-  "/graph.html": [{
-    data: {
-      menu: { menuName: sameAsVar({ Graph })},
+  "/graph": [
+    {
+      data: {
+        menu: { menuName: sameAsVar({ Graph }) },
+      },
+      relativeFilePath: "/",
+      id: sameAsVar({ Graph }),
+      content: Graph({}),
     },
-    id: sameAsVar({ Graph }),
-    content: Graph({
-      width: 800,
-      height: 400,
-      bgColor: "white"
-    }),
-  }],
+  ],
 });
 const router: Router = [
   ...postRoute,

@@ -24,50 +24,58 @@ export function Footer(props: { currentPageMenu?: string; menus: MenuInfo[] }) {
     from: rowClass,
   });
   return html`
-<footer style="border-top: solid white 1px;">
-  <div style="${footherClass.inlineStyle}">
-    <div style="max-width: 30ch;">
-      © 2024 Angelo Ceccato. Created with <a href="https://lume.land/">Lume</a>, 
-      powered by <a href="https://github.com/antvis/G6">Antv-G6</a>, heavy inspired by 
-      <a href="https://github.com/MaggieAppleton/digital-gardeners">Digital Gardeners</a>
-      and a bit by my previous theme: <a href="https://github.com/Vimux/Mainroad">Mainroad</a>.
-    </div>
-    <div>
-      Menu:
-      <ul>
-      ${
-    props.menus.map((menu) => {
-      let menuName = menu.menuName;
-      if (menuName === props.currentPageMenu) {
-        menuName = `<u>${menuName}</u>`;
-      }
-      return html`
-                <li>
-                  <a href="${menu.url}">${menuName}</a>
-                </li>
-           `;
-    }).join("")
-  }
-    </ul>
-    </div>
-    <div>
-      Social:
-      ${
-    social.map((s) => {
-      return html`
-            <div style="${socialContainerClass.inlineStyle}">
-                <div>
-                  ${s.svg}
+    <footer style="border-top: solid white 1px;">
+      <div style="${footherClass.inlineStyle}">
+        <div style="max-width: 30ch;">
+          © 2024 Angelo Ceccato. Self-built blog using
+          <a href="https://deno.com/">Deno</a>, heavily inspired by
+          <a href="https://lume.land/">Lume</a>,
+          <a
+            href="https://matklad.github.io/2023/11/07/dta-oriented-blogging.html"
+            >Data Oriented Blogging</a
+          >,
+          <a href="https://github.com/MaggieAppleton/digital-gardeners"
+            >Digital Gardeners</a
+          >, <a href="https://www.buildingasecondbrain.com/">Second Brain</a>,
+          <a href="https://obsidian.md/">Obsidian</a> and a bit by my ancient
+          theme: <a href="https://github.com/Vimux/Mainroad">Mainroad</a>. You
+          can find the source code here.
+        </div>
+
+        <div>
+          Menu:
+          <ul>
+            ${props.menus
+              .map((menu) => {
+                let menuName = menu.menuName;
+                if (menuName === props.currentPageMenu) {
+                  menuName = `<u>${menuName}</u>`;
+                }
+                return html`
+                  <li>
+                    <a href="${menu.url}">${menuName}</a>
+                  </li>
+                `;
+              })
+              .join("")}
+          </ul>
+        </div>
+        <div>
+          Social:
+          ${social
+            .map((s) => {
+              return html`
+                <div style="${socialContainerClass.inlineStyle}">
+                  <div>${s.svg}</div>
+                  <div>
+                    <a href="${s.link}">&nbsp;${s.title}</a>
+                  </div>
                 </div>
-                <div>
-                  <a href="${s.link}">&nbsp;${s.title}</a>
-                </div>
-            </div>
-           `;
-    }).join("")
-  }
-    </div>
-  </div>
-</footer>
+              `;
+            })
+            .join("")}
+        </div>
+      </div>
+    </footer>
   `;
 }

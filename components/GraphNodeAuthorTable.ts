@@ -4,9 +4,11 @@ import { colorFrom } from "./Graph.ts";
 
 type AuthorData = { node: GraphNode; links: GraphNode[]; tags: GraphNode[] };
 
-export function GraphNoteTable() {
+export function GraphNodeAuthorTable() {
+  let allNodes = graphNodes;
+
   const author = new Map<string, AuthorData>();
-  for (const node of graphNodes) {
+  for (const node of allNodes) {
     if (node.type == "author") {
       author.set(node.id, {
         node: node,
@@ -16,7 +18,7 @@ export function GraphNoteTable() {
     }
   }
 
-  for (const node of graphNodes) {
+  for (const node of allNodes) {
     if (node.type == "link" || node.type == "post") {
       if (!node.authorId) {
         continue;
@@ -26,7 +28,7 @@ export function GraphNoteTable() {
     }
   }
 
-  for (const node of graphNodes) {
+  for (const node of allNodes) {
     if (node.type == "tag") {
       author: for (const [_, authorData] of author.entries()) {
         const authorTagFound = authorData.node!.tagId!.find(
@@ -49,6 +51,7 @@ export function GraphNoteTable() {
     }
   }
 
+  const authors = Array.from(author.values());
   return html`
     <style>
       table,
@@ -58,7 +61,8 @@ export function GraphNoteTable() {
         border-collapse: collapse;
       }
     </style>
-    <table style="font-size:12px; text-align: left; ">
+    ${authors.length > 0
+      ? `<table style="width: 100%;font-size:12px; text-align: left; ">
       <thead>
         <tr>
           <th>Author</th>
@@ -67,13 +71,10 @@ export function GraphNoteTable() {
         </tr>
       </thead>
       <tbody style="">
-        ${Array.from(author.entries())
-          .map(([, authorData]) => {
-            return table(authorData);
-          })
-          .join("")}
+        ${authors.map((authorData) => table(authorData)).join("")}
       </tbody>
-    </table>
+    </table>`
+      : ""}
   `;
 }
 
@@ -83,7 +84,9 @@ function table(authorData: AuthorData) {
       <td>
         <ul>
           <li>
-            <a style="color: ${colorFrom("author")};" href=""
+            <a
+              style="color: ${colorFrom("author")};"
+              href="/graph/${authorData.node.id}/"
               >${authorData.node.data.title}</a
             >
           </li>
@@ -93,7 +96,7 @@ function table(authorData: AuthorData) {
         <ul>
           ${authorData.links
             .map((link) => {
-              return html`<li><a style="color: ${colorFrom("link")};" href="${link.data.url}">${link.data.title}</li></li>`;
+              return html`<li><a style="color: ${colorFrom("link")};" href="/graph/${link.id}/">${link.data.title}</li></li>`;
             })
             .join("")}
         </ul>
@@ -102,7 +105,7 @@ function table(authorData: AuthorData) {
         <ul>
           ${authorData.tags
             .map((tag) => {
-              return html`<li><a style="color: ${colorFrom("tag")};" href="">${tag.data.title}<a/></li>`;
+              return html`<li><a style="color: ${colorFrom("tag")};" href="/graph/${tag.id}/">${tag.data.title}<a/></li>`;
             })
             .join("")}
         </ul>
