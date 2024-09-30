@@ -2,7 +2,7 @@
 on:
   push:
     paths:
-      - new-site/**
+      - blog/**
   workflow_dispatch:
 
   
