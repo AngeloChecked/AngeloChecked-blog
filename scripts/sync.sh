@@ -1,1 +1,1 @@
-aws s3 sync new-site/_site s3://angeloceccato-website-content
+aws s3 sync blog/dist s3://angeloceccato-website-content

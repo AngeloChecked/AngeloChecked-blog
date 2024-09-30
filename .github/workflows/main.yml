@@ -25,7 +25,7 @@ jobs:
     - name: checkout the repository
       uses: actions/checkout@v4
     - name: lume build
-      run: cd new-site && deno task build
+      run: cd blog && deno run --allow-all main.ts build
     - name: sync bucket and refresh cache
       run: .scripts/sync.sh && .scrips/invalidate-cloudfront.sh
     
