@@ -1,4 +1,4 @@
-![too many oop languages](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/toomanyspiderman.png)
+![too many oop languages](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/toomanyspiderman.webp)
 
 ## Premise
 
@@ -27,7 +27,7 @@ When I start thinking about "the evolution of programming languages," my mind
 sails, travels, surpasses the sky, and crosses space... then a planet appears, a
 planet of strange creatures...
 
-![Programming Languages Logos](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/languages_logo.png)
+![Programming Languages Logos](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/languages_logo.webp)
 
 This topic sparks my imagination. I ponder the vague similarities between PLs,
 ecology, [food chain](https://en.wikipedia.org/wiki/Food_chain), and
@@ -70,7 +70,7 @@ shaping our software concepts. At this juncture, solving a particular use case
 forces us to use a specific PL, which can sometimes lead us into what resembles
 an [echo chamber](https://en.wikipedia.org/wiki/Echo_chamber_(media)).
 
-![echo chambers in programming](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/chamber.png)
+![echo chambers in programming](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/chamber.webp)
 
 **Why did you start playing a particular instrument?**
 
@@ -88,7 +88,7 @@ languages, you might find the following resources useful:
 
 ## Object-oriented programming is not so obvious!
 
-![oop influences](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/oopinfluence.png)
+![oop influences](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/oopinfluence.webp)
 
 Today, OOP is one of the most fanatical taboos in my small programming
 experience.
@@ -343,7 +343,7 @@ class Father {
 
 class Child {
     has Father $.father handles <do-fizz>;
- 
+
     method do-buzz {
         self.do-fizz;
         say "different";
@@ -394,7 +394,7 @@ either.
 
 ### Guidelines for Addressing Entropy and Power
 
-![coupling and cohesion](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/couplingcohesion.png)
+![coupling and cohesion](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/couplingcohesion.webp)
 
 [GRASP](https://en.wikipedia.org/wiki/GRASP_(object-oriented_design)),
 [SOLID](https://en.wikipedia.org/wiki/SOLID),
@@ -498,7 +498,7 @@ approach poses a dilemma for the
 
 ### ok
 
-![object good part](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/objects_good_part.png)
+![object good part](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/objects_good_part.webp)
 
 I'm arguing that OOP is not as obvious. If I haven't convinced you try with:
 
@@ -510,7 +510,7 @@ I'm arguing that OOP is not as obvious. If I haven't convinced you try with:
 
 ## Functional programming is not so obvious, either!
 
-![fp languages influence](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/langfamilyFP.png)
+![fp languages influence](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/langfamilyFP.webp)
 
 ### Programming languages are experiments
 
@@ -538,7 +538,7 @@ while its principles act to circumvent issues originating from OOP itself.
 
 <a href="https://www.youtube.com/watch?v=srQt1NAHYC0">
 
-![scott wlaschin about fp desing patterns](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/functional_design_patterns_scott_wlashchin.png)
+![scott wlaschin about fp desing patterns](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/functional_design_patterns_scott_wlashchin.webp)
 </a>
 
 I have mixed feelings about this statement and agree that OOP isn't so obvious
@@ -550,7 +550,7 @@ many of these guidelines remain super valuable!
 
 <a href="https://twitter.com/ID_AA_Carmack/status/989951283900514304">
 
-![jose valim about polymorphism](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/josevalim_about_polymorphism.png)
+![jose valim about polymorphism](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/josevalim_about_polymorphism.webp)
 </a>
 
 ### Functional Programming! what?
@@ -649,7 +649,7 @@ pretty inevitable.
 
 <a href="https://twitter.com/ID_AA_Carmack/status/989951283900514304">
 
-![Jhon Carmack about tools](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/johon_carmack_about_tooling.png)
+![Jhon Carmack about tools](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/johon_carmack_about_tooling.webp)
 </a>
 
 In the end, what matters most is agreeing on what works for us and making
@@ -665,7 +665,7 @@ unnecessary solutions.
 
 <a href="https://twitter.com/isaac_abraham/status/1417122528607227906">
 
-![years of programming and complexity](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/compexity_and_years_of_programming.png)
+![years of programming and complexity](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/compexity_and_years_of_programming.webp)
 </a>
 
 [The perfect programming language doesn't exist](https://www.youtube.com/watch?v=yiiDFRs62lQ),
@@ -701,14 +701,14 @@ Programming Languages Evolution:
 - Band family trees: https://www.reddit.com/r/ClassicRock/comments/wtkumq/the_yardbirds_family_tree_how_all_these_bands_are
 - A Brief, Incomplete, and Mostly Wrong History of Programming Languages: http://james-iry.blogspot.com/2009/05/brief-incomplete-and-mostly-wrong.html
 - Sketchpad: A Man-Machine Graphical Communication System: http://www.bitsavers.org/pdf/mit/tx-2/Sketchpad_TR296_Jan63.pdf
-- Towards a conceptual history of programming languages - Types: http://www.cs.unibo.it/~martini/TALKS/martini-LIP.pdf 
+- Towards a conceptual history of programming languages - Types: http://www.cs.unibo.it/~martini/TALKS/martini-LIP.pdf
 - The Next 700 Programming Language: https://www.cs.cmu.edu/~crary/819-f09/Landin66.pdf
 - Guido van Rossum about biological systems metaphor of languages: https://youtu.be/-DVyjdw4t9I?t=1528
 - Programming languages genealogical tree: https://github.com/stereobooster/programming-languages-genealogical-tree?tab=readme-ov-file
 - Genealogical tree of programming languages by wikipedia: https://upload.wikimedia.org/wikipedia/commons/2/25/Genealogical_tree_of_programming_languages.svg
 - A History of Programming Languages for 2 Voices(David Nolen and Michael Bernstein): https://www.youtube.com/watch?v=J3C79CDqeW4
 - Dictionary of Programming Languages: http://cgibin.erols.com/ziring/cgi-bin/cep/cep.pl
- 
+
 Object Oriented Programming:
 - A Solution to the Square-Rectangle Problem: https://aip.vse.cz/pdfs/aip/2016/01/03.pdf
 - Object-Oriented Thinking in the Data-Centric World: https://www.schibsted.pl/blog/object-oriented-thinking-in-the-data-centric-world/
@@ -744,22 +744,22 @@ Object Oriented Programming:
 - People Don’t Understand OOP - https://blog.sigma-star.io/2024/01/people-dont-understand-oop/
 - Why is Object-Oriented Programming Bad? https://ovid.github.io/articles/why-is-object-oriented-programming-bad.html
 - Object-Oriented Programming is Bad: https://www.youtube.com/watch?v=QM1iUe6IofM
-- Is Inheritance That Evil?: https://thevaluable.dev/guide-inheritance-oop/ 
+- Is Inheritance That Evil?: https://thevaluable.dev/guide-inheritance-oop/
 
 Functional Programming:
-- Functional Design Patterns - Scott Wlaschin: https://www.youtube.com/watch?v=srQt1NAHYC0&t=251s 
+- Functional Design Patterns - Scott Wlaschin: https://www.youtube.com/watch?v=srQt1NAHYC0&t=251s
 - OOP vs Typeclasses - Ideology:  https://alexn.org/blog/2022/05/13/oop-vs-type-classes-part-1-ideology/
 - 8 months of OCaml after 8 years of Haskell in production: https://dev.to/chshersh/8-months-of-ocaml-after-8-years-of-haskell-in-production-h96
 - The essence of functional programming by Richard Feldman: https://www.youtube.com/watch?v=l0ruvPCQh9I
 - The Roc Programming Language with Richard Feldman (and what FP is) - https://adspthepodcast.com/2023/11/24/Episode-157.html
 - Why Isn't Functional Programming the Norm? – Richard Feldman: https://www.youtube.com/watch?v=QyJZzq0v7Z4
-- Are Design Patterns Missing Language Features: https://wiki.c2.com/?AreDesignPatternsMissingLanguageFeatures 
+- Are Design Patterns Missing Language Features: https://wiki.c2.com/?AreDesignPatternsMissingLanguageFeatures
 
 Other:
 - The Rust I Wanted Had No Future - https://graydon2.dreamwidth.org/307291.html
-- A decade of developing a programming language: https://yorickpeterse.com/articles/a-decade-of-developing-a-programming-language/ 
-- The Mess We Are n: https://www.youtube.com/watch?v=lKXe3HUG2l4&t=1925s 
-- Is Software Engineering Still an Oxymoron? • Alan Kay: https://www.youtube.com/watch?v=D43PlUr1x_E 
+- A decade of developing a programming language: https://yorickpeterse.com/articles/a-decade-of-developing-a-programming-language/
+- The Mess We Are n: https://www.youtube.com/watch?v=lKXe3HUG2l4&t=1925s
+- Is Software Engineering Still an Oxymoron? • Alan Kay: https://www.youtube.com/watch?v=D43PlUr1x_E
 - Features of a dream programming language: https://magnemg.eu/features-of-a-dream-programming-language-3rd-draft
 - The World's Most Maintainable Programming Language: http://lambda-the-ultimate.org/node/1483#comment-17093
 - The Perfect Programming Language: https://www.youtube.com/watch?v=yiiDFRs62lQ

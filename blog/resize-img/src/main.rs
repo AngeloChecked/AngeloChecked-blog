@@ -5,6 +5,8 @@ use std::{
     path::{Path, PathBuf},
 };
 
+mod img_to_webp;
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() > 1 {
@@ -26,6 +28,19 @@ fn main() {
         };
 
         for file in file_paths {
+            let mut file = file;
+            if file.extension().map_or(false, |ext| {
+                ["png".to_string(), "jpg".to_string(), "jpeg".to_string()]
+                    .contains(&ext.to_str().unwrap().to_string())
+            }) {
+                let filename_original_image = file.file_stem().unwrap().to_str().unwrap();
+                let webp_file_path = file.with_file_name(format!("{filename_original_image}.webp"));
+                if !webp_file_path.exists() {
+                    img_to_webp::image_to_webp(&file, &webp_file_path);
+                    file = webp_file_path;
+                }
+            }
+
             let Ok(img) = image::open(&file) else {
                 continue;
             };

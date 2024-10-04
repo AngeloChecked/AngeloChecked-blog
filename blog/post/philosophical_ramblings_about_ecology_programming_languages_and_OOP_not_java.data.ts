@@ -39,7 +39,7 @@ export const philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava
       ],
       date: "2024-04-13T13:00:00.000Z",
       thumbnail: {
-        src: "/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/toomanyspiderman.small.png",
+        src: "/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/toomanyspiderman.small.webp",
       },
     },
   };
