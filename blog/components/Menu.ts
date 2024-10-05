@@ -31,7 +31,7 @@ export function Menu(props: { currentPageMenu?: string; menus: MenuInfo[] }) {
           <div style="${menuRowContainerClass.inlineStyle}">
             <div style="${rowClass.inlineStyle}">
               <div>
-                <img src="/img/avatar_logo.webp"> 
+                <img src="/img/avatar_logo.webp" alt="AngeloChecked logo"> 
               </div>
               <div>
                 ANGELO CECCATO 
