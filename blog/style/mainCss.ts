@@ -41,8 +41,8 @@ const preStyle = cssElement({
   properties: {
     lineHeight: "1.1",
     fontFamily: "verdana",
-    fontSize: "10px",
-    backgroundColor: "rgb(5,4,4)",
+    fontSize: "12px",
+    backgroundColor: "#282c34",
     padding: "15px",
     overflowX: "auto",
     borderRadius: "20px",

@@ -57,10 +57,11 @@ export const Base = (props: BaseProps) =>
       ${props.scripts ?? ""}
       ${props.style ?? ""}
       ${ props.content.includes("lite-youtube") ? `<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/lite-youtube-embed/0.3.3/lite-yt-embed.min.css" onload="this.onload=null;this.rel='stylesheet'"/>` : ""}
-      <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" onload="this.onload=null;this.rel='stylesheet'">
+      <link rel="preload" as="style"  href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/atom-one-dark.min.css" onload="this.onload=null;this.rel='stylesheet'">
       <noscript>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/atom-one-dark.min.css">
       </noscript>      
+
     </head>
     ${googleTagManagerScript()}
     <body>
