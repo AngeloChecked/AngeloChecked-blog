@@ -47,7 +47,7 @@ export function createSvg(
   body,
 ) {
   const svg = `
-    <svg id="${id}" viewBox="-${innerWidth / 2} -${innerHeight / 2} ${innerWidth} ${innerHeight}" width="${width}" height="${height}" style="background-color: ${bgColor};">
+    <svg id="${id}" viewBox="-${innerWidth / 2} -${innerHeight / 2} ${innerWidth} ${innerHeight}" width="${width}" height="${height}" style="background-color: ${bgColor}; width: 100%; max-width:${width}px;">
     ${body}
     </svg>
   `;
@@ -353,6 +353,7 @@ node${node.id}.addEventListener("mouseleave", (event) => {
 	graphSvg.addEventListener("wheel", onWheel)
 	const onMouseMove = (event) => {
 	  event.preventDefault()
+	  console.log(event)
 	  if (event.buttons === 0) {
 		  return;
 	  }
@@ -366,6 +367,7 @@ node${node.id}.addEventListener("mouseleave", (event) => {
 		}
 	}
 	graphSvg.addEventListener("mousemove", onMouseMove)
+
 	`;
 
   return script;
