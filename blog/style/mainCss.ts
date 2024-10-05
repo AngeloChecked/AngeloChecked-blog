@@ -24,7 +24,7 @@ const aStyle = cssElement({
   properties: {
     fontWeight: "700",
     textDecoration: "none",
-    color: "#b00",
+    color: "#FF6166",
     cursor: "pointer",
   },
 });

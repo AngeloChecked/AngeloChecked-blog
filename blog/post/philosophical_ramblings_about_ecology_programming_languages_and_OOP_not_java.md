@@ -44,6 +44,7 @@ again.
 <a href="https://www.reddit.com/r/ClassicRock/comments/wtkumq/the_yardbirds_family_tree_how_all_these_bands_are">
 
 ![music bands evolution](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/bands_family_tree.webp)
+<p align="center">The Yardbirds family tree</p>
 </a>
 
 The vision I'm trying to share here became more concrete when I saw
@@ -539,6 +540,7 @@ while its principles act to circumvent issues originating from OOP itself.
 <a href="https://www.youtube.com/watch?v=srQt1NAHYC0">
 
 ![scott wlaschin about fp desing patterns](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/functional_design_patterns_scott_wlashchin.webp)
+<p align="center">Scott Wlaschin About Fp Patterns</p>
 </a>
 
 I have mixed feelings about this statement and agree that OOP isn't so obvious
@@ -548,9 +550,10 @@ problematic territory. FP, instead, sets up a safe zone where problems like
 unhandled exceptions, illegal state, global state... just do not exist. However,
 many of these guidelines remain super valuable!
 
-<a href="https://twitter.com/ID_AA_Carmack/status/989951283900514304">
+<a href="https://x.com/josevalim/status/1768297067904909560">
 
 ![jose valim about polymorphism](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/josevalim_about_polymorphism.webp)
+<p align="center">Jose Valim About Polymorphism</p>
 </a>
 
 ### Functional Programming! what?
@@ -650,6 +653,7 @@ pretty inevitable.
 <a href="https://twitter.com/ID_AA_Carmack/status/989951283900514304">
 
 ![Jhon Carmack about tools](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/johon_carmack_about_tooling.webp)
+<p align="center">Jhon Carmack About Tools</p>
 </a>
 
 In the end, what matters most is agreeing on what works for us and making
@@ -666,6 +670,7 @@ unnecessary solutions.
 <a href="https://twitter.com/isaac_abraham/status/1417122528607227906">
 
 ![years of programming and complexity](/img/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java/compexity_and_years_of_programming.webp)
+<p align="center">Years Of Programming And Complexity</p>
 </a>
 
 [The perfect programming language doesn't exist](https://www.youtube.com/watch?v=yiiDFRs62lQ),
@@ -689,7 +694,7 @@ If you are interested, explore these particular programming languages:
 
 Bye!
 
-#### interesting Articles and Resources:
+<b> interesting Articles and Resources:</b>
 
 ```
 Programming Languages Evolution:
