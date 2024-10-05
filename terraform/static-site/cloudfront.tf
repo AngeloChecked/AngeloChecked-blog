@@ -129,7 +129,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       }
     }
 
-    min_ttl                = 0
+    min_ttl                = 2592000
     default_ttl            = 2592000
     max_ttl                = 31536000
     compress               = true
