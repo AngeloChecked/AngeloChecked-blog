@@ -1,6 +1,6 @@
 # Another programming language battle?
 
-**Elixir vs Rust**
+## **Elixir vs Rust**
 
 _who will be the winner?_
 
