@@ -1,7 +1,8 @@
 import { DOMParser } from "../deps/dom.ts";
 import { jsBeautify } from "../deps/js-beautify.ts";
-import pictureRelosution from "../preprocess/md_picture_resolution_plugin.ts";
+import pictureRelosution from "../preprocess/apply_picture_resolutions.ts";
 import { RoutedPage } from "../routes.ts";
+import { mainWidth } from "../style/mainCss.ts";
 
 export type FileOrDir = [string, FileOrDir[]] | string;
 
@@ -52,9 +53,8 @@ export function fromStringToDomToString(page: RoutedPage, body: string) {
   const parser = new DOMParser();
   const document = parser.parseFromString(body, "text/html");
 
-  //const documentUpdated = pictureRelosution(page, document!, imagesInFolder) ?? document
-
-  const html = `<!DOCTYPE html>\n${document.documentElement?.outerHTML || ""}`;
+  const documentUpdated = pictureRelosution(page, document!, imagesInFolder, mainWidth) ?? document
+  const html = `<!DOCTYPE html>\n${documentUpdated.documentElement?.outerHTML || ""}`;
   return jsBeautify.html(html);
 }
 

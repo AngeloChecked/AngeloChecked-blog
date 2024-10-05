@@ -21,6 +21,8 @@ export const Base = (props: BaseProps) =>
   <!doctype html>
   <html lang="en">
     <head>
+     <meta charset="UTF-8" />
+     <link rel="icon" type="image/x-icon" href="/favicon.ico">
      <meta property="og:type" content="website">
      ${
     !props.page?.relativeWebsitePath ? "" : `
@@ -41,10 +43,8 @@ export const Base = (props: BaseProps) =>
       `
   }
   
-      <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-      <link rel="icon" type="image/x-icon" href="favicon.ico">
       <meta charset="UTF-8" />
       <meta name="description" content="${props.description}" />
       ${
@@ -80,9 +80,8 @@ function googleTagManagerScript() {
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-LE27PDG685"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-LE27PDG685');
+  dataLayer.push(['js', new Date()]);
+  dataLayer.push(['config', 'G-LE27PDG685']);
 </script>
 `;
 }

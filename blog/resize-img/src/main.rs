@@ -7,6 +7,8 @@ use std::{
 
 mod img_to_webp;
 
+const MAX_WIDTH: u32 = 800;
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() > 1 {
@@ -19,7 +21,10 @@ fn main() {
                 .unwrap()
                 .map(|res| res.unwrap().path())
                 .filter(|path| {
-                    let re = Regex::new(r"\.(tiny|small|medium|large)\.[^.]{0,4}$").unwrap();
+                    let re = Regex::new(
+                        r"\.[0-9]{1,4}x[0-9]{1,4}\.(tiny|small|medium|large)\.[^.]{0,4}$",
+                    )
+                    .unwrap();
                     !re.is_match(path.to_str().unwrap())
                 })
                 .collect()
@@ -47,64 +52,77 @@ fn main() {
             let (width, height) = img.dimensions();
             println!("image size: {width}, {height}");
 
-            resize_to_each_size(&img, file.to_str().unwrap());
+            resize_to_each_size(&img, &file);
         }
     }
 }
 
-fn resize_to_each_size(img: &image::DynamicImage, path: &str) {
-    let (width, _) = img.dimensions();
+fn resize_to_each_size(img: &image::DynamicImage, path: &Path) {
+    let (width, height) = img.dimensions();
 
     let tiny_width = 300u32;
-    let postfix = "tiny";
+    let postfix = ".tiny";
     if width > tiny_width {
-        resize_image_if_not_exists(path, postfix, tiny_width, img);
+        resize_image_if_not_exists(&path, postfix, tiny_width, img);
     }
 
     let small_width = 480u32;
-    let postfix = "small";
+    let postfix = ".small";
     if width > small_width {
         resize_image_if_not_exists(path, postfix, small_width, img);
     }
 
     let medium_width = 600u32;
-    let postfix = "medium";
+    let postfix = ".medium";
     if width > medium_width {
         resize_image_if_not_exists(path, postfix, medium_width, img);
 
-        let large_path = path_with_size_postfix(path, "large");
-        if !Path::new(large_path.as_str()).exists() {
-            img.save(large_path).unwrap();
+        if width > MAX_WIDTH {
+            resize_image_if_not_exists(path, ".large", MAX_WIDTH, img);
+        } else {
+            resize_image_if_not_exists(path, ".large", width, img);
+        }
+    }
+
+    if width > MAX_WIDTH {
+        resize_image_if_not_exists(path, "", MAX_WIDTH, img);
+    } else {
+        let as_is_with_sizes = path_with_size_postfix(path, format!("{width}x{height}").as_str());
+        if !as_is_with_sizes.exists() {
+            img.save(as_is_with_sizes).unwrap();
         }
     }
 }
 
 fn resize_image_if_not_exists(
-    path: &str,
+    path: &Path,
     postfix: &str,
-    small_width: u32,
+    new_width: u32,
     img: &image::DynamicImage,
 ) {
-    let small_path = path_with_size_postfix(path, postfix);
-    if !Path::new(small_path.as_str()).exists() {
-        resize_image(small_width, img, path, postfix);
-    }
-}
-
-fn resize_image(small: u32, img: &image::DynamicImage, path: &str, postfix: &str) {
     let (width, height) = img.dimensions();
-    let (new_w, new_h) = calculate_resize_dimension_by_width(width, height, small);
-    println!("{postfix} size: {new_w}, {new_h}");
+    let (new_w, new_h) = calculate_resize_dimension_by_width(width, height, new_width);
+    let into_path = path_with_size_postfix(&path, format!("{new_w}x{new_h}{postfix}").as_str());
+    if into_path.exists() {
+        return;
+    }
+    let into_path_dbg = into_path.to_str().unwrap();
+    println!("{into_path_dbg} size: {new_w}, {new_h}");
     let resized_img = img.resize(new_w, new_h, image::imageops::FilterType::Lanczos3);
-    let new_path = path_with_size_postfix(path, postfix);
-    println!("{new_path}");
-    resized_img.save(new_path).unwrap();
+    println!("{}", into_path_dbg);
+    resized_img.save(into_path).unwrap();
 }
 
-fn path_with_size_postfix(path: &str, postfix: &str) -> String {
-    let re = Regex::new(r"\.([^.]*)$").unwrap();
-    let new_path = re.replace(path, format!(".{}.$1", postfix));
-    new_path.to_string()
+fn path_with_size_postfix(path: &Path, postfix: &str) -> PathBuf {
+    let file_name = path.file_stem().unwrap().to_str().unwrap();
+    let file_extension = path.extension().unwrap().to_str().unwrap();
+    let new_path = path.with_file_name(format!(
+        "{file_name}.{postfix}.{file_extension}",
+        file_name = file_name,
+        postfix = postfix,
+        file_extension = file_extension
+    ));
+    new_path
 }
 
 fn calculate_resize_dimension_by_width(width: u32, height: u32, new_width: u32) -> (u32, u32) {

@@ -8,10 +8,11 @@ export function Footer(props: { currentPageMenu?: string; menus: MenuInfo[] }) {
   const footherClass = cssClass({
     className: "foother",
     properties: {
-      justifyContent: "space-around",
+      justifyContent: "space-between",
       margin: "50px 0 50px 0",
+      padding: "0 30px 0 30px",
       flexWrap: "wrap",
-      gap: "20px"
+      gap: "20px",
     },
     from: rowClass,
   });
@@ -28,7 +29,7 @@ export function Footer(props: { currentPageMenu?: string; menus: MenuInfo[] }) {
   return html`
     <footer style="border-top: solid white 1px;">
       <div style="${footherClass.inlineStyle}">
-        <div style="max-width: 30ch;">
+        <div style="max-width: 30ch; text-align: center;">
           © 2024 Angelo Ceccato. Self-built blog using
           <a href="https://deno.com/">Deno</a>, heavily inspired by
           <a href="https://lume.land/">Lume</a>,
@@ -44,8 +45,8 @@ export function Footer(props: { currentPageMenu?: string; menus: MenuInfo[] }) {
           can <a href="https://github.com/AngeloChecked/AngeloChecked-blog">find the source code here</a>.
         </div>
 
-        <div>
-          Menu:
+        <div style="text-align: left">
+          <p>Menu:</p>
           <ul>
             ${props.menus
               .map((menu) => {
@@ -63,7 +64,7 @@ export function Footer(props: { currentPageMenu?: string; menus: MenuInfo[] }) {
           </ul>
         </div>
         <div>
-          Social:
+          <p>Social:</p>
           ${social
             .map((s) => {
               return html`

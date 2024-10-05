@@ -4,7 +4,8 @@ import { Menu } from "./components/Menu.ts";
 import { RoutedPage } from "./routes.ts";
 import { styleCssFile } from "./style/mainCss.ts";
 import { websocketScript } from "./server.ts";
-import { allMenus } from "./main.ts";
+import { allMenus, domain } from "./main.ts";
+import { fromStringToDomToString } from "./utils/utils.ts";
 
 export function createPageHtml(
   page?: RoutedPage,
@@ -28,6 +29,6 @@ export function createPageHtml(
     page: page!,
     site: { domain: domain },
   });
-  const html = fromStringToDomToString(body);
+  const html = fromStringToDomToString(page!, body);
   return html;
 }

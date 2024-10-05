@@ -3,7 +3,7 @@ import { SimpleBlogNetworkGraph } from "../scripts/SimpleBlogNetworkGraph.js";
 import type { Node, Edge } from "../scripts/graph.js";
 import { GraphNode, graphNodes } from "../graph/knowledgeGraph.ts";
 import { GraphNodeAuthorTable } from "./GraphNodeAuthorTable.ts";
-import { myPersonalTechLimboElixirVsRustPost } from "../post/my-personal-tech-limbo-elixir-vs-rust.data.ts";
+import { myPersonalTechLimboElixirVsRustPost } from "../post/my_personal_tech_limbo_elixir_vs_rust.data.ts";
 import { philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava } from "../post/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java.data.ts";
 import { GraphNodeFocusTable } from "./GraphNodeFocusTable.ts";
 

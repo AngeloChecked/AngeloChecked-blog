@@ -1,5 +1,7 @@
 import { cssClass, cssElement, cssFile } from "./css.ts";
 
+export const mainWidth = 800;
+
 const htmlStyle = cssElement({
   elementName: "body, html",
   properties: {
@@ -51,9 +53,8 @@ export const mainClass = cssClass({
   className: "main",
   properties: {
     margin: "auto auto auto auto",
-    maxWidth: "800px",
+    maxWidth: `${mainWidth}px`,
     fontSize: "18px",
-    width: "90%",
     fontFamily: `"Open Sans","Helvetica Neue",sans-serif`,
     textAlign: "justify",
     textJustify: "inter-word",

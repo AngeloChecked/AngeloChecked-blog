@@ -52,34 +52,7 @@ export default function pictureRelosution(
       imageInFolders.some((img) => sizedFilePath.endsWith(img)) &&
         imagesFound.push([size, sizedFilePath]);
     }
-
-    const mediaConfig: Record<string, string | undefined> = options.mediaConfig;
-
-    if (imagesFound.length > 0 && document) {
-      const picture = document.createElement("picture");
-      alt && picture.setAttribute("alt", alt);
-
-      for (const [size, path] of imagesFound) {
-        const source = document.createElement("source");
-        source.setAttribute("data-srcset", path);
-
-        const media = mediaConfig[size];
-        media && source.setAttribute("media", media);
-
-        picture.appendChild(source);
-      }
-      img.replaceWith(picture);
-      imageInFolders.some((img) => src.endsWith(img)) &&
-        picture.appendChild(img);
-    }
   }
-  const script = document.createElement("script");
-  script.innerText = `
-window.onload = () => {
-  document.querySelectorAll('source').forEach(el => el.setAttribute('srcset', el.getAttribute('data-srcset')));
-  document.querySelectorAll('img').forEach(el => el.setAttribute('src', el.getAttribute('data-src')));
-}`;
-  const body = document.querySelector("body");
-  body && body.appendChild(script);
+
   return document;
 }

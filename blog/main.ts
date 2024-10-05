@@ -105,7 +105,7 @@ const staticAndServerRouter: StaticServerRouter = [
     type: "static",
     folder: "./static",
     condition: (file: string) =>
-      new RegExp(/\.webp$|\.png$|\.jpg$|\.svg$|\.css$/).test(file),
+      new RegExp(/\.webp$|\.png$|\.jpg$|\.svg$|\.css$|\.ico$/).test(file),
   },
   {
     type: "generate",
