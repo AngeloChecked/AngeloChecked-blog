@@ -353,7 +353,6 @@ node${node.id}.addEventListener("mouseleave", (event) => {
 	graphSvg.addEventListener("wheel", onWheel)
 	const onMouseMove = (event) => {
 	  event.preventDefault()
-	  console.log(event)
 	  if (event.buttons === 0) {
 		  return;
 	  }
@@ -388,6 +387,5 @@ function svgTextSize(text) {
     height: textSvg.getBBox().height,
   };
   svg.remove();
-  console.log(size);
   return size;
 }
