@@ -82,6 +82,31 @@ export const Base = (props: BaseProps) => html`
 
 function googleTagManagerScript() {
   return html`
+    <!-- iubenda -->
+    <script type="text/javascript">
+      var _iub = _iub || [];
+      _iub.csConfiguration = {
+        siteId: 3794720,
+        cookiePolicyId: 82254613,
+        lang: "en",
+        storage: { useSiteId: true },
+      };
+    </script>
+    <script
+      type="text/javascript"
+      src="https://cs.iubenda.com/autoblocking/3794720.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="//cdn.iubenda.com/cs/gpp/stub.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="//cdn.iubenda.com/cs/iubenda_cs.js"
+      charset="UTF-8"
+      async
+    ></script>
+
     <!-- Google tag (gtag.js) -->
     <script
       async
