@@ -150,19 +150,19 @@ export function calculateGraph(
     }
   }
 
-  const newLocal = /\ |-/g;
+  const spacesAndDash = /\ |-/g;
   const createRandomPoint = randomPoint(WIDTH, HEIGHT);
   for (let node of nodes) {
     node.point = createRandomPoint();
     node.xpoint = new Point(0, 0);
-    const adjustId = node.id.replaceAll?.(newLocal, "_");
+    const adjustId = node.id.replaceAll?.(spacesAndDash, "_");
     if (adjustId) {
       node.id = adjustId;
     }
   }
   for (let edge of edges) {
-    const adjustSource = edge.source.replaceAll?.(newLocal, "_");
-    const adjustTarget = edge.target.replaceAll?.(newLocal, "_");
+    const adjustSource = edge.source.replaceAll?.(spacesAndDash, "_");
+    const adjustTarget = edge.target.replaceAll?.(spacesAndDash, "_");
     if (adjustSource) {
       edge.source = adjustSource;
     }

@@ -1,7 +1,7 @@
 import { html } from "../deps/html.ts";
 import { SimpleBlogNetworkGraph } from "../scripts/SimpleBlogNetworkGraph.js";
 import type { Node, Edge } from "../scripts/graph.js";
-import { GraphNode, graphNodes } from "../graph/knowledgeGraph.ts";
+import { GraphNode, graphNodes, learningTag } from "../graph/knowledgeGraph.ts";
 import { GraphNodeAuthorTable } from "./GraphNodeAuthorTable.ts";
 import { myPersonalTechLimboElixirVsRustPost } from "../post/my_personal_tech_limbo_elixir_vs_rust.data.ts";
 import { philosophicalRamblingsAboutEcologyProgrammingLanguagesAndOOPNotJava } from "../post/philosophical_ramblings_about_ecology_programming_languages_and_OOP_not_java.data.ts";
@@ -29,6 +29,7 @@ export function Graph(props: { nodeIdToFocus?: string }) {
   if (props.nodeIdToFocus) {
     allNodes = filterNeightbours(props.nodeIdToFocus, allNodes);
   }
+
   const { nodes, edges } = adaptGraph(allNodes, props.nodeIdToFocus);
 
   const graph = new SimpleBlogNetworkGraph({ nodes, edges });
@@ -55,14 +56,14 @@ export function Graph(props: { nodeIdToFocus?: string }) {
   `;
 }
 
-function adaptGraph(allNodes: GraphNode[], nodeIdToFocus?: string) {
+export function adaptGraph(allNodes: GraphNode[], nodeIdToFocus?: string) {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
   for (const node of allNodes) {
     nodes.push({
       id: node.id,
       text: node.data.title,
-      link: "/graph/" + node.id,
+      link: "/graph/" + node.id + "/",
       color: colorFrom(node.type),
       radius: node.id === nodeIdToFocus ? 20 : 5,
     });

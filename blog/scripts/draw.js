@@ -12,8 +12,9 @@ export function createArrow(pointA, pointB, stroke, opacity, id) {
   return `<line id="edgeArrow${id}" x1="${pointA.x}" y1="${pointA.y}" x2="${pointB.x}" y2="${pointB.y}" stroke="${stroke}" marker-end="url(#arrow)" opacity="${opacity}" />`;
 }
 
-function createText({ point, text, angle, color, fontSize, id }) {
+function createText({ point, text, angle, color, fontSize, id, comment }) {
   return `
+  ${comment ? `<!-- ${comment} -->` : ""}
   <text id="${id}" filter="url(#solid)" font-size="${fontSize}" x="${point.x}" y="${point.y}" fill="${color}"  text-anchor="middle" dominant-baseline="central" transform="rotate(${angle}, ${point.x}, ${point.y})" style="pointer-events: none ;user-select: none;">
          ${text}
        </text>
@@ -142,6 +143,7 @@ export function generateSvgHtml({ edges, nodes }, drawConfig, graphConfig) {
       color: drawConfig.edgeUnfocusTextColor,
       fontSize: drawConfig.edgeTextFontSize,
       id: "edgeText" + edgeIndex,
+      comment: edge.target + " <- " + edge.source,
     });
   }
 
@@ -201,8 +203,15 @@ export function generateSvgInteractiveScript(
     script += `const node${node.id} = document.getElementById("node${node.id}");`;
   }
 
-  for (const [edgeIndex] of edges.entries()) {
-    script += `const edgeText${edgeIndex} = document.getElementById("edgeText${edgeIndex}");`;
+  const nodeIds = new Set(nodes.map((node) => node.id));
+  const edgeIds = new Set();
+
+  for (const [edgeIndex, edge] of edges.entries()) {
+    if (!nodeIds.has(edge.target) || !nodeIds.has(edge.source)) {
+      continue;
+    }
+    edgeIds.add(edgeIndex);
+    script += `const edgeText${edgeIndex} = document.getElementById("edgeText${edgeIndex}"); // ${edge.target} <- ${edge.source} ${"\n"}`;
     script += `const edgeArrow${edgeIndex} = document.getElementById("edgeArrow${edgeIndex}");`;
   }
 
@@ -217,6 +226,7 @@ export function generateSvgInteractiveScript(
         edge,
         sourceId,
         targetId,
+        edgeIndex,
       });
       continue;
     }
@@ -238,9 +248,6 @@ export function generateSvgInteractiveScript(
     allEdgeNeightbours.set(targetId, alreadyFoundEdgeNeightbours);
   }
 
-  const nodeIds = new Set(nodes.map((node) => node.id));
-  const edgeIds = new Set(edges.map((_, index) => index));
-
   const focusAllScript = Array.from(nodeIds).reduce(
     (script, nodeId) =>
       script +
@@ -252,13 +259,15 @@ export function generateSvgInteractiveScript(
     ${focusAllScript}
   }`;
 
-  const unfocusAllEdgesScript = Array.from(edgeIds).reduce(
-    (script, edgeIndex) =>
-      script +
-      `edgeText${edgeIndex}.setAttribute("fill", "${edgeUnfocusTextColor}");
-      edgeArrow${edgeIndex}.style.opacity = ${edgeUnfocusOpacity};\n`,
-    "",
-  );
+  const unfocusAllEdgesScript = Array.from(edgeIds)
+    .map((edge, edgeIndex) =>
+      nodeIds.has(edge.source) && nodeIds.has(edge.target)
+        ? `edgeText${edgeIndex}.setAttribute("fill", "${edgeUnfocusTextColor}");
+      edgeArrow${edgeIndex}.style.opacity = ${edgeUnfocusOpacity};\n`
+        : "",
+    )
+    .join("");
+
   const unfocusAllEdgesScriptFunction = `function unfocusAllEdges() {
     ${unfocusAllEdgesScript}
   }`;
@@ -306,6 +315,7 @@ export function generateSvgInteractiveScript(
     )
       .map((edgeIndex) => `edgeArrow${edgeIndex}`)
       .join(",");
+
     script += `
 node${node.id}.addEventListener("mouseenter", (event) => {
 // focus
