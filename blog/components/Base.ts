@@ -91,6 +91,16 @@ function googleTagManagerScript() {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push(["js", new Date()]);
       window.dataLayer.push(["config", "G-LE27PDG685"]);
+      window.dataLayer.push([
+        "consent",
+        "default",
+        {
+          ad_storage: "denied",
+          analytics_storage: "granted",
+          ad_user_data: "denied",
+          ad_personalization: "denied",
+        },
+      ]);
     </script>
   `;
 }
