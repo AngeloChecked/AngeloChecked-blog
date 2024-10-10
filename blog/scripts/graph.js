@@ -63,7 +63,7 @@ export function calculateGraph(
         const distance = nodeB.point.distanceTo(nodeA.point);
         const minDistance = nodeA.radius + nodeB.radius + MARGIN;
 
-        if (distance < minDistance) {
+        if (distance < minDistance && distance > 0) {
           const force = REPULSION_CONSTANT / (distance * distance);
           const forcePoint = nodeA.point
             .minus(nodeB.point)
@@ -85,15 +85,17 @@ export function calculateGraph(
       }
 
       const distance = nodeA.point.distanceTo(nodeB.point);
-      const displacement = distance - SPRING_LENGTH;
-      const force = SPRING_CONSTANT * displacement;
-      const forcePoint = nodeB.point
-        .minus(nodeA.point)
-        .divideScalar(distance)
-        .multiplyScalar(force);
+      if (distance > 0) {
+        const displacement = distance - SPRING_LENGTH;
+        const force = SPRING_CONSTANT * displacement;
+        const forcePoint = nodeB.point
+          .minus(nodeA.point)
+          .divideScalar(distance)
+          .multiplyScalar(force);
 
-      forces[edge.source] = forces[edge.source].plus(forcePoint);
-      forces[edge.target] = forces[edge.target].minus(forcePoint);
+        forces[edge.source] = forces[edge.source].plus(forcePoint);
+        forces[edge.target] = forces[edge.target].minus(forcePoint);
+      }
     }
 
     return forces;
@@ -134,7 +136,7 @@ export function calculateGraph(
         const distance = nodeB.point.distanceTo(nodeA.point);
         const minDistance = nodeA.radius + nodeB.radius + MARGIN;
 
-        if (distance < minDistance) {
+        if (distance < minDistance && distance > 0) {
           const overlap = minDistance - distance;
 
           const direction = nodeB.point
