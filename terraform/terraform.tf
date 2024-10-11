@@ -29,13 +29,17 @@ variable "website_bucket_name" {
   type = string
 }
 
+variable "website_logging_bucket_name" {
+  type = string
+}
+
 variable "route_profile" {
   type = string
 }
 
 provider "aws" {
   profile = "default"
-  region = var.aws_region
+  region  = var.aws_region
 }
 
 provider "aws" {
@@ -48,12 +52,12 @@ module "website" {
     aws.acm_account = aws.certificates
   }
 
-  source = "./static-site"
-  domain_name = var.domain_name
-  domain_name_two = var.domain_name_two
-  website_bucket_name = var.website_bucket_name
-  route_profile = var.route_profile
-  aws_region = var.aws_region
-  subject_alternative_names = var.subject_alternative_names
+  source                      = "./static-site"
+  domain_name                 = var.domain_name
+  domain_name_two             = var.domain_name_two
+  website_bucket_name         = var.website_bucket_name
+  website_logging_bucket_name = var.website_logging_bucket_name
+  route_profile               = var.route_profile
+  aws_region                  = var.aws_region
+  subject_alternative_names   = var.subject_alternative_names
 }
-

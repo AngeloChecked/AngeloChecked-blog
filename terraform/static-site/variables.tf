@@ -14,6 +14,10 @@ variable "website_bucket_name" {
   type = string
 }
 
+variable "website_logging_bucket_name" {
+  type = string
+}
+
 variable "route_profile" {
   type = string
 }
@@ -21,4 +25,3 @@ variable "route_profile" {
 variable "aws_region" {
   type = string
 }
-
