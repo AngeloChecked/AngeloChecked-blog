@@ -19,7 +19,7 @@ func TestLogFormatter(t *testing.T) {
 2024-10-11	22:35:45	SEA900-P3	529	216.244.66.244	GET	dssqkj1981x2t.cloudfront.net	/robots.txt	200	-	Mozilla/5.0%20(compatible;%20DotBot/1.2;%20+https://opensiteexplorer.org/dotbot;%20help@moz.com)	-	-	RefreshHit	Szyb5Cz7_JK0rENfdp8-jc7oJmoTbjNJZoJ_iKjI7F6Oj0xq9SCeog==	angeloceccato.com	https	222	0.273	-	TLSv1.2	ECDHE-RSA-AES128-GCM-SHA256	RefreshHit	HTTP/1.1	-	-	37933	0.273	RefreshHit	text/plain	69	-	-
 2024-10-11	22:35:44	SEA900-P3	578	216.244.66.244	GET	dssqkj1981x2t.cloudfront.net	/robots.txt	301	-	Mozilla/5.0%20(compatible;%20DotBot/1.2;%20+https://opensiteexplorer.org/dotbot;%20help@moz.com)	-	-	Redirect	iG3alVWAwv4dYiX9xuaMLXFWOq3GGU2usKwUPRS3T8CNJkkXW9i_rA==	angeloceccato.com	http	222	0.001	-	-	-	Redirect	HTTP/1.1	-	-	49918	0.001	Redirect	text/html	167	-	-
 `
-	formatted := logshape.LogFormatter(log)
+	formatted := logshape.LogParse(log)
 
 	expectedFields := []string{
 		"date",
@@ -58,7 +58,45 @@ func TestLogFormatter(t *testing.T) {
 	}
 
 	if diff := deep.Equal(expectedFields, formatted.Fields); diff != nil {
-		//	t.Errorf("got %v, \n ##### \n want %v", formatted.Fields, expectedFields)
+		t.Error(diff)
+	}
+
+	expectedFirstLineValues := []string{
+		"2024-10-11",
+		"22:33:27",
+		"SIN2-P8",
+		"808",
+		"114.119.135.98",
+		"GET",
+		"dssqkj1981x2t.cloudfront.net",
+		"/graph/link/are-developers-needed-in-the-age-of-ai-link",
+		"302",
+		"https://angeloceccato.it/graph",
+		"Mozilla/5.0%20(Linux;%20Android%207.0;)%20AppleWebKit/537.36%20(KHTML,%20like%20Gecko)%20Mobile%20Safari/537.36%20(compatible;%20PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+		"-",
+		"-",
+		"Miss",
+		"5fnl73FSgF4xlEgwShL_S0rJqoX2DYNzHSqDJV7QxiIGAH4rUj5zQQ==",
+		"angeloceccato.it",
+		"https",
+		"470",
+		"0.382",
+		"-",
+		"TLSv1.3",
+		"TLS_AES_128_GCM_SHA256",
+		"Miss",
+		"HTTP/1.1",
+		"-",
+		"-",
+		"25751",
+		"0.382",
+		"Miss",
+		"text/html;%20charset=utf-8",
+		"313",
+		"-",
+		"-",
+	}
+	if diff := deep.Equal(expectedFirstLineValues, formatted.Values[0]); diff != nil {
 		t.Error(diff)
 	}
 }

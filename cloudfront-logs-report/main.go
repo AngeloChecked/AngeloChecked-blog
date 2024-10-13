@@ -1,56 +1,84 @@
 package main
 
 import (
-	"compress/gzip"
-	"context"
 	"fmt"
 	"log"
+	"strings"
 
-	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
-
-	"io"
+	"github.com/angelochecked/cloudfront-logs-report/v2/logOutput"
+	"github.com/angelochecked/cloudfront-logs-report/v2/logStorage"
+	"github.com/angelochecked/cloudfront-logs-report/v2/logshape"
 )
 
 func main() {
-	ctx := context.Background()
-	sdkConfig, err := config.LoadDefaultConfig(ctx, config.WithRegion("eu-west-1"))
+	logStorage := logStorage.New()
+	logOutput := logOutput.New("output.csv", []string{
+		"sc-bytes",
+		"cs(Host)",
+		"cs-method",
+		"cs-uri-query",
+		"cs(Cookie)",
+		"x-edge-request-id",
+		"x-forwarded-for",
+		"fle-status",
+		"fle-encrypted-fields",
+		"sc-content-len",
+		"ssl-protocol",
+		"ssl-cipher",
+		"x-edge-response-result-type",
+		"cs-protocol-version",
+		"c-port",
+		"time-to-first-byte",
+		"x-edge-detailed-result-type",
+		"sc-range-start",
+		"sc-range-end",
+		"cs-bytes",
+	},
+		[]string{
+			"cs-uri-stem",
+			"sc-status",
+		},
+	)
+
+	allLogFiles, err := logStorage.AllLogFiles()
 	if err != nil {
-		log.Fatalf("unable to load SDK config, %v", err)
+		log.Fatalf("Failed to get logs: %s", err)
 	}
-	s3Client := s3.NewFromConfig(sdkConfig)
-	listObjectVersionsInput := s3.ListObjectsV2Input{
-		Bucket: aws.String("angeloceccato-website-logs"),
-		Prefix: aws.String("angeloceccato-website-content/"),
-	}
-	result, err := s3Client.ListObjectsV2(ctx, &listObjectVersionsInput)
-	for _, content := range result.Contents {
 
-		getObjectInput := s3.GetObjectInput{
-			Bucket: aws.String("angeloceccato-website-logs"),
-			Key:    content.Key,
+	for _, logFile := range allLogFiles {
+		logFile, _ := logStorage.DownloadLogFile(logFile)
+		parsedLog := logshape.LogParse(logFile)
+
+		logOutput.AppendHead(parsedLog.Fields)
+
+		for _, line := range parsedLog.Values {
+			if err = logOutput.AppendLine(
+				line,
+				func(m map[string]string) bool {
+					fmt.Println(m["cs-uri-stem"])
+					if m["sc-status"] == "404" {
+						return false
+					}
+					if m["sc-status"] == "301" {
+						return false
+					}
+					if strings.Contains(m["cs-uri-stem"], "/img/") {
+						return false
+					}
+					if m["cs-uri-stem"] == "/robots.txt" {
+						return false
+					}
+					if m["cs-uri-stem"] == "/favicon.ico" {
+						return false
+					}
+					if strings.Contains(m["cs-uri-stem"], ".php") {
+						return false
+					}
+					return true
+				},
+			); err != nil {
+				fmt.Println(fmt.Sprintf("Failed to write line: %s", err))
+			}
 		}
-		result, err := s3Client.GetObject(ctx, &getObjectInput)
-		if err != nil {
-			fmt.Printf("Couldn't list buckets for your account. Here's why: %v\n", err)
-			return
-		}
-		defer result.Body.Close()
-		fmt.Printf("\t%s\n", gzipDecode(result.Body))
 	}
-}
-
-func gzipDecode(reader io.Reader) string {
-	gzreader, e1 := gzip.NewReader(reader)
-	if e1 != nil {
-		fmt.Println(e1) // Maybe panic here, depends on your error handling.
-	}
-
-	output, e2 := io.ReadAll(gzreader)
-	if e2 != nil {
-		fmt.Println(e2)
-	}
-
-	return string(output)
 }

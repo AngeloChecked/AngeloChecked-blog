@@ -6,14 +6,24 @@ import (
 
 type Log struct {
 	Fields []string
+	Values [][]string
 }
 
-func LogFormatter(logs string) Log {
-	lines := strings.Split(logs, "\n")
-	lines = lines[1:]
-	fieldsLineSplited := strings.Split(lines[0], "#Fields: ")
-	fieldsLine := fieldsLineSplited[1]
-	fields := strings.Split(fieldsLine, " ")
-	//fmt.Println(strings.Join(fields, ","))
-	return Log{Fields: fields}
+func LogParse(logs string) Log {
+	stringLines := strings.Split(logs, "\n")
+	stringLines = stringLines[1:]
+	fieldsStringLineSplited := strings.Split(stringLines[0], "#Fields: ")
+	fieldsStringLine := fieldsStringLineSplited[1]
+	fieldsFirstLine := strings.Split(fieldsStringLine, " ")
+
+	stringLinesWithValues := stringLines[1:]
+	valuesPerLine := [][]string{}
+	for _, line := range stringLinesWithValues {
+		valuesPerLine = append(valuesPerLine, strings.Split(line, "\t"))
+	}
+
+	return Log{
+		Fields: fieldsFirstLine,
+		Values: valuesPerLine,
+	}
 }
