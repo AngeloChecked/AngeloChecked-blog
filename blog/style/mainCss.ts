@@ -73,6 +73,25 @@ export const rowClass = cssClass({
   },
 });
 
+export const h1Element = cssElement({
+  elementName: "h1",
+  properties: {
+    color: "#ff9061",
+  },
+});
+const h2Element = cssElement({
+  elementName: "h2",
+  properties: {
+    color: "#eba157",
+  },
+});
+const h3Element = cssElement({
+  elementName: "h3",
+  properties: {
+    color: "#ebd057",
+  },
+});
+
 export const styleCssFile = cssFile({
   aStyle,
   htmlStyle,
@@ -80,4 +99,7 @@ export const styleCssFile = cssFile({
   mainClass,
   hoverAStyle,
   preStyle,
+  h1Element,
+  h2Element,
+  h3Element,
 });

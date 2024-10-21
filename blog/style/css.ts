@@ -36,15 +36,14 @@ type CssProperty =
   | { gridTemplateColumns: string };
 
 type CssProperties<T = CssProperty> = {
-  [Key in keyof T]: T[Key];
+  [Key in keyof Partial<T>]: T[Key];
 };
 
 export function cssElement(
   cssObject: { elementName: HtmlElement } & CssObject,
 ): CssElement {
-  const { styleProperties, mergedCssProperties } = adjustAndMergeCssProps(
-    cssObject,
-  );
+  const { styleProperties, mergedCssProperties } =
+    adjustAndMergeCssProps(cssObject);
   const style = `
 ${cssObject.elementName} {
   ${styleProperties.join("\n  ")}
@@ -59,9 +58,8 @@ ${cssObject.elementName} {
 }
 
 export function cssClass(cssObject: { className: string } & CssObject) {
-  const { styleProperties, mergedCssProperties } = adjustAndMergeCssProps(
-    cssObject,
-  );
+  const { styleProperties, mergedCssProperties } =
+    adjustAndMergeCssProps(cssObject);
 
   const style = `
 .${cssObject.className} {
@@ -87,23 +85,27 @@ type CssOutput = {
 
 type CssObject = {
   properties: CssProperties;
-  from?: {
-    cssProperties: Record<string, string>;
-  } | undefined;
+  from?:
+    | {
+        cssProperties: Record<string, string>;
+      }
+    | undefined;
 };
 
 function adjustAndMergeCssProps(cssObject: CssObject) {
   const propertiesUnited = Object.entries(
     cssObject.from?.cssProperties ?? {},
   ).concat(
-    Object.entries(cssObject.properties as never as object)
-      .map(([key, value]) => [fromCamelCaseToKebabCase(key), value]),
+    Object.entries(cssObject.properties as never as object).map(
+      ([key, value]) => [fromCamelCaseToKebabCase(key), value],
+    ),
   );
 
   const mergedCssProperties = Object.fromEntries(propertiesUnited);
 
-  const styleProperties = Object.entries(mergedCssProperties)
-    .map(([key, value]) => `${key}: ${value};`);
+  const styleProperties = Object.entries(mergedCssProperties).map(
+    ([key, value]) => `${key}: ${value};`,
+  );
   return { styleProperties, mergedCssProperties };
 }
 
