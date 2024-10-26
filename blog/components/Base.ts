@@ -70,7 +70,7 @@ export const Base = (props: BaseProps) => html`
     </head>
 
     <body>
-      ${googleTagManagerScript()} ${props.menu}
+      ${props.menu}
       <main class="${mainClass.className}">${props.content}</main>
     </body>
     ${props.footer}
