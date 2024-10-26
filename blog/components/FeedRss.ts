@@ -1,14 +1,11 @@
 import { ProcessedPage, RoutedPage } from "../routes.ts";
 
-export function FeedRss(
-  props: {
-    feedItems: RoutedPage[];
-    domain: string;
-    latestBuildDate: string;
-  },
-) {
-  return `
-<?xml version="1.0" encoding="UTF-8"?>
+export function FeedRss(props: {
+  feedItems: RoutedPage[];
+  domain: string;
+  latestBuildDate: string;
+}) {
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/" version="2.0">
   <channel>
     <title>My RSS Feed</title>
@@ -17,20 +14,20 @@ export function FeedRss(
     <description>AngeloChecked Blog</description>
     <lastBuildDate>${buildRFC822Date(props.latestBuildDate)}</lastBuildDate>
     <language>en</language>
-    ${
-    props.feedItems.map((page) =>
-      feedItem({
-        title: page.data?.title!,
-        link: props.domain + page.relativeWebsitePath,
-        parmaLink: props.domain + page.relativeWebsitePath,
-        description: page.data?.description!,
-        content: truncate(page.content + "...")!,
-        date: buildRFC822Date(page.data?.date!),
-      })
-    ).join("\n")
-  }
+    ${props.feedItems
+      .map((page) =>
+        feedItem({
+          title: page.data?.title!,
+          link: props.domain + page.relativeWebsitePath,
+          parmaLink: props.domain + page.relativeWebsitePath,
+          description: page.data?.description!,
+          content: truncate(page.content + "...")!,
+          date: buildRFC822Date(page.data?.date!),
+        }),
+      )
+      .join("\n")}
     </channel>
-</rss>      
+</rss>
     `;
 }
 
@@ -47,8 +44,8 @@ function feedItem(props: {
       <title>${props.title}</title>
       <link>${props.link}</link>
       <guid isPermaLink="${props.parmaLink ? "true" : "false"}">${
-    props.parmaLink ? props.parmaLink : ""
-  }</guid>
+        props.parmaLink ? props.parmaLink : ""
+      }</guid>
       <description>${props.description}</description>
       <content:encoded>
         <![CDATA[${props.content}]]>
@@ -61,9 +58,7 @@ function feedItem(props: {
 export function truncate(initialText: string, maxlength: number = 400) {
   if (!initialText) return undefined;
   const text = initialText.replace(/(<([^>]+)>)/g, "");
-  return ((text.length > maxlength)
-    ? text.slice(0, maxlength - 1) + "…"
-    : text);
+  return text.length > maxlength ? text.slice(0, maxlength - 1) + "…" : text;
 }
 
 function buildRFC822Date(dateString: string) {
