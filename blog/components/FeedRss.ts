@@ -86,5 +86,5 @@ function buildRFC822Date(dateString: string) {
   const dayNumber = date.getDate().toString().padStart(2, "0");
   const year = date.getFullYear();
   //Wed, 02 Oct 2002 13:00:00 GMT
-  return `${day}, ${dayNumber} ${month} ${year} 00:00:00 GTM`;
+  return `${day}, ${dayNumber} ${month} ${year} 00:00:00 GMT`;
 }

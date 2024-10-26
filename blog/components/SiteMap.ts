@@ -10,7 +10,7 @@ export function SiteMap(props: {
 ${props.router
   .map((page) => {
     return siteMapUrl({
-      pageUrl: props.domain + page?.relativeWebsitePath ?? "/",
+      pageUrl: props.domain + (page?.relativeWebsitePath ?? "/"),
       lastModifiedDate: props.latestBuildDate,
     });
   })
