@@ -27,7 +27,7 @@ export function Graph(props: { nodeIdToFocus?: string }) {
   let allNodes = graphNodes;
 
   if (props.nodeIdToFocus) {
-    allNodes = filterNeightbours(props.nodeIdToFocus, allNodes);
+    allNodes = filterNeighbours(props.nodeIdToFocus, allNodes);
   }
 
   const { nodes, edges } = adaptGraph(allNodes, props.nodeIdToFocus);
@@ -45,7 +45,7 @@ export function Graph(props: { nodeIdToFocus?: string }) {
       ${svgHtml}
       ${props.nodeIdToFocus
         ? GraphNodeFocusTable({
-            focusNodeNeightboursNodes: allNodes,
+            focusNodeNeighboursNodes: allNodes,
             nodeIdToFocus: props.nodeIdToFocus,
           })
         : GraphNodeAuthorTable()}
@@ -78,11 +78,11 @@ export function adaptGraph(allNodes: GraphNode[], nodeIdToFocus?: string) {
   return { nodes, edges };
 }
 
-export function filterNeightbours(
+export function filterNeighbours(
   nodeIdToFocus: string,
   allNodes: GraphNode[],
 ) {
-  const neightboursNodes: GraphNode[] = [];
+  const neighboursNodes: GraphNode[] = [];
   const nodeToFocus = allNodes.find((node) => node.id === nodeIdToFocus);
   const nodeToFocusAuthor = nodeToFocus?.authorId;
   const nodeToFocusTags = nodeToFocus?.tagId;
@@ -91,7 +91,7 @@ export function filterNeightbours(
     if (nodeToFocus.type === "tag") {
       allTags.add(nodeToFocus.id);
     } else {
-      neightboursNodes.push(nodeToFocus);
+      neighboursNodes.push(nodeToFocus);
     }
     nodeToFocus.tagId?.forEach((tag) => allTags.add(tag));
     for (const node of allNodes) {
@@ -100,26 +100,26 @@ export function filterNeightbours(
         continue;
       }
       if (node.tagId?.includes(nodeToFocus.id)) {
-        neightboursNodes.push(node);
+        neighboursNodes.push(node);
         node.tagId?.forEach((tag) => allTags.add(tag));
         continue;
       }
       if (node.id === nodeToFocusAuthor) {
-        neightboursNodes.push(node);
+        neighboursNodes.push(node);
         node.tagId?.forEach((tag) => allTags.add(tag));
         continue;
       }
       if (node.authorId === nodeToFocus.id) {
-        neightboursNodes.push(node);
+        neighboursNodes.push(node);
         node.tagId?.forEach((tag) => allTags.add(tag));
         continue;
       }
     }
     for (const node of allNodes) {
       if (allTags.has(node.id)) {
-        neightboursNodes.push(node);
+        neighboursNodes.push(node);
       }
     }
   }
-  return neightboursNodes;
+  return neighboursNodes;
 }

@@ -215,8 +215,8 @@ export function generateSvgInteractiveScript(
     script += `const edgeArrow${edgeIndex} = document.getElementById("edgeArrow${edgeIndex}");`;
   }
 
-  const allNodeNeightbours = new Map();
-  const allEdgeNeightbours = new Map();
+  const allNodeNeighbours = new Map();
+  const allEdgeNeighbours = new Map();
   for (const [edgeIndex, edge] of edges.entries()) {
     const sourceId = findNode(edge.source)?.id;
     const targetId = findNode(edge.target)?.id;
@@ -231,21 +231,21 @@ export function generateSvgInteractiveScript(
       continue;
     }
 
-    let alreadyFoundNeightbours = allNodeNeightbours.get(sourceId) ?? [];
-    alreadyFoundNeightbours.push(targetId);
-    allNodeNeightbours.set(sourceId, alreadyFoundNeightbours);
+    let alreadyFoundNeighbours = allNodeNeighbours.get(sourceId) ?? [];
+    alreadyFoundNeighbours.push(targetId);
+    allNodeNeighbours.set(sourceId, alreadyFoundNeighbours);
 
-    alreadyFoundNeightbours = allNodeNeightbours.get(targetId) ?? [];
-    alreadyFoundNeightbours.push(sourceId);
-    allNodeNeightbours.set(targetId, alreadyFoundNeightbours);
+    alreadyFoundNeighbours = allNodeNeighbours.get(targetId) ?? [];
+    alreadyFoundNeighbours.push(sourceId);
+    allNodeNeighbours.set(targetId, alreadyFoundNeighbours);
 
-    let alreadyFoundEdgeNeightbours = allEdgeNeightbours.get(sourceId) ?? [];
-    alreadyFoundEdgeNeightbours.push(edgeIndex);
-    allEdgeNeightbours.set(sourceId, alreadyFoundEdgeNeightbours);
+    let alreadyFoundEdgeNeighbours = allEdgeNeighbours.get(sourceId) ?? [];
+    alreadyFoundEdgeNeighbours.push(edgeIndex);
+    allEdgeNeighbours.set(sourceId, alreadyFoundEdgeNeighbours);
 
-    alreadyFoundEdgeNeightbours = allEdgeNeightbours.get(targetId) ?? [];
-    alreadyFoundEdgeNeightbours.push(edgeIndex);
-    allEdgeNeightbours.set(targetId, alreadyFoundEdgeNeightbours);
+    alreadyFoundEdgeNeighbours = allEdgeNeighbours.get(targetId) ?? [];
+    alreadyFoundEdgeNeighbours.push(edgeIndex);
+    allEdgeNeighbours.set(targetId, alreadyFoundEdgeNeighbours);
   }
 
   const focusAllScript = Array.from(nodeIds).reduce(
@@ -284,53 +284,51 @@ export function generateSvgInteractiveScript(
   }`;
 
   for (const node of nodes) {
-    const neightbours = new Set(allNodeNeightbours.get(node.id));
-    const notNeightbours = nodeIds.difference(neightbours.add(node.id));
+    const neighbours = new Set(allNodeNeighbours.get(node.id));
+    const notNeighbours = nodeIds.difference(neighbours.add(node.id));
 
-    const edgeNeightbours = new Set(allEdgeNeightbours.get(node.id));
-    const edgeNotNeightbours = edgeIds.difference(edgeNeightbours);
+    const edgeNeighbours = new Set(allEdgeNeighbours.get(node.id));
+    const edgeNotNeighbours = edgeIds.difference(edgeNeighbours);
 
-    const focusNeightboursInstances = Array.from(neightbours)
-      .map((neightbour) => `node${neightbour},nodeText${neightbour}`)
+    const focusNeighboursInstances = Array.from(neighbours)
+      .map((neighbour) => `node${neighbour},nodeText${neighbour}`)
       .join(",");
 
-    const unfocusNoNeightboursInstances = Array.from(notNeightbours)
+    const unfocusNoNeighboursInstances = Array.from(notNeighbours)
       .map((notNeightbour) => `node${notNeightbour},nodeText${notNeightbour}`)
       .join(",");
 
-    const focusEdgeNeightboursTextInstances = Array.from(edgeNeightbours)
+    const focusEdgeNeighboursTextInstances = Array.from(edgeNeighbours)
       .map((edgeIndex) => `edgeText${edgeIndex}`)
       .join(",");
 
-    const focusEdgeNeightboursArrowInstances = Array.from(edgeNeightbours)
+    const focusEdgeNeighboursArrowInstances = Array.from(edgeNeighbours)
       .map((edgeIndex) => `edgeArrow${edgeIndex}`)
       .join(",");
 
-    const unfocusEdgeNoNeightboursTextInstances = Array.from(edgeNotNeightbours)
+    const unfocusEdgeNoNeighboursTextInstances = Array.from(edgeNotNeighbours)
       .map((edgeIndex) => `edgeText${edgeIndex}`)
       .join(",");
 
-    const unfocusEdgeNoNeightboursArrowInstances = Array.from(
-      edgeNotNeightbours,
-    )
+    const unfocusEdgeNoNeighboursArrowInstances = Array.from(edgeNotNeighbours)
       .map((edgeIndex) => `edgeArrow${edgeIndex}`)
       .join(",");
 
     script += `
 node${node.id}.addEventListener("mouseenter", (event) => {
 // focus
-updateOpacity(1, [${focusNeightboursInstances}]); // focus neightbours
+updateOpacity(1, [${focusNeighboursInstances}]); // focus neighbours
 
 // unfocus
-updateOpacity(${nodeUnfocusOpacity}, [${unfocusNoNeightboursInstances}]);
+updateOpacity(${nodeUnfocusOpacity}, [${unfocusNoNeighboursInstances}]);
 
 // focus
-updateFill("${edgeFocusTextColor}", [${focusEdgeNeightboursTextInstances}])
-updateOpacity(${edgeFocusOpacity}, [${focusEdgeNeightboursArrowInstances}]);
+updateFill("${edgeFocusTextColor}", [${focusEdgeNeighboursTextInstances}])
+updateOpacity(${edgeFocusOpacity}, [${focusEdgeNeighboursArrowInstances}]);
 
 // unfocus
-updateFill("${edgeUnfocusTextColor}", [${unfocusEdgeNoNeightboursTextInstances}]);
-updateOpacity(${edgeUnfocusOpacity}, [${unfocusEdgeNoNeightboursArrowInstances}]);
+updateFill("${edgeUnfocusTextColor}", [${unfocusEdgeNoNeighboursTextInstances}]);
+updateOpacity(${edgeUnfocusOpacity}, [${unfocusEdgeNoNeighboursArrowInstances}]);
 });
 node${node.id}.addEventListener("mouseleave", (event) => {
     focusAll();

@@ -3,28 +3,28 @@ import { GraphNode, graphNodes } from "../graph/knowledgeGraph.ts";
 import { colorFrom } from "./Graph.ts";
 
 export function GraphNodeFocusTable(props: {
-  focusNodeNeightboursNodes: GraphNode[];
+  focusNodeNeighboursNodes: GraphNode[];
   nodeIdToFocus?: string;
 }) {
-  const nodeToFocus = props.focusNodeNeightboursNodes.find(
+  const nodeToFocus = props.focusNodeNeighboursNodes.find(
     (node) => node.id === props.nodeIdToFocus,
   );
 
   return html`
     ${nodeToFocus
-      ? describeGraph(nodeToFocus, props.focusNodeNeightboursNodes)
+      ? describeGraph(nodeToFocus, props.focusNodeNeighboursNodes)
       : ""}
   `;
 }
 
 function describeGraph(
   nodeToFocus: GraphNode,
-  neightbours: GraphNode[],
+  neighbours: GraphNode[],
 ): string {
-  const links = neightbours.filter((node) => node.type === "link");
-  const posts = neightbours.filter((node) => node.type === "post");
-  const authors = neightbours.filter((node) => node.type === "author");
-  const tags = neightbours.filter((node) => node.type === "tag");
+  const links = neighbours.filter((node) => node.type === "link");
+  const posts = neighbours.filter((node) => node.type === "post");
+  const authors = neighbours.filter((node) => node.type === "author");
+  const tags = neighbours.filter((node) => node.type === "tag");
   if (nodeToFocus.id == "programming-languages") {
     console.log({ authors });
   }

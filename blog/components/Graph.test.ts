@@ -1,5 +1,5 @@
-import { assertEquals, assertArrayIncludes } from "@std/assert";
-import { adaptGraph, filterNeightbours } from "./Graph.ts";
+import { assertEquals } from "jsr:@std/assert";
+import { adaptGraph, filterNeighbours } from "./Graph.ts";
 import { GraphNode } from "../graph/knowledgeGraph.ts";
 
 const tag1 = {
@@ -76,8 +76,8 @@ const allNodes: GraphNode[] = [
   author3,
 ];
 
-Deno.test("filter with neightbours nodes", () => {
-  const filteredNodes = filterNeightbours("link1", allNodes);
+Deno.test("filter with neighbours nodes", () => {
+  const filteredNodes = filterNeighbours("link1", allNodes);
 
   const expectedNodesIds = ["link1", "authorId1", "tag1", "tag2"];
   assertEquals(
