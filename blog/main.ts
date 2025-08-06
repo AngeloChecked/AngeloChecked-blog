@@ -135,6 +135,7 @@ const staticAndServerRouter: StaticServerRouter = [
 
 if (Deno.args[0] == "serve") {
   const server = new Server(staticAndServerRouter);
+  console.log("serving on port: http://localhost:8000")
   server.serve();
 }
 

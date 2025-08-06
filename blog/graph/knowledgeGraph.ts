@@ -533,6 +533,48 @@ export const assortedThoughtsOnZigAandRustLink: GraphNode = {
   },
 };
 
+// https://www.youtube.com/watch?v=MqC3tudPH6w&t=726s  //Can we test it? Yes, we can! - Mitchell Hashimoto 
+// https://berthub.eu/articles/posts/on-long-term-software-development/
+// https://matklad.github.io/2021/05/31/how-to-test.html
+// https://matklad.github.io/2024/03/22/basic-things.html
+// https://jonathan-frere.com/posts/why-test/
+// 12factor.net
+// https://lemire.me/blog/2023/04/27/hotspot-performance-engineering-fails/
+// https://probablydance.com/2025/06/19/revisiting-knuths-premature-optimization-paper/
+
+
+// https://www.scattered-thoughts.net/writing/things-unlearned/
+
+// https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/
+// https://lexi-lambda.github.io/blog/2020/11/01/names-are-not-type-safety/
+
+// https://www.scattered-thoughts.net/writing/reflections-on-a-decade-of-coding
+// https://raphlinus.github.io/rust/gui/2022/07/15/next-dozen-guis.html
+// https://raphlinus.github.io/ui/druid/2019/11/22/reactive-ui.html
+// https://raphlinus.github.io/rust/druid/2020/09/25/principled-reactive-ui.html
+// https://raphlinus.github.io/rust/gui/2022/05/07/ui-architecture.html
+// https://raphlinus.github.io/ui/graphics/2020/09/13/compositor-is-evil.html
+
+// https://grugbrain.dev/
+// https://htmx.org/essays/hypermedia-driven-applications/
+// https://tonsky.me/blog/humble-state/
+// https://jonathan-frere.com/posts/names-vs-comments/
+// https://smallcultfollowing.com/babysteps/blog/2025/07/31/rs-py-ts-trifecta/?utm_source=atom_feed
+
+// deployment, production, definition of done
+// https://drossbucket.com/2021/06/30/hacker-news-folk-wisdom-on-visual-programming/
+// https://alexanderell.is/posts/visualizing-code/ //https://news.ycombinator.com/item?id=29979958
+// https://blog.sbensu.com/posts/demand-for-visual-programming/ https://news.ycombinator.com/item?id=40937119
+// https://dillonshook.com/what-do-you-visualize-while-programming/ https://news.ycombinator.com/item?id=41869237
+
+// https://www.thoughtworks.com/insights/blog/story-mapping-visual-way-building-product-backlog
+
+// https://www.humanizingwork.com/the-humanizing-work-guide-to-splitting-user-stories/
+// https://dylanbeattie.net/2015/08/04/as-developer-i-want-to-abolish-user.html
+
+// https://sionwilliams.com/posts/2020-03_22_agile_without_principles/
+
+
 export type GraphNode = {
   type: "link" | "tag" | "author" | "post";
   id: string;
