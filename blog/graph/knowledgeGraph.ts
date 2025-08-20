@@ -533,7 +533,7 @@ export const assortedThoughtsOnZigAandRustLink: GraphNode = {
   },
 };
 
-// https://www.youtube.com/watch?v=MqC3tudPH6w&t=726s  //Can we test it? Yes, we can! - Mitchell Hashimoto 
+// https://www.youtube.com/watch?v=MqC3tudPH6w&t=726s  //Can we test it? Yes, we can! - Mitchell Hashimoto
 // https://berthub.eu/articles/posts/on-long-term-software-development/
 // https://matklad.github.io/2021/05/31/how-to-test.html
 // https://matklad.github.io/2024/03/22/basic-things.html
@@ -541,7 +541,14 @@ export const assortedThoughtsOnZigAandRustLink: GraphNode = {
 // 12factor.net
 // https://lemire.me/blog/2023/04/27/hotspot-performance-engineering-fails/
 // https://probablydance.com/2025/06/19/revisiting-knuths-premature-optimization-paper/
+// https://blog.nelhage.com/post/test-suites-as-classifiers/
 
+// https://youtu.be/uQ_sSC9gAsU?t=318 software architecture vs software design = strategic vs tactical
+// https://thuva4.com/blog/software-architecture-pattern/
+// https://www.codesandtags.io/blog/posts/fundamentals-of-software-architecture-part-1/
+// https://melsatar.blog/2013/01/05/difference-between-software-architecture-software-structure-and-software-design/
+
+// https://blog.nelhage.com/post/reflections-on-performance/
 
 // https://www.scattered-thoughts.net/writing/things-unlearned/
 
@@ -574,7 +581,6 @@ export const assortedThoughtsOnZigAandRustLink: GraphNode = {
 
 // https://sionwilliams.com/posts/2020-03_22_agile_without_principles/
 
-
 export type GraphNode = {
   type: "link" | "tag" | "author" | "post";
   id: string;
@@ -583,6 +589,7 @@ export type GraphNode = {
   data: {
     description: string;
     title: string;
+    deactivated?: boolean;
     url?: string;
     [key: string]: unknown;
   };

@@ -7,13 +7,14 @@ import {
   angeloCeccatoAuthor,
 } from "../graph/knowledgeGraph.ts";
 
-export const myPersonalTechLimboElixirVsRustPost: GraphNode = {
+export const prematureTestabilityIsTheRootOfAllGoodAndTddNotPost: GraphNode = {
   type: "post",
   id: "premature-testability-is-the-root-of-all-good-and-tdd-not",
   tagId: [learningTag.id, programmingLanguagesTag.id, cognitiveBiasTag.id],
   authorId: angeloCeccatoAuthor.id,
   linkId: [],
   data: {
+    deactivated: true,
     title: "Premature Testability is the Root of All Good (and TDD not)",
     description:
       "my reflection about testable design and why i think it's important",

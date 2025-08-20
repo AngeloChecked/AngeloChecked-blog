@@ -6,19 +6,23 @@ import { exists } from "jsr:@std/fs";
 
 export type Router = RoutedPage[];
 
-export async function pagesFromFolder(folderPath: string) {
+export async function pagesFromFolder(folderPath: string, previewMode = false) {
   const relativeFilePaths = await traverseFilesFlat(folderPath);
   const pages: ProcessedPage[] = [];
-  for (const relativeFilePath of relativeFilePaths) {
+  pageLabel: for (const relativeFilePath of relativeFilePaths) {
     const page: ProcessedPage = {};
     if (relativeFilePath.endsWith("md")) {
       const pathSplit = (folderPath + relativeFilePath).split(".");
-      const dataFilePath = pathSplit.slice(undefined, -1).join(".") +
-        ".data.ts";
+      const dataFilePath =
+        pathSplit.slice(undefined, -1).join(".") + ".data.ts";
       if (await exists(dataFilePath)) {
         const pageModule = await import(dataFilePath);
         // deno-lint-ignore no-explicit-any
-        const pageData = (Object.entries(pageModule)[0][1]) as any;
+        const pageData = Object.entries(pageModule)[0][1] as any;
+        if (previewMode === false && pageData.data?.deactivated === true) {
+          console.log(`Page ${relativeFilePath} is deactivated`);
+          continue pageLabel;
+        }
         for (const key in pageData) {
           // deno-lint-ignore no-explicit-any
           (page as any)[key] = (pageData as any)[key];
@@ -65,6 +69,7 @@ export type MetaData = {
 };
 
 export type PageData = {
+  deactivated: boolean;
   menu?: { menuName: string; order?: number };
   title: string;
   description: string;
@@ -87,20 +92,16 @@ export type RoutedPage = ProcessedPage & {
   relativeWebsitePath: string;
 };
 
-export function flatRoute(rawRouter: {
-  [path: string]: ProcessedPage[];
-}) {
-  return Object.entries(rawRouter).flatMap(
-    ([route, pages]) => {
-      const routePages = pages?.map((page) =>
-        Object.assign(
-          { relativeWebsitePath: route + (page.relativeFilePath ?? "") },
-          page,
-        )
-      );
-      return routePages;
-    },
-  );
+export function flatRoute(rawRouter: { [path: string]: ProcessedPage[] }) {
+  return Object.entries(rawRouter).flatMap(([route, pages]) => {
+    const routePages = pages?.map((page) =>
+      Object.assign(
+        { relativeWebsitePath: route + (page.relativeFilePath ?? "") },
+        page,
+      ),
+    );
+    return routePages;
+  });
 }
 
 export function getMenuStatus(router: Router) {
@@ -111,7 +112,7 @@ export function getMenuStatus(router: Router) {
       menuName: page.data?.menu?.menuName!,
       url: page.relativeWebsitePath,
     }));
-  menus.sort((a, b) => a.order < b.order ? -1 : 1);
+  menus.sort((a, b) => (a.order < b.order ? -1 : 1));
   return { allMenus: menus };
 }
 

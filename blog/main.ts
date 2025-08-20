@@ -45,7 +45,9 @@ type Route =
     };
 export type StaticServerRouter = Route[];
 
-const postPages = await pagesFromFolder("./post");
+const previewMode = Deno.args.includes("--preview");
+
+const postPages = await pagesFromFolder("./post", previewMode);
 const docsPages = await pagesFromFolder("./docs");
 const postRoute = flatRoute({ "/post": postPages });
 const docsRoute = flatRoute({ "/docs": docsPages });
@@ -135,7 +137,7 @@ const staticAndServerRouter: StaticServerRouter = [
 
 if (Deno.args[0] == "serve") {
   const server = new Server(staticAndServerRouter);
-  console.log("serving on port: http://localhost:8000")
+  console.log("serving on port: http://localhost:8000");
   server.serve();
 }
 
